@@ -1,9 +1,5 @@
 \select@language {portuguese}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Uma Tabela Simples\relax }}{11}{table.caption.10}
-\contentsline {table}{\numberline {3.2}{\ignorespaces Uma Tabela Mais Complicada\relax }}{12}{table.caption.11}
-\addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces \emph {Hit-spectra matrix}\relax }}{4}{table.caption.8}
 \addvspace {10\p@ }

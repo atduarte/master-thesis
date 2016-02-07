@@ -1,109 +1,112 @@
-%bibtex entries 
-
-@Book{kn:PP05,
- author    = "Estelle M. Philips and Derek S. Pugh",
- title     = "How to Get a {PhD}",
- publisher = "Open University Press",
- edition   = "{F}ourth",
- year      = 2005,
- isbn      = "0-335-21684-6"
+@article{Kim2007,
+abstract = {We analyze the version history of 7 software systems to predict the most fault prone entities and files. The basic assumption is that faults do not occur in isolation, but rather in bursts of several related faults. Therefore, we cache locations that are likely to have faults: starting from the location of a known (fixed) fault, we cache the location itself, any locations changed together with the fault, recently added locations, and recently changed locations. By consulting the cache at the moment a fault is fixed, a developer can detect likely fault-prone locations. This is useful for prioritizing verification and validation resources on the most fault prone files or entities. In our evaluation of seven open source projects with more than 200,000 revisions, the cache selects 10{\%} of the source code files; these files account for 73{\%}-95{\%} of faults - a significant advance beyond the state of the art.},
+annote = {BugCache + FixCache},
+author = {Kim, Sunghun and Zimmermann, Thomas and Whitehead, E. James and Zeller, Andreas},
+doi = {10.1109/ICSE.2007.66},
+file = {:home/aduarte/Dropbox/Disserta{\c{c}}{\~{a}}o/Research/Predicting Faults from Cached History.pdf:pdf},
+isbn = {0769528287},
+issn = {02705257},
+journal = {Proceedings - International Conference on Software Engineering},
+pages = {489--498},
+title = {{Predicting faults from cached history}},
+year = {2007}
 }
-
-@Phdthesis{kn:Fra94-thesis,
- author    = "Franz, M.S.O.",
- title     = "Code-Generation On-the-Fly: A Key to Portable Software",
- school    = "Swiss Federal Institute of Technology Zurich",
- address   = {ETH Z\"urich},
- year      = 1995
+@inproceedings{Janssen2009,
+abstract = {Locating software components which are responsible for ob- served failures is the most expensive, error-prone phase in the software development life cycle. Automated diagnosis of software faults can improve the efficiency of the debugging process, and is therefore an important process for the de- velopment of dependable software. In this paper we present a toolset for automatic fault localization, dubbed Zoltar, which adopts a spectrum-based fault localization technique. The toolset provides the infrastructure to automatically in- strument the source code of software programs to produce runtime data, which is subsequently analyzed to return a ranked list of likely faulty locations. Aimed at total au- tomation (e.g., for runtime fault diagnosis), Zoltar has the capability of instrumenting the program under analysis with fault screeners, for automatic error detection. Using a small thread-based example program as well as a large realistic program, we show the applicability of the proposed toolset.},
+annote = {Zoltar},
+author = {Janssen, T and Gemund, A and Abreu, R},
+booktitle = {Instrumentation},
+doi = {10.1145/1596495.1596502},
+file = {:home/aduarte/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Janssen, Gemund, Abreu - 2009 - Zoltar A Spectrum-based Fault Localization Tool.pdf:pdf},
+isbn = {9781605586816},
+pages = {23--29},
+title = {{Zoltar: A Spectrum-based Fault Localization Tool}},
+url = {http://www.scopus.com/inward/record.url?eid=2-s2.0-70450260945{\&}partnerID=40{\&}md5=7f1ad847cdab93c6b6c96d1e60e1ae78},
+year = {2009}
 }
-
-@Techreport{kn:Mat93,
- author      = "Manuel A. Matos",
- title       = "Normas para Apresentação de Dissertações, Bases Essenciais",
- institution = "Faculdade de Engenharia da Universidade do Porto",
- month       = "Maio",
- year        = 1993
+@article{Kim2006,
+abstract = {Finding and fixing software bugs is difficult, and many developers put significant effort into finding and fixing them. A project’s software change history records the change that introduces a bug and the change that subsequently fixes it. This bug-introducing and bug-fix experience can be used to predict future bugs. This dissertation presents two bug prediction algorithms that adaptively analyze a project’s change history: bug cache and change classification. The basic assumption of the bug cache approach is that the bugs do not occur in isolation, but rather in a burst of several related bugs. The bug cache exploits this locality by caching locations that are likely to have bugs. By consulting the bug cache, a developer can detect locations likely to be fault prone. This is useful for prioritizing verification and validation resources on the most bug prone files, functions, or methods. An evaluation of seven open source projects with more than 200,000 revisions shows that the bug cache selects 10{\%} of the source code files; these files account for 73{\%}-95{\%} of future bugs. The change classification approach learns from previous buggy change patterns using two machine learning algorithms, Na{\"{\i}}ve Bayes and Support Vector Machine. After training on buggy change patterns, it predicts new unknown changes as either buggy or clean. As soon as changes are made, developers can use the predicted information to inspect the new changes, which are an average of 20 lines of code. After training on 12 open source projects, the change classification approach can, on average, classify buggy changes with 78{\%} accuracy and 65{\%} buggy change recall. By leveraging project history and learning the unique bug patterns of each project, both approaches can be used to find locations of bugs. This information can be used to increase software quality and reduce software development cost.},
+annote = {BugCache
+Buggy Change Classification},
+author = {Kim, Sunghun},
+file = {:home/aduarte/Dropbox/Disserta{\c{c}}{\~{a}}o/Research/Isaac Councill, Adaptive Bug Prediction By Analysing Project History.pdf:pdf},
+keywords = {Bug Cache,Change Classification,Classification},
+mendeley-tags = {Bug Cache,Change Classification,Classification},
+pages = {145},
+title = {{Adaptive Bug Prediction by Analyzing Project History}},
+year = {2006}
 }
-
-@Article{kn:ZPMD97,
- author       = "Debora J. Zukowski and Apratim Purakayastha and Ajay Mohindra and Murthy Devarakonda",
- title        = "Metis: A Thin-Client Application Framework",
- organization = "Usenix Association",
- journal      = "Proceedings of the Third Conference on Object-Oriented Technologies and Systems", 
- pages        = "103--114",
- month        = "Junho",
- year         = 1997
+@article{Abreu2009,
+abstract = {Fault diagnosis approaches can generally be categorized into spectrum-based fault localization (SFL, correlating failures with abstractions of program traces), and model-based diagnosis (MBD, logic reasoning over a behavioral model). Although MBD approaches are inherently more accurate than SFL, their high computational complexity prohibits application to large programs. We present a framework to combine the best of both worlds, coined BARINEL. The program is modeled using abstractions of program traces (as in SFL) while Bayesian reasoning is used to deduce multiple-fault candidates and their probabilities (as in MBD). A particular feature of BARINEL is the usage of a probabilistic component model that accounts for the fact that faulty components may fail intermittently. Experimental results on both synthetic and real software programs show that BARINEL typically outperforms current SFL approaches at a cost complexity that is only marginally higher. In the context of single faults this superiority is established by formal proof.},
+annote = {Barinel!!},
+author = {Abreu, Rui and Zoeteweij, P and Gemund, a J C Van},
+doi = {10.1109/ASE.2009.25},
+file = {:home/aduarte/Dropbox/Disserta{\c{c}}{\~{a}}o/Research/Abreu, R. - Spectrum-based multiple fault localization.pdf:pdf},
+isbn = {978-1-4244-5259-0},
+issn = {1938-4300},
+journal = {Automated Software Engineering 2009 ASE 09 24th IEEEACM International Conference on},
+keywords = {program spectra,software fault diagnosis,statistical reasoning approaches},
+pages = {88--99},
+title = {{Spectrum-Based Multiple Fault Localization}},
+url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=5431781},
+year = {2009}
 }
-
-@Inproceedings{kn:MVL06-xata,
- author    = "Filipe Marinho and Paulo Viegas and J. Correia Lopes",
- title     = "{SVG} na Visualização de Sinópticos",
- pages     = "99-112",
- booktitle = "{XATA2006}, XML: Aplicações e Tecnologias Associadas (Portalege, 9 e 10 de Fevereiro de 2006)",
- editor    = "José Carlos Ramalho and J. Correia Lopes and Alberto Simões",
- publisher = "Universidade do Minho",
- year      = 2006
+@article{Abreu2011,
+abstract = {(Semi-)automated diagnosis of software faults can drastically increase debugging efficiency, improving reliability and time-to-market. Current automatic diagnosis techniques are predominantly of a statistical nature and, despite typical defect densities, do not explicitly consider multiple faults, as also demonstrated by the popularity of the single-fault benchmark set of programs. We present a reasoning approach, called Zoltar-M(ultiple fault), that yields multiple-fault diagnoses, ranked in order of their probability. Although application of Zoltar-M to programs with many faults requires heuristics (trading-off completeness) to reduce the inherent computational complexity, theory as well as experiments on synthetic program models and multiple-fault program versions available from the software infrastructure repository (SIR) show that for multiple-fault programs this approach can outperform statistical techniques, notably spectrum-based fault localization (SFL). As a side-effect of this research, we present a new SFL variant, called Zoltar-S(ingle fault), that is optimal for single-fault programs, outperforming all other variants known to date. © 2010 Elsevier Inc. All rights reserved.},
+annote = {Zoltar-M},
+author = {Abreu, Rui and Zoeteweij, Peter and {Van Gemund}, Arjan J C},
+doi = {10.1016/j.jss.2010.11.915},
+file = {:home/aduarte/Dropbox/Disserta{\c{c}}{\~{a}}o/Research/Abreu, R. - Simultaneous Debugging of Software Faults.pdf:pdf},
+issn = {01641212},
+journal = {Journal of Systems and Software},
+keywords = {Program spectra,Software fault diagnosis,Statistical and reasoning approaches},
+number = {4},
+pages = {573--586},
+title = {{Simultaneous debugging of software faults}},
+url = {http://dx.doi.org/10.1016/j.jss.2010.11.915},
+volume = {84},
+year = {2011}
 }
-
-@Misc{kn:Tha01,
- author       = "Ming Tham",
- title        = "Writing Research Theses or Dissertations",
- howpublished = "University of Newcastle Upon Tyne, disponível em \url{http://lorien.ncl.ac.uk/ming/dept/Tips/writing/thesis/thesis-intro.htm}",
- month        = "Maio",
- year         = 2001
+@inproceedings{kim2006automatic,
+annote = {SZZ ++},
+author = {Kim, Sunghun and Zimmermann, Thomas and Pan, Kai and {Whitehead Jr}, E James},
+booktitle = {Automated Software Engineering, 2006. ASE'06. 21st IEEE/ACM International Conference on},
+file = {:home/aduarte/Downloads/Papers{\_}kim2006ase.pdf:pdf},
+organization = {IEEE},
+pages = {81--90},
+title = {{Automatic identification of bug-introducing changes}},
+year = {2006}
 }
-
-@Misc{kn:Lip08,
- author       = "Lipsum",
- title        = "Lorem Ipsum",
- howpublished = "Disponível em \url{http://www.lipsum.com/}, acedido a última vez em 19 de Maio de 2008",
- year         = 2008
+@article{RuiAbreu,
+annote = {Staccato (Barinel)},
+author = {{Rui Abreu}, Arjan J. C. van Gemund},
+title = {{A Low-Cost Approximate Minimal Hitting Set Algorithm and its Application to Model-Based Diagnosis}},
+url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.169.1046}
 }
- 	  	 
-@Misc{kn:svgbatik,
- author       = "Apache",
- title        = "Batik {SVG} {T}oolkit",
- howpublished = "Disponível em \url{http://xml.apache.org/batik/}",
- month        = "Junho",
- year         = 2005
+@article{Whitehead2008,
+annote = {Buggy Change Classification},
+author = {Whitehead, E.J.},
+doi = {10.1109/TSE.2007.70773},
+issn = {0098-5589},
+journal = {IEEE Transactions on Software Engineering},
+keywords = {Clustering,Configuration Management,Data mining,Metrics/Measurement,Software maintenance,and association rules,association rule,change classification,classification,data mining,feature extraction,learning (artificial intelligence),machine learning classifier,open source projects,program debugging,programming languages,software change,software configuration management repository,software maintenance,software metrics,software project},
+language = {English},
+month = {mar},
+number = {2},
+pages = {181--196},
+publisher = {IEEE},
+title = {{Classifying Software Changes: Clean or Buggy?}},
+url = {http://ieeexplore.ieee.org/articleDetails.jsp?arnumber=4408585},
+volume = {34},
+year = {2008}
 }
-
-@Misc{kn:svgibm,
- author       = "IBM",
- title        = "Program with {SVG}",
- howpublished = "Disponível em \url{http://www-128.ibm.com/developerworks/xml/library/x-matters40/}",
- month        = "Maio",
- year         = 2005
-}
-
-@Misc{kn:svgw3c,
- author       = "{W3C} --- {World Wide Web Consortium}",
- title        = "{W3C} --- {About SVG}",
- howpublished = "Disponível em \url{http://www.w3.org/TR/SVG/intro.html/}",
- month        = "Abril",
- year         = 2005
-}
-
-@Misc{kn:svgdoc,
- author       = "{W3C} --- {World Wide Web Consortium}",
- title        = "{W3C SVG Specification}",
- month        = "Junho",
- year         = 2005,
- howpublished = "\url{http://www.w3.org/TR/SVG11/}"
-}
-
-@Misc{kn:svgscada,
- author       = "Rodrigo García García",
- title        = "\svg{} for {SCADA}",
- howpublished = "Swiss Federal Institute of Technology Lausanne (EPFL), Disponível em \url{http://www.svgopen.org/2004/papers/SVGforSCADA/}",
- month        = Abril,
- year         = 2005
-}
-
-@Misc{kn:batik,
- author       = "Apache",
- title        = "Batik \svg{} {T}oolkit {A}rchitecture",
- howpublished = "Disponível em \url{http://xml.apache.org/batik/architecture.html\#coreComponents}",
- month        = "Junho",
- year         = 2005
+@misc{Carlsson2013,
+abstract = {When performing an analysis of the evolution of software quality and software metrics,there is a need to get access to as many versions of the source code as possible. There isa lack of research on ...},
+author = {Carlsson, Emil},
+file = {:home/aduarte/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Carlsson - 2013 - Mining Git Repositories An introduction to repository mining.pdf:pdf},
+keywords = {Computer Science,Datavetenskap (datalogi)},
+language = {eng},
+title = {{Mining Git Repositories : An introduction to repository mining}},
+url = {http://www.diva-portal.org/smash/record.jsf?pid=diva2{\%}3A638844{\&}dswid=4999},
+year = {2013}
 }

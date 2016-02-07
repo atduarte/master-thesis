@@ -583,6 +583,16 @@ with the `report' document style}{}}{}
 
 \fi % Some language-dependent definitions
 
+% Custom Changes
+
+% List separator space
+\renewcommand{\@listI}{%
+  \topsep=4pt plus 2pt minus 4pt
+  \partopsep=0pt plus 1pt minus 1pt
+  \parsep=3pt plus 1pt
+  \itemsep=\parsep
+}
+
 \AtBeginDocument{\@StartDoc}
 
 \endinput
