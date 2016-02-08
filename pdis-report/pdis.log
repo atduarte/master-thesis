@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.2)  7 FEB 2016 20:49
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.2)  8 FEB 2016 18:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -770,7 +770,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/sc' in size <14.4> not available
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 128.
 
-<figures/uporto-feup.pdf, id=108, 338.26375pt x 126.4725pt>
+<figures/uporto-feup.pdf, id=116, 338.26375pt x 126.4725pt>
 File: figures/uporto-feup.pdf Graphic file (type pdf)
 
 <use figures/uporto-feup.pdf>
@@ -1003,70 +1003,123 @@ Package babel Info: Redefining portuges shorthand "|
 Cap\'{\i }tulo 2.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
+(./chapter2_1.tex
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 7.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 1.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 7.
+(babel)             in language  on input line 1.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 20.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 11.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <12> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 20.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 11.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 20.
+(babel)             in language  on input line 11.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 25.
 
 Underfull \vbox (badness 5274) has occurred while \output is active []
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 28.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 40.
+(babel)             in language  on input line 28.
  [3
 
 
 
 ]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 66.
+(babel)             in language  on input line 69.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 80.
+(babel)             in language  on input line 76.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 100.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 100.
+(babel)             in language  on input line 76.
 
 [4]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 168.
+(babel)             in language  on input line 83.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 168.
+(babel)             in language  on input line 141.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 141.
  [5]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 209.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 215.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 217.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 219.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 221.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 224.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 226.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 228.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 230.
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10.95> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 204.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 206.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 206.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 206.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 206.
+
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
+<figures/barinel1.png, id=302, 521.95pt x 541.02126pt>
+File: figures/barinel1.png Graphic file (type png)
+
+<use figures/barinel1.png>
+Package pdftex.def Info: figures/barinel1.png used on input line 215.
+(pdftex.def)             Requested size: 213.39568pt x 221.19273pt.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 220.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 220.
+ [6]) (./chapter2_2.tex
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 3.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 11.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 17.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 17.
+ [7 <./figures/barinel1.png>]) (./chapter2_3.tex
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 5.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 17.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 17.
+ [8]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 23.
+) (./chapter2_4.tex
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 3.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 5.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 7.
+))
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 152.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 152.
- [6]
+ [9]
 \openout2 = `chapter3.aux'.
 
- (./chapter3.tex
+
+(./chapter3.tex
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 1.
+ [10
+
+
+
+]
 Cap\'{\i }tulo 3.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
@@ -1075,11 +1128,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 153.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 153.
- [7
-
-
-
-]
+ [11]
 \openout2 = `chapter4.aux'.
 
  (./chapter4.tex
@@ -1087,7 +1136,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [8
+ [12
 
 
 
@@ -1100,7 +1149,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 154.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 154.
- [9]
+ [13]
 \openout2 = `chapter5.aux'.
 
  (./chapter5.tex
@@ -1108,7 +1157,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 1.
- [10
+ [14
 
 
 
@@ -1121,30 +1170,66 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 155.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 155.
- [11]
+ [15]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 168.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 168.
- [12
+ [16
 
 
 ]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 168.
  (./pdis.bbl
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 10.
- (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-))
+Underfull \hbox (badness 2478) in paragraph at lines 76--81
+[]\T1/ptm/m/n/10.95 Jacek ‘liwerski, Tho-mas Zim-mer-mann e An-dreas Zel-ler.  
+When do chan-
+ []
+
+
+Underfull \hbox (badness 2626) in paragraph at lines 76--81
+\T1/ptm/m/n/10.95 ges in-duce fi-xes?  \T1/ptm/m/it/10.95 ACM SIG-SOFT Soft-war
+e En-gi-ne-e-ring No-tes\T1/ptm/m/n/10.95 , 30(4):1,
+ []
+
+
+Underfull \hbox (badness 2359) in paragraph at lines 76--81
+\T1/ptm/m/n/10.95 jul 2005.  URL: [][]$\T1/cmtt/m/n/10.95 http : / / dl . acm .
+ org / citation . cfm ? id = 1082983 . 1083147$[][]\T1/ptm/m/n/10.95 ,
+ []
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 82.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 82.
+[17
+
+]
+Underfull \hbox (badness 1354) in paragraph at lines 95--102
+[]\T1/ptm/m/n/10.95 E.J. Whi-tehead.  Clas-sifying Soft-ware Chan-ges: Clean or
+ Buggy?  \T1/ptm/m/it/10.95 IEEE
+ []
+
+
+Underfull \hbox (badness 4686) in paragraph at lines 95--102
+\T1/ptm/m/it/10.95 Tran-sac-ti-ons on Soft-ware En-gi-ne-e-ring\T1/ptm/m/n/10.9
+5 , 34(2):181--196, mar 2008.  URL:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--102
+[][]$\T1/cmtt/m/n/10.95 http : / / ieeexplore . ieee . org / articleDetails . j
+sp ? arnumber = 4408585$[][]\T1/ptm/m/n/10.95 ,
+ []
+
+)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 175.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 175.
- [13
-
-]
+ [18]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
  (./pdis.aux (./abstract.aux) (./quote.aux) (./abbrevs.aux)
 (./chapter1.aux) (./chapter2.aux) (./chapter3.aux) (./chapter4.aux)
@@ -1152,7 +1237,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 175.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
 Package rerunfilecheck Info: File `pdis.out' has not changed.
-(rerunfilecheck)             Checksum: 97587CB5BDDD9C57B3C9A02CAC485A3D;1775.
+(rerunfilecheck)             Checksum: 836A3DC64FFCCDCFEFCA4F3E83C247AA;1971.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1160,28 +1245,29 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 175.
  ) 
 Here is how much of TeX's memory you used:
- 10259 strings out of 494447
- 148907 string characters out of 6165748
- 269153 words of memory out of 5000000
- 13158 multiletter control sequences out of 15000+600000
- 77856 words of font info for 92 fonts, out of 8000000 for 9000
+ 10347 strings out of 494447
+ 150121 string characters out of 6165748
+ 270153 words of memory out of 5000000
+ 13202 multiletter control sequences out of 15000+600000
+ 94511 words of font info for 117 fonts, out of 8000000 for 9000
  352 hyphenation exceptions out of 8191
- 43i,15n,49p,674b,472s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/aduarte/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk>{/usr/s
-hare/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/symbo
-l/usyr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/t
-imes/utmri8a.pfb>
-Output written on pdis.pdf (29 pages, 159951 bytes).
+ 43i,15n,49p,674b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/aduarte/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk> </home
+/aduarte/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk>{/usr/share/texl
+ive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/symbol/usyr.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr
+i8a.pfb>
+Output written on pdis.pdf (34 pages, 301932 bytes).
 PDF statistics:
- 418 PDF objects out of 1000 (max. 8388607)
- 336 compressed objects within 4 object streams
- 87 named destinations out of 1000 (max. 500000)
- 214 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 548 PDF objects out of 1000 (max. 8388607)
+ 430 compressed objects within 5 object streams
+ 113 named destinations out of 1000 (max. 500000)
+ 235 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -18,16 +18,6 @@ Rui Abreu, Peter Zoeteweij e Arjan J~C {Van Gemund}.
   2007.
 \newblock doi:10.1109/TAICPART.2007.4344104.
 
-\bibitem[AZvG07]{Abreu2007a}
-Rui Abreu, Peter Zoeteweij e Arjan~J.C. van Gemund.
-\newblock {On the Accuracy of Spectrum-based Fault Localization}.
-\newblock In {\em Testing: Academic and Industrial Conference Practice and
-  Research Techniques - MUTATION (TAICPART-MUTATION 2007)}, pages 89--98. IEEE,
-  sep 2007.
-\newblock URL:
-  \url{http://ieeexplore.ieee.org/articleDetails.jsp?arnumber=4344104},
-  doi:10.1109/TAIC.PART.2007.13.
-
 \bibitem[CKF{\etalchar{+}}02]{Chen2002}
 Mike~Y. Chen, Emre Kiciman, Eugene Fratkin, Armando Fox e Eric Brewer.
 \newblock {Pinpoint: Problem determination in large, dynamic internet
@@ -35,6 +25,15 @@ Mike~Y. Chen, Emre Kiciman, Eugene Fratkin, Armando Fox e Eric Brewer.
 \newblock {\em Proceedings of the 2002 International Conference on Dependable
   Systems and Networks}, pages 595--604, 2002.
 \newblock doi:10.1109/DSN.2002.1029005.
+
+\bibitem[GS12]{Gousios2012}
+Georgios Gousios e D.~Spinellis.
+\newblock {GHTorrent: Github's data from a firehose}.
+\newblock In {\em 2012 9th IEEE Working Conference on Mining Software
+  Repositories (MSR)}, pages 12--21. IEEE, jun 2012.
+\newblock URL:
+  \url{http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6224294},
+  doi:10.1109/MSR.2012.6224294.
 
 \bibitem[JH05]{Jones2005}
 J.a. James~a Jones e Mary Jean~M.J. Harrold.
@@ -44,10 +43,21 @@ J.a. James~a Jones e Mary Jean~M.J. Harrold.
 \newblock URL: \url{http://portal.acm.org/citation.cfm?id=1101949},
   doi:http://doi.acm.org/10.1145/1101908.1101949.
 
+\bibitem[Kim06]{Kim2006}
+Sunghun Kim.
+\newblock {Adaptive Bug Prediction by Analyzing Project History}.
+\newblock page 145, 2006.
+
 \bibitem[MS08]{Mayer2008}
 Wolfgang Mayer e Markus Stumptner.
 \newblock {Evaluating Models for Model-Based Debugging.pdf}.
 \newblock pages 128--137, 2008.
+
+\bibitem[MV00]{Mockus2000}
+a.~Mockus e L.G. Votta.
+\newblock {Identifying reasons for software changes using historic databases}.
+\newblock {\em ICSM conf.}, pages 120--130, 2000.
+\newblock doi:10.1109/ICSM.2000.883028.
 
 \bibitem[PAW04]{Perez2004}
 Alexandre Perez, Rui Abreu e Eric Wong.
@@ -61,5 +71,39 @@ Thomas Reps, Thomas Ball, Manuvir Das e James Larus.
   applications to the year 2000 problem}.
 \newblock {\em ACM SIGSOFT Software Engineering Notes}, 22(6):432--449, 1997.
 \newblock doi:10.1145/267896.267925.
+
+\bibitem[{\'{S}}ZZ05]{Sliwerski2005}
+Jacek {\'{S}}liwerski, Thomas Zimmermann e Andreas Zeller.
+\newblock {When do changes induce fixes?}
+\newblock {\em ACM SIGSOFT Software Engineering Notes}, 30(4):1, jul 2005.
+\newblock URL: \url{http://dl.acm.org/citation.cfm?id=1082983.1083147},
+  doi:10.1145/1082983.1083147.
+
+\bibitem[Wei81]{Weiser1981}
+Mark Weiser.
+\newblock {Program slicing}.
+\newblock pages 439--449, mar 1981.
+\newblock URL: \url{http://dl.acm.org/citation.cfm?id=800078.802557}.
+
+\bibitem[Wei82]{Weiser1982}
+Mark Weiser.
+\newblock {Programmers use slices when debugging}.
+\newblock {\em Communications of the ACM}, 25(7):446--452, 1982.
+\newblock doi:10.1145/358557.358577.
+
+\bibitem[Whi08]{Whitehead2008}
+E.J. Whitehead.
+\newblock {Classifying Software Changes: Clean or Buggy?}
+\newblock {\em IEEE Transactions on Software Engineering}, 34(2):181--196, mar
+  2008.
+\newblock URL:
+  \url{http://ieeexplore.ieee.org/articleDetails.jsp?arnumber=4408585},
+  doi:10.1109/TSE.2007.70773.
+
+\bibitem[ZC09]{Zhivich2009}
+Michael Zhivich e Robert~K. Cunningham.
+\newblock {The real cost of software errors}.
+\newblock {\em IEEE Security and Privacy}, 7(2):87--90, 2009.
+\newblock doi:10.1109/MSP.2009.56.
 
 \end{thebibliography}
