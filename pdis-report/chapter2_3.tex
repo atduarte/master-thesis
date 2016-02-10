@@ -1,4 +1,4 @@
-\section{Abordagens à predição de defeitos}
+\section{Abordagens à previsão de defeitos}
 
 Foram já exploradas algumas abordagens para a predição da qualidade do código. Salientam-se neste capítulo algumas técnicas como \emph{BugCache}, \emph{FixCache} e \emph{Buggy Change Classification}, que são técnicas que se incluem no tipo de abordagem que pretendemos seguir (\emph{change log}) e que permitem, em conjunto com outras técnicas, otimizar a localização dos defeitos.
 
@@ -22,10 +22,10 @@ A diferença entre o \emph{BugCache} e o \emph{FixCache} é o momento em que cad
 
 \subsection{\emph{Buggy Change Classification}}
 
-\emph{Change Classification} tem uma abordagem fundamentalmente diferente e tem um objetivo também distinto. O \emph{Change Classification}, com recursos a técnicas de \emph{Machine Learning} e às informações disponíveis quanto a erros anteriores, é capaz de prever se uma alteração introduziu ou não um novo defeito. Esta previsão é feita com um rigor muito elevado de 78\% \cite{Whitehead2008}.
+\emph{Change Classification} tem uma abordagem fundamentalmente diferente e tem um objetivo também distinto. O \emph{Change Classification}, com recurso a técnicas de \emph{Machine Learning} e às informações disponíveis quanto a erros anteriores, é capaz de prever se uma alteração introduziu ou não um novo defeito. Esta previsão é feita com um rigor muito elevado de 78\% \cite{Whitehead2008}.
 
 Numa primeira fase, todas as alterações feita até ao momento são classificados como \emph{buggy} ou \emph{clean}. Com esta classificação feita e com a extração de dados para cada também concluída, procede-se à criação de um modelo através do \"treino\" de um algoritmo de classificação.
 
 O tipo de dados usados dividem-se em sete grupos: métricas de complexidade, código adicionado, código removido, nome do ficheiro e diretório, novo código e meta-dados \cite{Whitehead2008}.
 
-Tanto \emph{Support Vector Machine} (SVM) como um classificador \emph{Naïve Bayes} foram usados no estudo, tendo sido o classificador feito com recurso a SVM aquele que apresentou melhores resultados \cite{Whitehead2008}.
+Tanto \emph{Support Vector Machine} (SVM) como \emph{Naïve Bayes} foram usados no estudo, tendo sido o classificador feito com recurso a SVM aquele que apresentou melhores resultados \cite{Whitehead2008}.
