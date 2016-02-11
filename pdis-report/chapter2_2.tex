@@ -1,5 +1,7 @@
 \section{\emph{Software Repository Mining}}
 
+Entende-se por \emph{Software Repository Mining} todo o \emph{software} que é capaz objetivo de extrair dados de repositórios, como \emph{Git} ou \emph{SVN}.
+
 \subsection{Identificação de correções e defeitos}
 
 Na extração de informações de repositórios de código, como o \emph{Git}, torna-se importante identificar o tipo de alterações feitas. A descrição textual associada à alteração é bastante importante nesta identificação e permite fazê-lo com um elevado grau de precisão, dependendo do projeto em causa \cite{Mockus2000}.
@@ -9,6 +11,8 @@ Na extração de informações de repositórios de código, como o \emph{Git}, t
 Após esta identificação é possível identificar as alterações que introduziram os erros usando o algoritmo \emph{SZZ} \cite{Sliwerski2005}. Este algoritmo recorre ao histórico e à análise do código em questão para corretamente localizar o \emph{commit} (alteração) que introduziu o defeito, ignorando, por exemplo, alterações que apenas introduzam comentários.
 
 \subsection{Ferramentas}
+
+Existem diversas ferramentas que facilitam este processo, pelo que destacamos duas.
 
 \subsubsection{\emph{libgit2}}
 

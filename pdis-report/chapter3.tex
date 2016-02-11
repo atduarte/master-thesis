@@ -4,8 +4,9 @@
 
 Com base nas informações recolhidas durante a revisão bibliográfica e algum estudo feito entretanto, temos já uma perspetiva de solução que deverá permitir atingir os objetivos propostos.
 
-Sendo o objetivo melhorar a ordenação de resultados do \emph{Barinel/Crowbar}, através do cálculo da \emph{component goodness}, com base em dados retirados do histórico do projeto, percebemos que estamos perante um problema de classificação (\emph{Machine Learning}). 
-Esta classificação terá como objetivo categorizar cada um dos componentes como \emph{buggy} (com defeito) ou \emph{clean} (sem defeito).
+O objetivo será melhorar a ordenação do \emph{Barinel}, através do cálculo de valores que representem a probabilidade de cada um dos componentes não ter erro, a partir dos dados retirados do repositório \emph{Git} do projeto. Este valor substituirá ou $g_j$, a \emph{component goodness}, ou $p_j$, a \emph{prior} do determinado componente.
+%
+Sendo que este cálculo se trata de uma previsão baseada no histórico do projeto e em que se pretende classificar cada componente como mais ou menos propenso a erros, percebemos que se trata de um problema de classificação binomial (\emph{Machine Learning}), em que as \emph{labels} serão \emph{buggy} (com defeitos) ou \emph{clean}. Sendo que, caso o modelo seja correto, a $confidence_j(clean)$ corresponderá ao valor que precisamos. 
 
 Baseando-nos nos resultados obtidos pelo \emph{Change Classification}, achamos pertinente começar por identificar as alterações (\emph{commits}) que correspondem a correções, através da mensagem descritiva associada.
 A partir desta identificação, pretendemos extrair as informações relativas a cada um dos componentes no momento anterior à sua correção. As informações a extrair terão ainda de ser elegidas, mas deverão envolver os seguintes dados:
@@ -28,8 +29,7 @@ Tendo os dados sido devidamente extraídos e processados para cada componente de
 	\item \emph{Random Forests}.
 \end{itemize}
 
-Obtendo no final para cada componente uma previsão de existência ou não de erro, associada a uma confiança, que será convertida para um valor real de 0 a 1. Em que 1 corresponde à não existência de erros (qualidade máxima) e 0 corresponde à certeza de existência de erros. Este valor, a \emph{component goodness}, será então utilizado pelo \emph{Barinel/Crowbar} para calcular a probabilidade de cada candidato, sem recurso exclusivo ao algoritmo de \emph{Maximum Likehood Estimation}.
-
+Obtendo no final para cada componente o valor que necessitávamos, a $confidence_j(clean)$. Como dito anteriormente, este valor deverá representar a probabilidade do componente não ter erros e será utilizado pelo \emph{Barinel/Crowbar} no cálculo da probabilidade de cada candidato. A experimentação será necessária para determinar se esta probabilidade será mais útil para a ordenação dos resultados substituindo $g_j$ (\emph{component goodnesses}) ou $p_j$ (\emph{priors}).
 
 \subsection{Possíveis dificuldades}
 

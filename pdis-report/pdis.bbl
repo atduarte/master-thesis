@@ -18,6 +18,14 @@ Rui Abreu, Peter Zoeteweij e Arjan J~C {Van Gemund}.
   2007.
 \newblock doi:10.1109/TAICPART.2007.4344104.
 
+\bibitem[CA13]{Cardoso2013}
+Nuno Cardoso e Rui Abreu.
+\newblock {MHS2: A Map-Reduce Heuristic-Driven Minimal Hitting Set Search
+  Algorithm}.
+\newblock 2013.
+\newblock URL:
+  \url{http://haslab.uminho.pt/ruimaranhao/publications/mhs2-map-reduce-heuristic-driven-minimal-hitting-set-search-algorithm}.
+
 \bibitem[CKF{\etalchar{+}}02]{Chen2002}
 Mike~Y. Chen, Emre Kiciman, Eugene Fratkin, Armando Fox e Eric Brewer.
 \newblock {Pinpoint: Problem determination in large, dynamic internet
@@ -25,6 +33,22 @@ Mike~Y. Chen, Emre Kiciman, Eugene Fratkin, Armando Fox e Eric Brewer.
 \newblock {\em Proceedings of the 2002 International Conference on Dependable
   Systems and Networks}, pages 595--604, 2002.
 \newblock doi:10.1109/DSN.2002.1029005.
+
+\bibitem[CRPA12]{Campos2012}
+Jos{\'{e}} Campos, Andr{\'{e}} Riboira, Alexandre Perez e Rui Abreu.
+\newblock {GZoltar: an eclipse plug-in for testing and debugging}.
+\newblock In {\em Proceedings of the 27th IEEE/ACM International Conference on
+  Automated Software Engineering - ASE 2012}, page 378, New York, New York,
+  USA, sep 2012. ACM Press.
+\newblock URL: \url{http://dl.acm.org/citation.cfm?id=2351676.2351752},
+  doi:10.1145/2351676.2351752.
+
+\bibitem[GCA13]{Gouveia2013}
+Carlos Gouveia, Jos{\'{e}} Campos e Rui Abreu.
+\newblock {Using HTML5 visualizations in software fault localization}.
+\newblock {\em 2013 1st IEEE Working Conference on Software Visualization -
+  Proceedings of VISSOFT 2013}, 2013.
+\newblock doi:10.1109/VISSOFT.2013.6650539.
 
 \bibitem[GS12]{Gousios2012}
 Georgios Gousios e D.~Spinellis.
@@ -42,11 +66,6 @@ J.a. James~a Jones e Mary Jean~M.J. Harrold.
 \newblock {\em Automated Software Engineering}, pages 282--292, 2005.
 \newblock URL: \url{http://portal.acm.org/citation.cfm?id=1101949},
   doi:http://doi.acm.org/10.1145/1101908.1101949.
-
-\bibitem[Kim06]{Kim2006}
-Sunghun Kim.
-\newblock {Adaptive Bug Prediction by Analyzing Project History}.
-\newblock page 145, 2006.
 
 \bibitem[MS08]{Mayer2008}
 Wolfgang Mayer e Markus Stumptner.
@@ -71,6 +90,14 @@ Thomas Reps, Thomas Ball, Manuvir Das e James Larus.
   applications to the year 2000 problem}.
 \newblock {\em ACM SIGSOFT Software Engineering Notes}, 22(6):432--449, 1997.
 \newblock doi:10.1145/267896.267925.
+
+\bibitem[{Rui}09]{RuiAbreu}
+Arjan J. C. van~Gemund {Rui Abreu}.
+\newblock {A Low-Cost Approximate Minimal Hitting Set Algorithm and its
+  Application to Model-Based Diagnosis}.
+\newblock 2009.
+\newblock URL:
+  \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.169.1046}.
 
 \bibitem[{\'{S}}ZZ05]{Sliwerski2005}
 Jacek {\'{S}}liwerski, Thomas Zimmermann e Andreas Zeller.

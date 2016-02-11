@@ -1,6 +1,6 @@
 \section{\emph{Fault Localization Software}}
 
-O \emph{Fault Localization Software} auxilia na localização automática do código que origina falhas na sua execução, diminuindo o custo desta identificação que teria de ser feita manualmente pelo programador. Existem duas categorias principais: \emph{Spectrum-based diagnosis} e \emph{Model-based diagnosis}.
+O \emph{Fault Localization Software} auxilia na localização automática do código que origina falhas na sua execução, diminuindo o custo desta identificação que teria de ser feita manualmente pelo programador. Existem três categorias principais: \emph{Program Slicing}, \emph{Spectrum-based diagnosis} e \emph{Model-based diagnosis}. Sendo que as abordagens \emph{Spectrum-based diagnosis} serão analisadas mais ao detalhe devido à sua maior importância para este trabalho.
 
 % 
 % ==========
@@ -112,7 +112,7 @@ Pelo que, por exemplo, o teste $t_4$ executou os componentes $c_1$ e $c_3$ e foi
 
 \subsubsection{Geração de candidatos} 
 
-Com base nesta matriz, uma lista de conjuntos de candidatos ($d$) é gerada, sendo esta reduzida ao número mínimo de candidatos possível. 
+Com base nesta matriz, uma lista de conjuntos de candidatos ($d$) é gerada, sendo esta reduzida ao número mínimo de candidatos possível, dado que estes subsumem todos os outros candidatos e minimizam o espaço de pesquisa. Este problema denominado \emph{minimal hitting set} (MHS) é só por si um problema \emph{NP-hard} o que levou à necessidade de criação de heurísticas próprias \cite{RuiAbreu, Cardoso2013}. O algoritmo usado pelo \emph{Barinel} na resolução deste problema é o \emph{Staccato}.
 
 Neste caso, seriam gerados apenas dois candidatos:
 
@@ -136,14 +136,14 @@ Para cada candidato $d$, é calculada a probabilidade de acordo com a regra de \
 
 $Pr(obs_i)$ é apenas um termo normalizador idêntico para todos os candidatos, pelo que não é usado para proceder à ordenação.
 
-Sendo $p_j$ a probabilidade à \emph{priori} do componente $c_j$ originar uma falha, podemos definir $Pr(d)$, probabilidade do candidato ser responsável pelo erro, não tendo em conta evidências adicionais, como
+Sendo $p_j$ a probabilidade à \emph{priori} do componente $c_j$ originar uma falha, também denominada \emph{prior}, podemos definir $Pr(d)$, probabilidade do candidato ser responsável pelo erro, não tendo em conta evidências adicionais, como
 %
 \begin{equation}
   \pr(d) = \prod_{j \in d} p_j \cdot \prod_{j \notin d} (1 - p_j)
 \end{equation}
 
 
-Sendo $g_j$ (\emph{component goodness}) a probabilidade do componente $c_j$ executar de forma correta, temos que
+Sendo $g_j$ (\emph{component goodness}) a probabilidade do componente $c_j$ executar de forma correta dado o facto de $c_j$ integrar o conjunto de componentes faltosos, temos que
 % 
 \begin{equation}
   \pr(obs_i, e_i \mid  d) = 
@@ -203,11 +203,11 @@ Neste caso, todos os valores de $g_j$ são desconhecidos. Executando o algoritmo
 %
 \subsubsection{\emph{Crowbar}}
 
-\emph{Crowbar}\footnote{ \url{http://crowbar.io}}, anteriormente conhecido como GZoltar\footnote{ \url{http://www.gzoltar.com/}}, é a ferramenta que materializa o algoritmo \emph{Barinel} e que permite uma análise de projetos \emph{Java}. 
+\emph{Crowbar}\footnote{ \url{http://crowbar.io}}, anteriormente conhecido como GZoltar\footnote{ \url{http://www.gzoltar.com/}}, é a ferramenta que materializa o algoritmo \emph{Barinel} e que permite uma análise de projetos \emph{Java} \cite{Campos2012}.
 
 Através de injeção de código e da execução dos testes \emph{JUnit}, o \emph{Crowbar} é capaz de identificar os componentes que foram executados e associá-los aos testes falhados.
 
-A representação dos resultados pode ser feita de várias formas, sendo a principal a visualização \emph{Sunburst} que podemos ver na Figura~\ref{fig:crowbar-sunburst} e que apresenta em cada anel um grau de granularidade diferente, desde o projeto à linha de código.
+A representação dos resultados pode ser feita de várias formas, sendo a principal a visualização \emph{Sunburst} que podemos ver na Figura~\ref{fig:crowbar-sunburst} e que apresenta em cada anel um grau de granularidade diferente, desde o projeto à linha de código \cite{Gouveia2013}.
 
 \begin{figure}[H]
   \begin{center}
