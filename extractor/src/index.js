@@ -3,7 +3,6 @@ import fs from 'filendir';
 import Git from 'nodegit';
 import yargs from 'yargs';
 import Promise from 'bluebird';
-import Queue from 'bluebird-queue';
 import identifyFixes from './identifyFixes';
 import extract from './extract/all';
 

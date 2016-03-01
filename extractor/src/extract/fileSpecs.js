@@ -1,5 +1,4 @@
 "use strict";
-import Git from 'nodegit';
 import Promise from 'bluebird';
 
 export default (commit, filename) => {
