@@ -1,12 +1,20 @@
 "use strict";
-import Promise from 'bluebird';
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-const regex = new RegExp('(\b|)fix(|\b|ed|ing)|bug( | \#|\-|)[0-9]+', 'i');
-const isFix = (commit) => {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _bluebird = require('bluebird');
+
+var _bluebird2 = _interopRequireDefault(_bluebird);
+
+var regex = new RegExp('(\b|)fix(|\b|ed|ing)|bug( | \#|\-|)[0-9]+', 'i');
+var isFix = function isFix(commit) {
     // Merge is not a fix
     if (commit.parentcount() > 1) return false;
 
-    const message = commit.message().trim().split('\n', 1)[0];
+    var message = commit.message().trim().split('\n', 1)[0];
     return regex.test(message);
 };
 
@@ -17,19 +25,24 @@ const isFix = (commit) => {
  * @param startCommit
  * @return {Promise}
  */
-export default (startCommit) => {
-    let walker = startCommit.history();
-    let fixCommits = [];
 
-    walker.on('commit', (commit) => {
+exports['default'] = function (startCommit) {
+    var walker = startCommit.history();
+    var fixCommits = [];
+
+    walker.on('commit', function (commit) {
         if (isFix(commit)) fixCommits.push(commit);
     });
 
     // Do nothing, on error, just inform me
     walker.on('error', console.error);
 
-    return new Promise((resolve) => {
-        walker.on('end', () => { resolve(fixCommits); });
+    return new _bluebird2['default'](function (resolve) {
+        walker.on('end', function () {
+            resolve(fixCommits);
+        });
         walker.start();
     });
-}
+};
+
+module.exports = exports['default'];

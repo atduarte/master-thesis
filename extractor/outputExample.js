@@ -12,7 +12,7 @@ export default {
                     {
                         id: 'cf23df2207d99a74fbe169e3eba035e633b65d94',
                         date: 1456750312,
-                        parentsNo: 1, // >1 = Merge
+                        parentCount: 1, // >1 = Merge
                         author: 'hi@andreduarte.eheh',
                         linesAdded: 0,
                         linesRemoved: 0,
