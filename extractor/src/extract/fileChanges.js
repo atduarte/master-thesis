@@ -1,7 +1,7 @@
 "use strict";
 import Git from 'nodegit';
 import Promise from 'bluebird';
-import {fileChanges as config} from '../config.js';
+import {fileChanges as config} from '../../config.js';
 
 export default (repo, commit, filename) => {
     let walker = Git.Revwalk.create(repo);

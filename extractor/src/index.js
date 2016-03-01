@@ -5,7 +5,7 @@ import yargs from 'yargs';
 import Promise from 'bluebird';
 import Queue from 'bluebird-queue';
 import identifyFixes from './identifyFixes';
-import extract from './extract';
+import extract from './extract/all';
 
 const repoPath = yargs.argv._[0];
 const outPath = yargs.argv._[1];
@@ -46,6 +46,4 @@ Promise.resolve(Git.Repository.open(repoPath))
 
 // Report
 
-.tap(() => {
-    console.timeEnd('Complete execution');
-});
+.tap(() => { console.timeEnd('Complete execution'); });

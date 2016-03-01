@@ -32,7 +32,7 @@ const listComponents = (info) => {
 
 const analyzeDiff = (info) => {
     Object.keys(info.components).forEach(function(key) {
-        _.assign(info.components[key], {linesAdded: 0, linesRemoved: 0});
+        _.assign(info.components[key], {linesAdded: 0, linesRemoved: 0, oldFilename: key});
     });
 
     return Promise.resolve(info.commit.getDiff())
@@ -44,6 +44,7 @@ const analyzeDiff = (info) => {
 
             if (!info.components.hasOwnProperty(componentPath)) return;
 
+            info.components[componentPath].oldFilename = patch.oldFile().path();
             info.components[componentPath].linesAdded += stats.total_additions || 0;
             info.components[componentPath].linesRemoved += stats.total_deletions || 0;
         });
@@ -62,6 +63,7 @@ export default (commit) => {
     return Promise.resolve({
         commit: commit,
         id: commit.id().toString(),
+        message: commit.message(),
         date: commit.time(),
         author: commit.author().email(),
         components: {}
