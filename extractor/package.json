@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node lib/index.js",
-    "build": "babel src/ -d lib/ --watch",
+    "build": "babel src/ -d lib/",
+    "build-watch": "babel src/ -d lib/ --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
