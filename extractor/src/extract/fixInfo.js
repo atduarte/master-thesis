@@ -32,7 +32,7 @@ const listComponents = (info) => {
 
 const analyzeDiff = (info) => {
     Object.keys(info.components).forEach(function(key) {
-        _.assign(info.components[key], {linesAdded: 0, linesRemoved: 0, oldFilename: key});
+        _.assign(info.components[key], {linesAdded: 0, linesRemoved: 0});
     });
 
     return Promise.resolve(info.commit.getDiff())

@@ -23,7 +23,7 @@ export default (commit) => {
             });
 
             // File Specs
-            let fileSpecsPromise = extractFileSpecs(parentCommit, info.components[componentPath].oldFilename)
+            let fileSpecsPromise = extractFileSpecs(parentCommit, info.components[componentPath].oldFilename || componentPath)
             .then((specs) => {
                 _.assign(info.components[componentPath], specs);
             });
