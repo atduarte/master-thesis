@@ -1,11 +1,10 @@
 "use strict";
-import _ from 'lodash';
-import Promise from 'bluebird';
-import extractFixInfo from './fixInfo';
-import extractFileChanges from './fileChanges';
-import extractFileSpecs from './fileSpecs';
+const Promise = require('bluebird');
+const extractFixInfo = require('./fixInfo');
+const extractFileChanges = require('./fileChanges');
+const extractFileSpecs = require('./fileSpecs');
 
-export default (commit) => {
+module.exports = (commit) => {
     let parentCommit = null;
 
     return Promise.resolve(commit.getParents(1, () => {}))
@@ -25,7 +24,7 @@ export default (commit) => {
             // File Specs
             let fileSpecsPromise = extractFileSpecs(parentCommit, info.components[componentPath].oldFilename || componentPath)
             .then((specs) => {
-                _.assign(info.components[componentPath], specs);
+                Object.assign(info.components[componentPath], specs);
             });
 
             return Promise.all([fileChangesPromise, fileSpecsPromise]);

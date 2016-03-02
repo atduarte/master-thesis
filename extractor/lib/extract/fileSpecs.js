@@ -1,7 +1,7 @@
 "use strict";
-import Promise from 'bluebird';
+const Promise = require('bluebird');
 
-export default (commit, filename) => {
+module.exports = (commit, filename) => {
     return Promise.resolve(commit.getTree())
     .then((tree) => { return tree.getEntry(filename) })
     .call('getBlob')
@@ -18,4 +18,4 @@ export default (commit, filename) => {
             byteSize: 0
         }
     })
-}
+};

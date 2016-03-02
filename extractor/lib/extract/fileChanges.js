@@ -1,9 +1,10 @@
 "use strict";
-import Git from 'nodegit';
-import Promise from 'bluebird';
-import {fileChanges as config} from '../../config.js';
+const Git = require('nodegit');
+const Promise = require('bluebird');
+const config = require('../../config.js').fileChanges;
 
-export default (repo, commit, filename) => {
+
+module.exports = (repo, commit, filename) => {
     let walker = Git.Revwalk.create(repo);
     walker.push(commit);
     walker.sorting(Git.Revwalk.SORT.TIME);
@@ -22,4 +23,4 @@ export default (repo, commit, filename) => {
             parentCount: commit.parentcount(),
         }
     });
-}
+};

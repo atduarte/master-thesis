@@ -1,6 +1,5 @@
 "use strict";
-import Promise from 'bluebird';
-import _ from 'lodash';
+const Promise = require('bluebird');
 
 const listComponents = (info) => {
     return Promise.resolve(info.commit.getTree())
@@ -31,8 +30,8 @@ const listComponents = (info) => {
 };
 
 const analyzeDiff = (info) => {
-    Object.keys(info.components).forEach(function(key) {
-        _.assign(info.components[key], {linesAdded: 0, linesRemoved: 0});
+    Object.keys(info.components).forEach((key)  => {
+        Object.assign(info.components[key], {linesAdded: 0, linesRemoved: 0});
     });
 
     return Promise.resolve(info.commit.getDiff())
@@ -44,9 +43,13 @@ const analyzeDiff = (info) => {
 
             if (!info.components.hasOwnProperty(componentPath)) return;
 
-            info.components[componentPath].oldFilename = patch.oldFile().path();
-            info.components[componentPath].linesAdded += stats.total_additions || 0;
-            info.components[componentPath].linesRemoved += stats.total_deletions || 0;
+            let component = info.components[componentPath];
+            component.linesAdded += stats.total_additions || 0;
+            component.linesRemoved += stats.total_deletions || 0;
+
+            if (componentPath != patch.oldFile().path()) {
+                component.oldFilename = patch.oldFile().path();
+            }
         });
     })
     .then(() => { return info; });
@@ -59,7 +62,7 @@ const analyzeDiff = (info) => {
  * @param commit
  * @return {Promise}
  */
-export default (commit) => {
+module.exports = (commit) => {
     return Promise.resolve({
         commit: commit,
         id: commit.id().toString(),
@@ -70,4 +73,4 @@ export default (commit) => {
     })
     .then(listComponents)
     .then(analyzeDiff);
-}
+};

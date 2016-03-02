@@ -1,5 +1,5 @@
 "use strict";
-import Promise from 'bluebird';
+const Promise = require('bluebird');
 
 const regex = new RegExp('(\b|)fix(|\b|ed|ing)|bug( | \#|\-|)[0-9]+', 'i');
 const isFix = (commit) => {
@@ -17,7 +17,7 @@ const isFix = (commit) => {
  * @param startCommit
  * @return {Promise}
  */
-export default (startCommit) => {
+module.exports = (startCommit) => {
     let walker = startCommit.history();
     let fixCommits = [];
 
@@ -32,4 +32,4 @@ export default (startCommit) => {
         walker.on('end', () => { resolve(fixCommits); });
         walker.start();
     });
-}
+};
