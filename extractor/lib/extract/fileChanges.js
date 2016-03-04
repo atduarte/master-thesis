@@ -3,7 +3,6 @@ const Git = require('nodegit');
 const Promise = require('bluebird');
 const config = require('../../config.js').fileChanges;
 
-
 module.exports = (repo, commit, filename) => {
     let walker = Git.Revwalk.create(repo);
     walker.push(commit);

@@ -1,10 +1,11 @@
-"use strict";
+'use strict';
 const fs = require('filendir');
 const Git = require('nodegit');
 const yargs = require('yargs');
 const Promise = require('bluebird');
 const identifyFixes = require('./identifyFixes');
 const extract = require('./extract/all');
+const prepare = require('./prepare');
 
 const repoPath = yargs.argv._[0];
 const outPath = yargs.argv._[1];
@@ -23,15 +24,14 @@ Promise.resolve(Git.Repository.open(repoPath))
 
 // Extract
 
-.map((commit) => {
+.each((commit) => {
     let label = commit.id().toString();
     console.time(label);
 
     return extract(commit)
-    .then((info) => {
-        delete info.commit;
-        fs.writeFile(outPath + '/' + label, JSON.stringify(info, null, 4), () => {}); // Why wait for it?
-    })
+    // TODO: Extract startDate
+    .then((info) => { delete info.commit; return info; })
+    .tap((info) => fs.writeFile(outPath + '/raw/' + label, JSON.stringify(info, null, 4), () => {}))
     .tap(() => { console.timeEnd(label) })
     .tap(() => { console.log((process.memoryUsage().heapUsed/(1024 * 1024)).toFixed(2) + 'mb') });
 }, {concurrency: 1})
