@@ -12,7 +12,6 @@
   "dependencies": {
     "bluebird": "^3.3.3",
     "filendir": "^1.0.0",
-    "nodegit": "^0.11.5",
     "yargs": "^3.31.0"
   },
   "devDependencies": {

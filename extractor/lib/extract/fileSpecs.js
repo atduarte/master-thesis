@@ -3,7 +3,7 @@ const Promise = require('bluebird');
 
 module.exports = (commit, filename) => {
     return Promise.resolve(commit.getTree())
-    .then((tree) => { return tree.getEntry(filename) })
+    .then(tree => { return tree.getEntry(filename) })
     .call('getBlob')
     .then((blob) => {
         return {

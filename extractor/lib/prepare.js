@@ -84,7 +84,7 @@ const attributors = [
 
 module.exports = (data) => {
     data = Object.assign.apply(this, [data].concat(preSteps.map(_ => _(data))));
-    return Object.keys(data.components).map((key) => {
+    return Object.keys(data.components).map(key => {
         return Object.assign.apply(this, attributors.map(_ => _(data, key, data.components[key])));
     });
 };
