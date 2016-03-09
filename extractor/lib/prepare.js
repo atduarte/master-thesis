@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO
+
 const twr = (start, end, eventDate) => {
     const tr = 0; // [0,1]
     const t = (eventDate - start) / (end - start); // [0,1]

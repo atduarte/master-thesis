@@ -7,7 +7,6 @@ export default {
             'index.js': {
                 linesAdded: 0, // On change
                 linesRemoved: 0, // On change
-                loc: 125, // Before change
                 changes: [
                     {
                         id: 'cf23df2207d99a74fbe169e3eba035e633b65d94',
@@ -16,6 +15,7 @@ export default {
                         author: 'hi@andreduarte.eheh',
                         linesAdded: 0,
                         linesRemoved: 0,
+                        loc: 125,
                     },
                     // ...
                 ]

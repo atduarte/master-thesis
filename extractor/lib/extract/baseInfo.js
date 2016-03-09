@@ -33,13 +33,18 @@ const analyzeDiff = (info) => {
     });
 
     return Promise.resolve(info.commit.getDiff())
-    .map(diff => { return diff.patches() })
+    .map(diff => { return diff.patches(); })
     .each(convenientPatches => {
         convenientPatches.forEach(patch => {
+            if (patch.lineStats().total_additions + patch.lineStats().total_deletions == 0) return;
+
+            if(!info.components.hasOwnProperty(patch.newFile().path())) {
+                info.components[patch.newFile().path()] = {linesAdded: 0, linesRemoved: 0};
+            }
+
             Object.assign(info.components[patch.newFile().path()], {
                 linesAdded: patch.lineStats().total_additions || 0,
                 linesRemoved: patch.lineStats().total_deletions || 0,
-                oldFilename: patch.newFile().path() != patch.oldFile().path() ? patch.oldFile().path() : undefined
             });
         });
     })
