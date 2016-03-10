@@ -1,16 +1,16 @@
-"use strict";
+'use strict';
 const Git = require('nodegit');
 const log = require('npmlog-ts');
-const cache = require('./cache');
 const extractBaseInfo = require('./baseInfo');
 const extractFileChanges = require('./fileChanges');
 
 const logPrefix = 'extract/fullCommit';
 
 module.exports = (commit) => {
+    const walker = Git.Revwalk.create(commit.owner());
+
     log.info(logPrefix, `Extracting ${commit.id()}`);
 
-    const walker = Git.Revwalk.create(commit.owner());
     walker.push(commit.id());
     walker.sorting(Git.Revwalk.SORT.TOPOLOGICAL | Git.Revwalk.SORT.TIME);
 
@@ -25,9 +25,9 @@ module.exports = (commit) => {
 
         return Promise.map(Object.keys(info.components), componentPath => {
             return extractFileChanges(commit, data.parents, componentPath)
-            .then(changes => info.components[componentPath].changes = changes);
+            .tap(changes => { info.components[componentPath].changes = changes; });
         }, {concurrency: 25})
-        .then(() => info)
+        .then(() => info);
     })
-    .tap(() => log.info(logPrefix, `Finished ${commit.id()}`))
+    .tap(() => log.info(logPrefix, `Finished ${commit.id()}`));
 };

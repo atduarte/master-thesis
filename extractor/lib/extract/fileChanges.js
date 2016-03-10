@@ -1,11 +1,9 @@
 'use strict';
-const log = require('npmlog-ts');
 const uniqid = require('uniqid');
 const Git = require('nodegit');
 const cache = require('./cache');
 const config = require('../../config.js').fileChanges;
 
-const logPrefix = 'extract/fileChanges';
 const useCache = true;
 
 const getDiff = (commit, filename) => {

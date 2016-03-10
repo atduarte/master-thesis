@@ -1,17 +1,21 @@
-"use strict";
+'use strict';
+const log = require('npmlog-ts');
 const Promise = require('bluebird');
+
+const logPrefix = 'extract/baseInfo';
 
 const listComponents = (info) => {
     return Promise.resolve(info.commit.getTree())
     .then(tree => {
-        let fileWalker = tree.walk();
-        let waitables = [];
-        fileWalker.on('error', console.error);
+        const fileWalker = tree.walk();
+        const waitables = [];
+
+        fileWalker.on('error', log.error.bind(null, logPrefix));
 
         fileWalker.on('entry', entry => {
             if (!entry.isFile()) return;
 
-            let waitable = Promise.resolve(entry.getBlob())
+            const waitable = Promise.resolve(entry.getBlob())
                 .then(blob => {
                     if (blob.isBinary()) return;
                     info.components[entry.path()] = {};
@@ -36,9 +40,9 @@ const analyzeDiff = (info) => {
     .map(diff => { return diff.patches(); })
     .each(convenientPatches => {
         convenientPatches.forEach(patch => {
-            if (patch.lineStats().total_additions + patch.lineStats().total_deletions == 0) return;
+            if (patch.lineStats().total_additions + patch.lineStats().total_deletions === 0) return;
 
-            if(!info.components.hasOwnProperty(patch.newFile().path())) {
+            if (!info.components.hasOwnProperty(patch.newFile().path())) {
                 info.components[patch.newFile().path()] = {linesAdded: 0, linesRemoved: 0};
             }
 
@@ -51,21 +55,14 @@ const analyzeDiff = (info) => {
     .then(() => info);
 };
 
-/**
- * Identifies the commits that were fixes.
- * Walk starts with the given commit.
- *
- * @param commit
- * @return {Promise}
- */
 module.exports = commit => {
     return Promise.resolve({
-        commit: commit,
+        commit,
         id: commit.id().toString(),
         message: commit.message(),
         date: commit.time(),
         author: commit.author().email(),
-        components: {}
+        components: {},
     })
     .then(listComponents)
     .then(analyzeDiff);

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 const Promise = require('bluebird');
 
 const regex = new RegExp('(\b|)fix(|\b|ed|ing)|bug( | \#|\-|)[0-9]+', 'i');
@@ -7,6 +7,7 @@ const isFix = (commit) => {
     if (commit.parentcount() > 1) return false;
 
     const message = commit.message().trim().split('\n', 1)[0];
+
     return regex.test(message);
 };
 
@@ -18,17 +19,17 @@ const isFix = (commit) => {
  * @return {Promise}
  */
 module.exports = (startCommit) => {
-    let walker = startCommit.history();
-    let fixCommits = [];
+    const walker = startCommit.history();
+    const fixCommits = [];
 
-    walker.on('commit', (commit) => {
+    walker.on('commit', commit => {
         if (isFix(commit)) fixCommits.push(commit);
     });
 
     // Do nothing, on error, just inform me
     walker.on('error', console.error);
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         walker.on('end', () => { resolve(fixCommits); });
         walker.start();
     });

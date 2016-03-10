@@ -1,36 +1,37 @@
 'use strict';
 const log = require('npmlog-ts');
+const knex = require('knex');
 
 const logPrefix = 'extract/cache';
-let knex = null;
+let db = null;
 
 const change = (uniqid, commit, blobId, data) => {
     return {
-        uniqid: uniqid,
+        uniqid,
         commitId: commit.id().toString(),
         timestamp: commit.time(),
-        blobId: blobId,
+        blobId,
         data: JSON.stringify(data),
-    }
+    };
 };
 
 module.exports.setup = (databaseName) => {
     // TODO: config
-    knex = require('knex')({
+    db = knex({
         client: 'pg',
         connection: {
             host: '127.0.0.1',
             user: 'node',
             password: 'pass',
-            database: databaseName
-        }
+            database: databaseName,
+        },
     });
 
-    const changesTable = knex.schema.hasTable('changes')
+    const changesTable = db.schema.hasTable('changes')
     .then(exists => {
         if (exists) return;
 
-        return knex.schema.createTable('changes', table => {
+        return db.schema.createTable('changes', table => {
             table.string('uniqid');
             table.string('commitId', 40);
             table.string('blobId', 40);
@@ -43,10 +44,10 @@ module.exports.setup = (databaseName) => {
     return Promise.all([changesTable]);
 };
 
-module.exports.get = knex;
+module.exports.get = db;
 
 module.exports.getChangesData = (commit, parents, blobId) => {
-    return knex('changes')
+    return db('changes')
     .select('uniqid', 'commitId', 'data')
     .where('blobId', '=', blobId)
     .orderBy('timestamp', 'desc')
@@ -57,7 +58,7 @@ module.exports.getChangesData = (commit, parents, blobId) => {
                 continue;
             }
 
-            return knex('changes')
+            return db('changes')
             .select('data')
             .where('uniqid', '=', data[0].uniqid)
             .andWhere('timestamp', '<', commit.time())
@@ -71,11 +72,16 @@ module.exports.getChangesData = (commit, parents, blobId) => {
 };
 
 module.exports.saveChanges = (data) => {
-    data = data.map(_ => change.apply(this, _));
-    return knex.batchInsert('changes', data)
+    data = data.map(_ => change.apply(null, _));
+    return db.batchInsert('changes', data)
     .catch(e => {
         // TODO: What if we replaced?
-        log.verbose(logPrefix, `Failed to save changes for commit:${data[0].commitId} blob:${data[0].blobId} filename:${JSON.parse(data[0].data).filename}`);
+        log.verbose(logPrefix, 'Failed to save changes for: ', {
+            commit: data[0].commitId,
+            blob: data[0].blobId,
+            filename: JSON.parse(data[0].data).filename,
+        });
+
         if (e.code !== '23505') throw e;
     });
 };

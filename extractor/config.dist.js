@@ -1,4 +1,5 @@
+'use strict';
 module.exports.fileChanges = {
-    maxWalk: 5000,
-    maxChanges: 5
+    maxWalk: 50000,
+    maxChanges: 5,
 };
