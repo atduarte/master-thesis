@@ -21,15 +21,16 @@ const getBaseInfo = (data, componentName, component) => {
     const bytes = component.changes[0] ? component.changes[0].byteSize : 0;
 
     return {
-        component: componentName,
-        lines,
-        bytes,
-        added: component.linesAdded > 0 && lines === 0,
-        changed: (component.linesAdded + component.linesRemoved) > 0 && lines > 0,
-        mostChanged: data.changedComponents.length > 0 && data.changedComponents[0][0] === componentName,
-        'mostChanged25%': isMostChanged(0.25),
-        'mostChanged50%': isMostChanged(0.50),
-        'mostChanged75%': isMostChanged(0.75),
+        _commitId: data.id,
+        _component: componentName,
+        _lines: lines,
+        _bytes: bytes,
+        _added: component.linesAdded > 0 && lines === 0,
+        __changed: (component.linesAdded + component.linesRemoved) > 0 && lines > 0,
+        _mostChanged: data.changedComponents.length > 0 && data.changedComponents[0][0] === componentName,
+        _mostChanged25: isMostChanged(0.25),
+        _mostChanged50: isMostChanged(0.50),
+        _mostChanged75: isMostChanged(0.75),
     };
 };
 
@@ -47,7 +48,7 @@ const getAuthorsCount = (data, componentName, component) => {
 
 const getAuthorChangeCount = (data, componentName, component) => {
     return component.changes.reduce((previous, current) => {
-        const label = `authorChanges:${current.author}`;
+        const label = `authorChanges::${current.author}`;
 
         previous[label] = previous[label] + 1 || 1;
         return previous;
@@ -56,9 +57,9 @@ const getAuthorChangeCount = (data, componentName, component) => {
 
 const getAuthorWeightedChangeCount = (data, componentName, component) => {
     return component.changes.reduce((result, current) => {
-        const dateLabel = `authorChanges:date-weighted:${current.author}`;
-        const sizeLabel = `authorChanges:size-weighted:${current.author}`;
-        const dateSizeLabel = `authorChanges:date+size-weighted:${current.author}`;
+        const dateLabel = `authorChanges:date-weighted::${current.author}`;
+        const sizeLabel = `authorChanges:size-weighted::${current.author}`;
+        const dateSizeLabel = `authorChanges:date+size-weighted::${current.author}`;
         const dateWeight = twr(data.startDate, data.date, current.date);
         const sizeWeight = (current.linesAdded + current.linesRemoved) * 0.2;
 
