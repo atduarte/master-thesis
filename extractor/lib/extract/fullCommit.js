@@ -16,7 +16,7 @@ module.exports = (commit) => {
 
     return Promise.props({
         info: extractBaseInfo(commit),
-        parents: walker.getCommits(5000), // TODO: config
+        parents: walker.getCommits(Math.pow(10, 9)),
     })
     .then(data => {
         const info = data.info;

@@ -11,6 +11,7 @@
         "object-curly-spacing": 0,
         "curly": 0,
         "no-warning-comments": 0,
-        "no-control-regex": 0
+        "no-control-regex": 0,
+        "no-return-assign": 0
     }
 }

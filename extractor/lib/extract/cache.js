@@ -3,53 +3,58 @@ const log = require('npmlog-ts');
 const knex = require('knex');
 
 const logPrefix = 'extract/cache';
-let db = null;
 
-const change = (uniqid, commit, blobId, data) => {
+let db = null;
+let changesTable = null;
+
+const change = (uniqid, commit, blobId, filename, data) => {
     return {
         uniqid,
         commitId: commit.id().toString(),
         timestamp: commit.time(),
+        filename,
         blobId,
         data: JSON.stringify(data),
     };
 };
 
 module.exports.setup = (databaseName) => {
-    // TODO: config
-    db = knex({
+    changesTable = `${databaseName}-changes`;
+    db = knex({ // TODO: config
         client: 'pg',
         connection: {
             host: '127.0.0.1',
             user: 'node',
             password: 'pass',
-            database: databaseName,
+            database: 'extractor',
         },
     });
 
-    const changesTable = db.schema.hasTable('changes')
+    const changesTablePromise = db.schema.hasTable(changesTable)
     .then(exists => {
         if (exists) return;
 
-        return db.schema.createTable('changes', table => {
+        return db.schema.createTable(changesTable, table => {
             table.string('uniqid');
             table.string('commitId', 40);
             table.string('blobId', 40);
+            table.text('filename');
             table.bigInteger('timestamp');
             table.json('data');
             table.unique(['commitId', 'blobId']);
         });
     });
 
-    return Promise.all([changesTable]);
+    return Promise.all([changesTablePromise]);
 };
 
 module.exports.get = db;
 
-module.exports.getChangesData = (commit, parents, blobId) => {
-    return db('changes')
+module.exports.getChangesData = (commit, parents, blobId, filename) => {
+    return db(changesTable)
     .select('uniqid', 'commitId', 'data')
     .where('blobId', '=', blobId)
+    .where('filename', '=', filename) // Probably not necessary, but it doesn't hurt to check...
     .orderBy('timestamp', 'desc')
     .then(data => {
         while (data.length > 0) {
@@ -58,7 +63,7 @@ module.exports.getChangesData = (commit, parents, blobId) => {
                 continue;
             }
 
-            return db('changes')
+            return db(changesTable)
             .select('data')
             .where('uniqid', '=', data[0].uniqid)
             .andWhere('timestamp', '<', commit.time())
@@ -73,15 +78,17 @@ module.exports.getChangesData = (commit, parents, blobId) => {
 
 module.exports.saveChanges = (data) => {
     data = data.map(_ => change.apply(null, _));
-    return db.batchInsert('changes', data)
+    return db.batchInsert(changesTable, data)
     .catch(e => {
-        // TODO: What if we replaced?
-        log.verbose(logPrefix, 'Failed to save changes for: ', {
+        if (e.code !== '23505') throw e;
+
+        log.silly(logPrefix, 'Failed to save changes for: ', {
             commit: data[0].commitId,
             blob: data[0].blobId,
             filename: JSON.parse(data[0].data).filename,
         });
 
-        if (e.code !== '23505') throw e;
+        // TODO: What if we replaced?
+        // Discover the conflict, remove, and then save
     });
 };
