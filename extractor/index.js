@@ -27,20 +27,9 @@ yargs
     global: true,
 })
 
-.command('raw', 'Extract data from Git Repo', require('./lib/cli/raw'))
-.command('json', 'Prepare extracted data for ML', require('./lib/cli/json'))
+.command('raw', 'Extract raw data from Git Repo.', require('./lib/cli/raw'))
+.command('json', 'Prepare JSON from raw data.', require('./lib/cli/json'))
+.command('csv', 'Prepare CSV from JSON data.', require('./lib/cli/csv'))
+.command('all', 'Extract and prepare', require('./lib/cli/all'))
 
 .argv;
-
-//require('./lib/cli/extract')('/mnt/ramdisk/repos/junit', 'junit2');
-
-
-//const fs = require('fs');
-//const prepare = require('./lib/prepare');
-//
-//const rawData = JSON.parse(fs.readFileSync('./example/junit/raw/04c3f9955266bbb47542a17c486354b80cfe77e6'));
-//
-//console.log(JSON.stringify(prepare(rawData), null, 2));
-
-//log.level = 'verbose';
-
