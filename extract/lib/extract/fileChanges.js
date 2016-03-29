@@ -4,7 +4,7 @@ const Git = require('nodegit');
 const cache = require('./cache');
 const isFix = require('../util/isFix');
 
-const useCache = false;
+const useCache = true;
 
 const getDiffPatch = (commit, filename) => {
     return Promise.resolve(commit.getDiff())
