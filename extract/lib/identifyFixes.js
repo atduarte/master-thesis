@@ -7,15 +7,16 @@ const isFix = require('./util/isFix');
  * Identifies the commits that were fixes.
  * Walk starts with the given commit.
  *
+ * @param regex
  * @param startCommit
  * @return {Promise}
  */
-module.exports = (startCommit) => {
+module.exports = (regex, startCommit) => {
     const walker = startCommit.history();
     const fixCommits = [];
 
     walker.on('commit', commit => {
-        if (isFix(commit)) fixCommits.push(commit);
+        if (isFix(regex, commit)) fixCommits.push(commit);
     });
 
     // Do nothing, on error, just inform me

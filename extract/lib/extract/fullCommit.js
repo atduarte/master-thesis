@@ -6,7 +6,7 @@ const extractFileChanges = require('./fileChanges');
 
 const logPrefix = 'extract/fullCommit';
 
-module.exports = (commit) => {
+module.exports = (projectConfig, commit) => {
     const walker = Git.Revwalk.create(commit.owner());
 
     log.info(logPrefix, `Extracting ${commit.id()}`);
@@ -23,10 +23,16 @@ module.exports = (commit) => {
 
         log.verbose(logPrefix, `Will extract infos about ${Object.keys(info.components).length} components`);
 
-        return Promise.map(Object.keys(info.components), componentPath => {
-            return extractFileChanges(commit, data.parents, componentPath)
+        // Filter
+        return Promise.resolve(Object.keys(info.components))
+        .filter(projectConfig.fileFilter)
+
+        // Extract each
+        .each(componentPath => {
+            return extractFileChanges(projectConfig, commit, data.parents, componentPath)
             .tap(changes => { info.components[componentPath].changes = changes; });
-        }, {concurrency: 25})
+        }, {concurrency: 4})
+
         .then(() => info);
     })
     .tap(() => log.info(logPrefix, `Finished ${commit.id()}`));

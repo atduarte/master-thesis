@@ -13,11 +13,12 @@
   "dependencies": {
     "bluebird": "^3.3.3",
     "filendir": "^1.0.0",
+    "humanize-duration": "^3.7.0",
     "iterate-files": "^0.1.1",
     "knex": "^0.10.0",
     "lodash": "^4.6.1",
     "mkdirp": "^0.5.1",
-    "nodegit": "^0.11.9",
+    "nodegit": "^0.12.0",
     "npmlog-ts": "0.0.1",
     "pg": "^4.5.1",
     "uniqid": "^1.0.0",

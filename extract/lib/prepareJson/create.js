@@ -17,13 +17,23 @@ const getBaseInfo = (data, componentName, component) => {
             .length > 0;
     };
 
+    const getExt = (filename) => {
+        filename = filename.split('/').pop();
+
+        const index = filename.lastIndexOf('.');
+
+        return index >= 0 ? filename.substr(index + 1) : '';
+    };
+
     const lines = component.changes[0] ? component.changes[0].lines : 0;
     const bytes = component.changes[0] ? component.changes[0].byteSize : 0;
 
     return {
         __changed: (component.linesAdded + component.linesRemoved) > 0 && lines > 0,
+        __date: data.date,
+        __type: getExt(componentName),
         _commitId: data.id,
-        _component: componentName,
+        _filename: componentName,
         _lines: lines,
         _bytes: bytes,
         _added: component.linesAdded > 0 && lines === 0,
@@ -122,7 +132,6 @@ const getWeightedChangeCount = (data, componentName, component) => {
         'changes-others:date+size-weighted': result['changes:date+size-weighted'] - result['changes-fixes:date+size-weighted'],
     });
 };
-
 
 
 const addComponentListSortedByChangeCount = (data) => {

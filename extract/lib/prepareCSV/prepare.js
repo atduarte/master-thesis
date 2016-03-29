@@ -9,12 +9,6 @@ const _ = require('lodash');
 
 const logPrefix = 'prepareCSV/prepare';
 
-//function getLabelFromFilename(path) {
-//    const pathArray = path.split('/');
-//
-//    return pathArray[pathArray.length - 1];
-//};
-
 function getJsonFilesList(projectName) {
     const files = [];
 
@@ -35,7 +29,7 @@ function getColumns(jsonFilenames) {
     .then(() => columns.sort());
 }
 
-module.exports = (projectName) => {
+module.exports = (projectConfig, projectName) => {
     let i = 0;
 
     log.info(logPrefix, 'Setting up');
@@ -64,8 +58,10 @@ module.exports = (projectName) => {
                 .tap(() => {
                     i += 1;
                     if (i % 10 === 0) log.info(logPrefix, `Wrote ${i} rows`);
-                });
-        }, {concurrency: 10});
+                })
+                .delay(10)
+                .return(null);
+        }, {concurrency: 5});
     })
 
     .tap(() => log.info(logPrefix, 'Preparation finished'));

@@ -9,7 +9,7 @@ const getStartDate = require('../extract/startDate');
 
 const logPrefix = 'extract/extract';
 
-module.exports = (projectName, repoPath) => {
+module.exports = (projectConfig, projectName, repoPath) => {
     let startDate = 0;
 
     log.info(logPrefix, 'Setting up');
@@ -25,7 +25,10 @@ module.exports = (projectName, repoPath) => {
     .tap(commit => log.verbose(logPrefix, `Base Commit: ${commit.id()}`))
 
     // Identify fixes
-    .then(masterCommit => identifyFixes(masterCommit).then(fixes => [masterCommit].concat(fixes)))
+    .then(masterCommit => {
+        return identifyFixes(projectConfig.fixRegex, masterCommit)
+        .then(fixes => [masterCommit].concat(fixes)); // Also analyze current commit
+    })
     .tap(commits => log.info(logPrefix, `${commits.length - 1} fix commits found`))
 
     // Ignore the ones already completed
@@ -34,10 +37,11 @@ module.exports = (projectName, repoPath) => {
 
     // Now do the thing!
     .each((commit) => {
-        return extract(commit)
+        return extract(projectConfig, commit)
         .then(info => { delete info.commit; return info; })
         .then(info => Object.assign(info, {startDate}))
-        .tap(info => document.raw.save(projectName, commit, info));
+        .then(info => document.raw.save(projectName, commit, info))
+        .return().delay(10000);
     }, {concurrency: 1})
 
     .tap(() => log.info(logPrefix, 'Extraction concluded'))

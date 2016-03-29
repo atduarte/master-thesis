@@ -1,8 +1,6 @@
 'use strict';
 
-const regex = new RegExp('(\b|)fix(|\b|ed|ing)|bug( | \#|\-|)[0-9]+', 'i');
-
-module.exports = (commit) => {
+module.exports = (regex, commit) => {
     // Merge is not a fix
     if (commit.parentcount() > 1) return false;
 

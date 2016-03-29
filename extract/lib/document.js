@@ -3,7 +3,6 @@ const fs = Promise.promisifyAll(require('fs'));
 const mkdirp = require('mkdirp');
 const iterateFiles = Promise.promisify(require('iterate-files'));
 
-
 // TODO: config
 const getBaseFolderPath = (projectName) => `./out/${projectName}/`;
 
@@ -33,7 +32,7 @@ module.exports.results = {
         return fs.statAsync(getResultsPath(projectName, label)).catchReturn(false).return(true);
     },
     save: (projectName, label, info) => {
-        return fs.writeFileAsync(getResultsPath(projectName, label), JSON.stringify(info, null, 2));
+        return fs.writeFileAsync(getResultsPath(projectName, label), info);
     },
     iterate: (projectName, callback) => iterateFiles(getResultsFolderPath(projectName), callback),
 };
