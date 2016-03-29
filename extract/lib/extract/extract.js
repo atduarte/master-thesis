@@ -40,8 +40,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
         return extract(projectConfig, commit)
         .then(info => { delete info.commit; return info; })
         .then(info => Object.assign(info, {startDate}))
-        .then(info => document.raw.save(projectName, commit, info))
-        .return().delay(10000);
+        .then(info => document.raw.save(projectName, commit, info));
     }, {concurrency: 1})
 
     .tap(() => log.info(logPrefix, 'Extraction concluded'))
