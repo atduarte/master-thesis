@@ -1,6 +1,6 @@
 'use strict';
 const extract = require('../extract/extract');
-const projectConfig = require('../util/getProjectConfig');
+const getProjectConfig = require('../util/getProjectConfig');
 const log = require('npmlog-ts');
 
 module.exports.builder = (yargs) => {
@@ -15,6 +15,7 @@ module.exports.handler = (argv) => {
 
     const projectName = argv._[1];
     const repoPath = argv._[2];
+    const projectConfig = getProjectConfig(projectName, argv.projectConfig);
 
-    extract(projectConfig(argv.projectConfig), projectName, repoPath);
+    extract(projectConfig, projectName, repoPath);
 };

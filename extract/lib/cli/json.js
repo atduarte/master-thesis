@@ -1,6 +1,6 @@
 'use strict';
 const prepareJSON = require('../prepareJson/prepare');
-const projectConfig = require('../util/getProjectConfig');
+const getProjectConfig = require('../util/getProjectConfig');
 const log = require('npmlog-ts');
 
 module.exports.builder = (yargs) => {
@@ -14,6 +14,7 @@ module.exports.handler = (argv) => {
     log.level = argv.logLevel;
 
     const projectName = argv._[1];
+    const projectConfig = getProjectConfig(projectName, argv.projectConfig);
 
-    prepareJSON(projectConfig(argv.projectConfig), projectName);
+    prepareJSON(projectConfig, projectName);
 };

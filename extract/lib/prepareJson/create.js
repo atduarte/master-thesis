@@ -9,7 +9,7 @@ const twr = (start, end, eventDate) => {
     return 1 / (1 + Math.exp(2 + (-12 * t) + (1 - tr) * 10));
 };
 
-const getBaseInfo = (data, componentName, component) => {
+const getBaseInfo = (projectConfig, data, componentName, component) => {
     const isMostChanged = (percentage) => {
         return [].concat(data.changedComponents)
             .splice(0, Math.ceil(data.changedComponents.length * percentage) + 2)
@@ -44,32 +44,33 @@ const getBaseInfo = (data, componentName, component) => {
     };
 };
 
-const getAuthorsCount = (data, componentName, component) => {
+const getAuthorsCount = (projectConfig, data, componentName, component) => {
     const authors = [];
 
     component.changes.forEach(change => {
         if (!authors.some(_ => _ == change.author)) {
-            authors.push(change.author);
+            authors.push(projectConfig.emailNormalizer(change.author));
         }
     });
 
     return {authors: authors.length};
 };
 
-const getAuthorChangeCount = (data, componentName, component) => {
+const getAuthorChangeCount = (projectConfig, data, componentName, component) => {
     return component.changes.reduce((previous, current) => {
-        const label = `authorChanges::${current.author}`;
+        const label = `authorChanges::${projectConfig.emailNormalizer(current.author)}`;
 
         previous[label] = previous[label] + 1 || 1;
         return previous;
     }, {});
 };
 
-const getAuthorWeightedChangeCount = (data, componentName, component) => {
+const getAuthorWeightedChangeCount = (projectConfig, data, componentName, component) => {
     return component.changes.reduce((result, current) => {
-        const dateLabel = `authorChanges:date-weighted::${current.author}`;
-        const sizeLabel = `authorChanges:size-weighted::${current.author}`;
-        const dateSizeLabel = `authorChanges:date+size-weighted::${current.author}`;
+        const email = projectConfig.emailNormalizer(current.author);
+        const dateLabel = `authorChanges:date-weighted::${email}`;
+        const sizeLabel = `authorChanges:size-weighted::${email}`;
+        const dateSizeLabel = `authorChanges:date+size-weighted::${email}`;
         const dateWeight = twr(data.startDate, data.date, current.date);
         const sizeWeight = (current.linesAdded + current.linesRemoved);
 
@@ -80,7 +81,7 @@ const getAuthorWeightedChangeCount = (data, componentName, component) => {
     }, {});
 };
 
-const getChangeCount = (data, componentName, component) => {
+const getChangeCount = (projectConfig, data, componentName, component) => {
     const result = {
         changes: component.changes.length,
         'changes-fixes': component.changes.filter(change => change.isFix).length,
@@ -91,7 +92,7 @@ const getChangeCount = (data, componentName, component) => {
     });
 };
 
-const getWeightedChangeCount = (data, componentName, component) => {
+const getWeightedChangeCount = (projectConfig, data, componentName, component) => {
     const result = {
         'changes:date-weighted': parseFloat(component.changes
         .reduce((previous, current) => {
@@ -134,7 +135,7 @@ const getWeightedChangeCount = (data, componentName, component) => {
 };
 
 
-const addComponentListSortedByChangeCount = (data) => {
+const addComponentListSortedByChangeCount = (projectConfig, data) => {
     return {
         changedComponents: Object.keys(data.components)
             .filter(_ => data.components[_].lines !== 0)
@@ -159,9 +160,40 @@ const attributors = [
     getAuthorWeightedChangeCount,
 ];
 
-module.exports = (data) => {
-    data = Object.assign.apply(null, [data].concat(preSteps.map(_ => _(data))));
-    return Object.keys(data.components).map(key => {
-        return Object.assign.apply(null, attributors.map(_ => _(data, key, data.components[key])));
+const postStep = (projectConfig, data, result) => {
+    const aggregation = {};
+
+    // Aggregate
+    result.forEach(row => {
+        Object.keys(row).forEach(key => {
+            if (!key.startsWith('author') && !key.startsWith('change')) return;
+
+            aggregation[key] = aggregation[key] || {max: 0, min: Math.pow(10, 9)};
+
+            if (row[key] !== undefined) {
+                aggregation[key].min = Math.min(row[key], aggregation[key].min);
+                aggregation[key].max = Math.max(row[key], aggregation[key].max);
+            }
+        });
+
     });
+
+    // Normalize
+    return result.map(row => {
+        Object.keys(aggregation).forEach(key => {
+            if (row[key] === undefined) return;
+            row[`${key}:normalized`] = (row[key] - aggregation[key].min) / aggregation[key].max;
+        });
+
+        return row;
+    });
+};
+
+module.exports = (projectConfig, data) => {
+    data = Object.assign.apply(null, [data].concat(preSteps.map(_ => _(projectConfig, data))));
+    const result = Object.keys(data.components).map(key => {
+        return Object.assign.apply(null, attributors.map(_ => _(projectConfig, data, key, data.components[key])));
+    });
+
+    return postStep(projectConfig, data, result);
 };

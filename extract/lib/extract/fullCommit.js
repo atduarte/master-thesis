@@ -14,24 +14,17 @@ module.exports = (projectConfig, commit) => {
     walker.push(commit.id());
     walker.sorting(Git.Revwalk.SORT.TOPOLOGICAL | Git.Revwalk.SORT.TIME);
 
-    return Promise.props({
-        info: extractBaseInfo(commit),
-        parents: walker.getCommits(Math.pow(10, 9)),
-    })
-    .then(data => {
-        const info = data.info;
-
-        log.verbose(logPrefix, `Will extract infos about ${Object.keys(info.components).length} components`);
-
+    return extractBaseInfo(projectConfig, commit)
+    .then(info => {
         // Filter
         return Promise.resolve(Object.keys(info.components))
-        .filter(projectConfig.fileFilter)
+        .tap(files => log.info(logPrefix, `Will extract infos about ${files.length} components`)).delay(1000)
 
         // Extract each
         .each(componentPath => {
-            return extractFileChanges(projectConfig, commit, data.parents, componentPath)
+            return extractFileChanges(projectConfig, commit, componentPath)
             .tap(changes => { info.components[componentPath].changes = changes; });
-        }, {concurrency: 4})
+        }, {concurrency: 20})
 
         .then(() => info);
     })

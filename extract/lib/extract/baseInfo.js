@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 
 const logPrefix = 'extract/baseInfo';
 
-const listComponents = (info) => {
+const listComponents = (projectConfig, info) => {
     return Promise.resolve(info.commit.getTree())
     .then(tree => {
         const fileWalker = tree.walk();
@@ -13,7 +13,7 @@ const listComponents = (info) => {
         fileWalker.on('error', log.error.bind(null, logPrefix));
 
         fileWalker.on('entry', entry => {
-            if (!entry.isFile()) return;
+            if (!entry.isFile() || !projectConfig.fileFilter(entry.path())) return;
 
             const waitable = Promise.resolve(entry.getBlob())
                 .then(blob => {
@@ -31,7 +31,7 @@ const listComponents = (info) => {
     });
 };
 
-const analyzeDiff = (info) => {
+const analyzeDiff = (projectConfig, info) => {
     Object.keys(info.components).forEach(key => {
         Object.assign(info.components[key], {linesAdded: 0, linesRemoved: 0});
     });
@@ -43,7 +43,12 @@ const analyzeDiff = (info) => {
             if (patch.lineStats().total_additions + patch.lineStats().total_deletions === 0) return;
 
             if (!info.components.hasOwnProperty(patch.newFile().path())) {
-                info.components[patch.newFile().path()] = {linesAdded: 0, linesRemoved: 0};
+                if (projectConfig.fileFilter(patch.newFile().path())) {
+                    log.error(logPrefix, `Missed component "${patch.newFile().path()}" on commit ${info.commit.id().toString()}`);
+                    info.components[patch.newFile().path()] = {linesAdded: 0, linesRemoved: 0};
+                } else {
+                    return;
+                }
             }
 
             Object.assign(info.components[patch.newFile().path()], {
@@ -55,7 +60,7 @@ const analyzeDiff = (info) => {
     .then(() => info);
 };
 
-module.exports = commit => {
+module.exports = (projectConfig, commit) => {
     return Promise.resolve({
         commit,
         id: commit.id().toString(),
@@ -64,6 +69,6 @@ module.exports = commit => {
         author: commit.author().email(),
         components: {},
     })
-    .then(listComponents)
-    .then(analyzeDiff);
+    .then(baseInfo => listComponents(projectConfig, baseInfo))
+    .then(baseInfo => analyzeDiff(projectConfig, baseInfo));
 };

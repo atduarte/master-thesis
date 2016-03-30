@@ -36,8 +36,9 @@ module.exports = (projectConfig, projectName) => {
     .each(filename => {
         return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
         .then(JSON.parse)
-        .filter(jsonRow => jsonRow._added === '0')
-        .then(createJson)
+        .then(rawJson => createJson(projectConfig, rawJson))
+        .filter(jsonRow => jsonRow._added === false)
+        .filter(jsonRow => projectConfig.fileFilter(jsonRow._filename)) // Just to be sure
         .then(info => JSON.stringify(info, null, 2))
         .then(info => document.results.save(projectName, getLabelFromFilename(filename), info))
         .tap(() => {

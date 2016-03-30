@@ -15,13 +15,17 @@ function statProcess() {
     const pid = process.pid;
 
     setInterval(() => {
-        const memoryUsage = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
-        const memoryTotal = (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2);
+        //const memoryUsage = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+        //const memoryTotal = (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2);
         const memoryRss = (process.memoryUsage().rss / 1024 / 1024).toFixed(2);
-        const uptime = humanizeDuration(Math.round(process.uptime()) * 1000, { largest: 1 });
+        //const uptime = humanizeDuration(Math.round(process.uptime()) * 1000, { largest: 1 });
 
-        log.info('process', `pid: ${pid}; memory: ${memoryUsage} / ${memoryTotal} / ${memoryRss} MB; uptime: ${uptime}`);
-    }, 5000)
+        if (memoryRss > 4500) {
+            process.exit();
+        }
+
+        //log.info('process', `pid: ${pid}; memory: ${memoryUsage} / ${memoryTotal} / ${memoryRss} MB; uptime: ${uptime}`);
+    }, 4000)
     .unref();
 }
 
