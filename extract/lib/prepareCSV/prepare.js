@@ -9,17 +9,21 @@ const _ = require('lodash');
 
 const logPrefix = 'prepareCSV/prepare';
 
+function createStream(projectName, name) {
+    return Promise.promisifyAll(fs.createWriteStream(`out/${projectName}/${name}.csv`, {defaultEncoding: 'utf8'}));
+}
+
 function getJsonFilesList(projectName) {
     const files = [];
 
     return document.results.iterate(projectName, filename => files.push(filename))
-        .then(() => files);
+    .then(() => files);
 }
 
 function getColumns(jsonFilenames) {
     let columns = [];
 
-    return Promise.each(jsonFilenames.splice(0, 5), (filename) => {
+    return Promise.each(jsonFilenames, (filename) => {
         return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
         .then(JSON.parse)
         .each(data => {
@@ -29,40 +33,52 @@ function getColumns(jsonFilenames) {
     .then(() => columns.sort());
 }
 
-module.exports = (projectConfig, projectName) => {
+module.exports = (projectConfig, projectName, analyzeCount) => {
     let i = 0;
 
     log.info(logPrefix, 'Setting up');
     document.setup(projectName);
 
-    const csv = Promise.promisifyAll(fs.createWriteStream(`out/${projectName}/result.csv`, {defaultEncoding: 'utf8'}));
+    // Create CSVs
+    const csv = {};
+    ['history'].concat(_.range(0, analyzeCount)).forEach(name => {
+        csv[name] = createStream(projectName, name);
+    });
 
     return getJsonFilesList(projectName)
 
     .then(files => Promise.props({
-        files,
+        files: files.sort((a, b) => {
+            const getLabel = (x) => Number(_.last(x.split('/')).split(':')[0]);
+
+            return getLabel(a) - getLabel(b);
+        }),
         columns: getColumns(files),
     }))
     .tap(data => log.info(logPrefix, `Got ${data.columns.length} columns`))
 
     // Write Columns
-    .tap(data => csv.writeAsync(`${data.columns.join(',')}\n`))
+    .tap(data => Object.keys(csv).forEach(name => {
+        csv[name].writeAsync(`${data.columns.join(',')}\n`)
+    }))
 
-    .then(data => {
-        return Promise.each(data.files, filename => {
-            return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
-                .then(JSON.parse)
-                .map(jsonRow => createCSV(data.columns, jsonRow))
-                .then(rows => rows.concat('').join('\n'))
-                .tap(rows => csv.writeAsync(rows))
-                .tap(() => {
-                    i += 1;
-                    if (i % 10 === 0) log.info(logPrefix, `Wrote ${i} rows`);
-                })
-                .delay(10)
-                .return(null);
-        }, {concurrency: 5});
-    })
+    .tap(data => log.info(logPrefix, `Got ${data.files.length} files`))
+    .then(data => Promise.each(data.files, (filename, i) => {
+        return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
+            .then(JSON.parse)
+            .map(jsonRow => createCSV(data.columns, jsonRow))
+            .then(rows => rows.concat('').join('\n'))
+            .tap(rows => {
+                if (csv[i]) return csv[i].writeAsync(rows);
+
+                csv['history'].writeAsync(rows);
+            })
+            .tap(() => {
+                i += 1;
+                if (i % 10 === 0) log.info(logPrefix, `Wrote ${i} rows`);
+            })
+            .return(null);
+    }, {concurrency: 3}))
 
     .tap(() => log.info(logPrefix, 'Preparation finished'));
 };

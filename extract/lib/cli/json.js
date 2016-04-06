@@ -16,5 +16,6 @@ module.exports.handler = (argv) => {
     const projectName = argv._[1];
     const projectConfig = getProjectConfig(projectName, argv.projectConfig);
 
-    prepareJSON(projectConfig, projectName);
+    return prepareJSON(projectConfig, projectName)
+    .then(() => process.exit(0));
 };

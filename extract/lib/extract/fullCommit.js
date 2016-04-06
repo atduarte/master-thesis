@@ -18,7 +18,7 @@ module.exports = (projectConfig, commit) => {
     .then(info => {
         // Filter
         return Promise.resolve(Object.keys(info.components))
-        .tap(files => log.info(logPrefix, `Will extract infos about ${files.length} components`)).delay(1000)
+        .tap(files => log.info(logPrefix, `Will extract infos about ${files.length} components`))
 
         // Extract each
         .each(componentPath => {
@@ -27,6 +27,5 @@ module.exports = (projectConfig, commit) => {
         }, {concurrency: 20})
 
         .then(() => info);
-    })
-    .tap(() => log.info(logPrefix, `Finished ${commit.id()}`));
+    });
 };

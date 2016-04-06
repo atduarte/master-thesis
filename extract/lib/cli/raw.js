@@ -17,5 +17,6 @@ module.exports.handler = (argv) => {
     const repoPath = argv._[2];
     const projectConfig = getProjectConfig(projectName, argv.projectConfig);
 
-    extract(projectConfig, projectName, repoPath);
+    return extract(projectConfig, projectName, repoPath)
+    .then(() => process.exit(0));
 };

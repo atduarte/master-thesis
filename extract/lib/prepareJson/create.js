@@ -30,9 +30,9 @@ const getBaseInfo = (projectConfig, data, componentName, component) => {
 
     return {
         __changed: (component.linesAdded + component.linesRemoved) > 0 && lines > 0,
-        __date: data.date,
-        __type: getExt(componentName),
-        _commitId: data.id,
+        //__date: data.date,
+        //__type: getExt(componentName),
+        //_commitId: data.id,
         _filename: componentName,
         _lines: lines,
         _bytes: bytes,
@@ -155,9 +155,9 @@ const attributors = [
     getBaseInfo,
     getChangeCount,
     getWeightedChangeCount,
-    getAuthorsCount,
-    getAuthorChangeCount,
-    getAuthorWeightedChangeCount,
+    //getAuthorsCount,
+    //getAuthorChangeCount,
+    //getAuthorWeightedChangeCount,
 ];
 
 const postStep = (projectConfig, data, result) => {
@@ -182,7 +182,9 @@ const postStep = (projectConfig, data, result) => {
     return result.map(row => {
         Object.keys(aggregation).forEach(key => {
             if (row[key] === undefined) return;
-            row[`${key}:normalized`] = (row[key] - aggregation[key].min) / aggregation[key].max;
+            row[`${key}:raw`] = row[key] || 0;
+            row[`${key}:normalized`] = (row[key] - aggregation[key].min) / aggregation[key].max || 0;
+            delete row[key];
         });
 
         return row;

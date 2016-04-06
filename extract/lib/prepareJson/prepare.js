@@ -29,8 +29,6 @@ module.exports = (projectConfig, projectName) => {
 
     return getFilesList(projectName)
 
-    // Dont repeat the work
-    //.filter(filename => document.results.exists(projectName, getLabelFromFilename(filename)).then(_ => !_))
     .tap(files => log.info(logPrefix, `Will prepare ${files.length} files`))
 
     .each(filename => {
@@ -39,12 +37,13 @@ module.exports = (projectConfig, projectName) => {
         .then(rawJson => createJson(projectConfig, rawJson))
         .filter(jsonRow => jsonRow._added === false)
         .filter(jsonRow => projectConfig.fileFilter(jsonRow._filename)) // Just to be sure
+        .map(jsonRow => Object.assign(jsonRow, {_added: undefined, _filename: undefined}))
         .then(info => JSON.stringify(info, null, 2))
         .then(info => document.results.save(projectName, getLabelFromFilename(filename), info))
         .tap(() => {
             i += 1;
             if (i % 10 === 0) log.info(logPrefix, `Prepared ${i} files`);
         });
-    }, {concurrency: 10})
+    }, {concurrency: 15})
     .tap(() => log.info(logPrefix, 'Preparation finished'));
 };

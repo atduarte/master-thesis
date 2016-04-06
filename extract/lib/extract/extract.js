@@ -6,11 +6,13 @@ const cache = require('../extract/cache');
 const identifyFixes = require('../identifyFixes');
 const extract = require('../extract/fullCommit');
 const getStartDate = require('../extract/startDate');
+const _ = require('lodash');
 
 const logPrefix = 'extract/extract';
 
 module.exports = (projectConfig, projectName, repoPath) => {
     let startDate = 0;
+    let done = [];
 
     log.info(logPrefix, 'Setting up');
 
@@ -31,18 +33,21 @@ module.exports = (projectConfig, projectName, repoPath) => {
     })
     .tap(commits => log.info(logPrefix, `${commits.length - 1} fix commits found`))
 
-    // Ignore the ones already completed
-    .filter(commit => document.raw.exists(projectName, commit).then(_ => !_))
-    .tap(commits => log.info(logPrefix, `${commits.length} commits to analyze`))
+    // Get the ones already completed
+    .tap(() => {
+        return document.raw.getAll(projectName)
+        .then(_ => done = _);
+    })
 
     // Now do the thing!
-    .each((commit) => {
+    .each((commit, i) => {
+        if (done.indexOf(commit.id().toString()) !== -1) return;
+
         return extract(projectConfig, commit)
         .then(info => { delete info.commit; return info; })
         .then(info => Object.assign(info, {startDate}))
-        .then(info => document.raw.save(projectName, commit, info));
+        .then(info => document.raw.save(projectName, i, commit, info));
     }, {concurrency: 1})
 
-    .tap(() => log.info(logPrefix, 'Extraction concluded'))
-    .done();
+    .tap(() => log.info(logPrefix, 'Extraction concluded'));
 };

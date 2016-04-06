@@ -5,8 +5,8 @@ const log = require('npmlog-ts');
 
 module.exports.builder = (yargs) => {
     return yargs
-    .usage('Prepare CSV from JSON data.\n\nUsage: ./$0 csv <name>')
-    .demand(2, 2);
+    .usage('Prepare CSV from JSON data.\n\nUsage: ./$0 csv <name> <analyze-count>')
+    .demand(2, 3);
 };
 
 module.exports.handler = (argv) => {
@@ -15,6 +15,8 @@ module.exports.handler = (argv) => {
 
     const projectName = argv._[1];
     const projectConfig = getProjectConfig(projectName, argv.projectConfig);
+    const analyzeCount = argv._[2] || 10;
 
-    prepareCSV(projectConfig, projectName);
+    return prepareCSV(projectConfig, projectName, analyzeCount)
+    .then(() => process.exit(0));
 };
