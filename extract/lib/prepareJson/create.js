@@ -33,7 +33,7 @@ const getBaseInfo = (projectConfig, data, componentName, component) => {
         //__date: data.date,
         //__type: getExt(componentName),
         //_commitId: data.id,
-        _filename: componentName,
+        __filename: componentName,
         _lines: lines,
         _bytes: bytes,
         _added: component.linesAdded > 0 && lines === 0,

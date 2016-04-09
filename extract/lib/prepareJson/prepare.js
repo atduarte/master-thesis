@@ -14,20 +14,13 @@ function getLabelFromFilename(path) {
     return pathArray[pathArray.length - 1];
 }
 
-function getFilesList(projectName) {
-    const files = [];
-
-    return document.raw.iterate(projectName, filename => files.push(filename))
-    .then(() => files);
-}
-
 module.exports = (projectConfig, projectName) => {
     let i = 0;
 
     log.info(logPrefix, 'Setting up');
     document.setup(projectName);
 
-    return getFilesList(projectName)
+    return document.raw.getAll(projectName).map(file => document.raw.path(projectName) + file)
 
     .tap(files => log.info(logPrefix, `Will prepare ${files.length} files`))
 
@@ -36,8 +29,8 @@ module.exports = (projectConfig, projectName) => {
         .then(JSON.parse)
         .then(rawJson => createJson(projectConfig, rawJson))
         .filter(jsonRow => jsonRow._added === false)
-        .filter(jsonRow => projectConfig.fileFilter(jsonRow._filename)) // Just to be sure
-        .map(jsonRow => Object.assign(jsonRow, {_added: undefined, _filename: undefined}))
+        .filter(jsonRow => projectConfig.fileFilter(jsonRow.__filename)) // Just to be sure
+        .map(jsonRow => Object.assign(jsonRow, {_added: undefined}))
         .then(info => JSON.stringify(info, null, 2))
         .then(info => document.results.save(projectName, getLabelFromFilename(filename), info))
         .tap(() => {

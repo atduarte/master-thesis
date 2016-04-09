@@ -23,8 +23,8 @@ module.exports = (projectConfig, projectName, repoPath) => {
     // Get repo and commit
     .then(() => Git.Repository.open(repoPath))
     .tap(repo => getStartDate(repo).then(date => startDate = date))
-    .call('getMasterCommit')
-    .tap(commit => log.verbose(logPrefix, `Base Commit: ${commit.id()}`))
+    .call('getHeadCommit')
+    .tap(commit => log.info(logPrefix, `Head Commit: ${commit.id()}`))
 
     // Identify fixes
     .then(masterCommit => {
@@ -34,10 +34,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
     .tap(commits => log.info(logPrefix, `${commits.length - 1} fix commits found`))
 
     // Get the ones already completed
-    .tap(() => {
-        return document.raw.getAll(projectName)
-        .then(_ => done = _);
-    })
+    .tap(() => document.raw.getAll(projectName).then(_ => done = _))
 
     // Now do the thing!
     .each((commit, i) => {
@@ -46,7 +43,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
         return extract(projectConfig, commit)
         .then(info => { delete info.commit; return info; })
         .then(info => Object.assign(info, {startDate}))
-        .then(info => document.raw.save(projectName, i, commit, info));
+        .then(info => document.raw.save(projectName, commit, info));
     }, {concurrency: 1})
 
     .tap(() => log.info(logPrefix, 'Extraction concluded'));

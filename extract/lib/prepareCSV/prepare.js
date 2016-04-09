@@ -3,6 +3,7 @@
 const fs = Promise.promisifyAll(require('fs'));
 const log = require('npmlog-ts');
 const path = require('path');
+const Git = require('nodegit');
 const document = require('../document');
 const createCSV = require('./create');
 const _ = require('lodash');
@@ -11,13 +12,6 @@ const logPrefix = 'prepareCSV/prepare';
 
 function createStream(projectName, name) {
     return Promise.promisifyAll(fs.createWriteStream(`out/${projectName}/${name}.csv`, {defaultEncoding: 'utf8'}));
-}
-
-function getJsonFilesList(projectName) {
-    const files = [];
-
-    return document.results.iterate(projectName, filename => files.push(filename))
-    .then(() => files);
 }
 
 function getColumns(jsonFilenames) {
@@ -33,26 +27,48 @@ function getColumns(jsonFilenames) {
     .then(() => columns.sort());
 }
 
-module.exports = (projectConfig, projectName, analyzeCount) => {
-    let i = 0;
-
+module.exports = (projectConfig, projectName, repoPath) => {
     log.info(logPrefix, 'Setting up');
     document.setup(projectName);
 
     // Create CSVs
-    const csv = {};
-    ['history'].concat(_.range(0, analyzeCount)).forEach(name => {
-        csv[name] = createStream(projectName, name);
-    });
+    const csv = {
+        master: createStream(projectName, 'master'),
+        history: createStream(projectName, 'history'),
+    };
 
-    return getJsonFilesList(projectName)
+    return Promise.resolve(Git.Repository.open(repoPath))
+    .call('getHeadCommit')
+    .tap(commit => log.info(logPrefix, `Head Commit: ${commit.id()}`))
+
+    // Get the files
+
+    .then(masterCommit => {
+        let oids = [];
+        const walker = Git.Revwalk.create(masterCommit.owner());
+        const walk = () => {
+            return walker.next()
+            .then(oid => oid.toString())
+            .then(oid => Promise.props({
+                oid,
+                exists: document.results.exists(projectName, oid),
+            }))
+            .then(data => { if (data.exists) oids.push(data.oid); })
+            .then(walk)
+            .catch(error => { if (error.errno !== Git.Error.CODE.ITEROVER) throw error; });
+        };
+
+        walker.push(masterCommit);
+
+        return walk().then(() => oids);
+    })
+    .map(oid => document.results.path(projectName) + oid)
+    .tap(files => log.info(logPrefix, `Got ${files.length} files`))
+
+    // Get the columns
 
     .then(files => Promise.props({
-        files: files.sort((a, b) => {
-            const getLabel = (x) => Number(_.last(x.split('/')).split(':')[0]);
-
-            return getLabel(a) - getLabel(b);
-        }),
+        files: files,
         columns: getColumns(files),
     }))
     .tap(data => log.info(logPrefix, `Got ${data.columns.length} columns`))
@@ -62,23 +78,21 @@ module.exports = (projectConfig, projectName, analyzeCount) => {
         csv[name].writeAsync(`${data.columns.join(',')}\n`)
     }))
 
-    .tap(data => log.info(logPrefix, `Got ${data.files.length} files`))
+    // Write Rows
+
     .then(data => Promise.each(data.files, (filename, i) => {
         return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
-            .then(JSON.parse)
-            .map(jsonRow => createCSV(data.columns, jsonRow))
-            .then(rows => rows.concat('').join('\n'))
-            .tap(rows => {
-                if (csv[i]) return csv[i].writeAsync(rows);
 
-                csv['history'].writeAsync(rows);
-            })
-            .tap(() => {
-                i += 1;
-                if (i % 10 === 0) log.info(logPrefix, `Wrote ${i} rows`);
-            })
-            .return(null);
-    }, {concurrency: 3}))
+        .then(JSON.parse)
+        .map(jsonRow => createCSV(data.columns, jsonRow))
+        .then(rows => rows.concat('').join('\n'))
+
+        .tap(rows => (i === 0 ? csv.master : csv.history).writeAsync(rows))
+
+        .tap(() => {
+            if (i % 10 === 0) log.info(logPrefix, `Wrote ${i} rows`);
+        });
+    }, { concurrency: 3 }))
 
     .tap(() => log.info(logPrefix, 'Preparation finished'));
 };

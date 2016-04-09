@@ -5,7 +5,7 @@ const walk = require('walk');
 const iterateFiles = Promise.promisify(require('iterate-files'));
 const _ = require('lodash');
 
-// TODO: config
+const getLabel = (commit) => (!commit.id ? commit : commit.id()).toString();
 const getBaseFolderPath = (projectName) => `./out/${projectName}/`;
 
 const getRawFolderPath = (projectName) => getBaseFolderPath(projectName) + 'raw/';
@@ -20,28 +20,35 @@ module.exports.setup = (projectName) => {
 };
 
 module.exports.raw = {
+    path: getRawFolderPath,
+    save: (projectName, commit, info) => {
+        return fs.writeFileAsync(getRawPath(projectName, getLabel(commit)), JSON.stringify(info, null, 4));
+    },
     getAll: (projectName) => new Promise(resolve => {
         const files = [];
         const walker = walk.walk(getRawFolderPath(projectName));
 
         walker.on('file', (root, stat, next) => {
-            const name = _.last(stat.name.split(':'));
-            files.push(name);
+            files.push(stat.name);
             next();
         });
 
         walker.on('end', () => resolve(files));
     }),
-    save: (projectName, id, commit, info) => {
-        const label = id + ':' + commit.id().toString();
-        return fs.writeFileAsync(getRawPath(projectName, label), JSON.stringify(info, null, 4));
-    },
-    iterate: (projectName, callback) => iterateFiles(getRawFolderPath(projectName), callback),
 };
 
 module.exports.results = {
-    save: (projectName, label, info) => {
-        return fs.writeFileAsync(getResultsPath(projectName, label), info);
+    path: getResultsFolderPath,
+    save: (projectName, commit, info) => {
+        return fs.writeFileAsync(getResultsPath(projectName, getLabel(commit)), info);
     },
-    iterate: (projectName, callback) => iterateFiles(getResultsFolderPath(projectName), callback),
+    exists: (projectName, commit) => {
+        return fs.statAsync(getResultsPath(projectName, getLabel(commit))).return(true).catchReturn(false);
+    },
+    get: (projectName, commit) => {
+        return fs.readFileAsync(getResultsPath(projectName, getLabel(commit)), 'utf-8')
+        .catchReturn(null);
+    },
 };
+
+
