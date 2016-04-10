@@ -1,7 +1,7 @@
 'use strict';
 const extract = require('../extract/extract');
 const prepareJSON = require('../prepareJson/prepare');
-const prepareCSV = require('../prepareCSV/prepare');
+const prepareResults = require('../results/prepare');
 const log = require('npmlog-ts');
 const getProjectConfig = require('../util/getProjectConfig');
 
@@ -22,7 +22,7 @@ module.exports.handler = (argv) => {
 
     return extract(projectConfig, projectName, repoPath)
     .then(() => prepareJSON(projectConfig, projectName))
-    .then(() => prepareCSV(projectConfig, projectName, analyzeCount))
+    .then(() => prepareResults(projectConfig, projectName, analyzeCount))
     .then(() => process.exit(0));
 };
 

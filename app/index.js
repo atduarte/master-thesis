@@ -38,7 +38,7 @@ yargs
 
 .command('raw', 'Extract raw data from Git Repo.', require('./lib/cli/raw'))
 .command('json', 'Prepare JSON from raw data.', require('./lib/cli/json'))
-.command('csv', 'Prepare CSV from JSON data.', require('./lib/cli/csv'))
+.command('results', 'Prepare results from JSON data.', require('./lib/cli/results'))
 .command('all', 'Extract and prepare', require('./lib/cli/all'))
 
 .argv;
