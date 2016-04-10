@@ -15,16 +15,19 @@ function getLabelFromFilename(path) {
 }
 
 module.exports = (projectConfig, projectName) => {
-    let i = 0;
-
-    log.info(logPrefix, 'Setting up');
+    log.info(logPrefix, 'JSON Preparation started');
     document.setup(projectName);
 
-    return document.raw.getAll(projectName).map(file => document.raw.path(projectName) + file)
+    return document.raw.getAll(projectName)
+
+    // DRY
+    .filter(filename => document.json.exists(projectName, filename).then(_ => !_))
 
     .tap(files => log.info(logPrefix, `Will prepare ${files.length} files`))
 
-    .each(filename => {
+    .each((filename , i) => {
+        filename = document.raw.path(projectName) + filename;
+
         return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
         .then(JSON.parse)
         .then(rawJson => createJson(projectConfig, rawJson))
@@ -32,11 +35,10 @@ module.exports = (projectConfig, projectName) => {
         .filter(jsonRow => projectConfig.fileFilter(jsonRow.__filename)) // Just to be sure
         .map(jsonRow => Object.assign(jsonRow, {_added: undefined}))
         .then(info => JSON.stringify(info, null, 2))
-        .then(info => document.results.save(projectName, getLabelFromFilename(filename), info))
+        .then(info => document.json.save(projectName, getLabelFromFilename(filename), info))
         .tap(() => {
-            i += 1;
             if (i % 10 === 0) log.info(logPrefix, `Prepared ${i} files`);
         });
     }, {concurrency: 15})
-    .tap(() => log.info(logPrefix, 'Preparation finished'));
+    .tap(() => log.info(logPrefix, 'JSON Preparation finished'));
 };

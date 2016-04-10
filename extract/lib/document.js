@@ -2,7 +2,6 @@
 const fs = Promise.promisifyAll(require('fs'));
 const mkdirp = require('mkdirp');
 const walk = require('walk');
-const iterateFiles = Promise.promisify(require('iterate-files'));
 const _ = require('lodash');
 
 const getLabel = (commit) => (!commit.id ? commit : commit.id()).toString();
@@ -11,12 +10,16 @@ const getBaseFolderPath = (projectName) => `./out/${projectName}/`;
 const getRawFolderPath = (projectName) => getBaseFolderPath(projectName) + 'raw/';
 const getRawPath = (projectName, label) => getRawFolderPath(projectName) + label;
 
-const getResultsFolderPath = (projectName) => getBaseFolderPath(projectName) + 'json/';
-const getResultsPath = (projectName, label) => getResultsFolderPath(projectName) + label;
+const getJsonFolderPath = (projectName) => getBaseFolderPath(projectName) + 'json/';
+const getJsonPath = (projectName, label) => getJsonFolderPath(projectName) + label;
 
-module.exports.setup = (projectName) => {
+module.exports.setup = (projectName, commit) => {
     mkdirp.sync(getRawFolderPath(projectName));
-    mkdirp.sync(getResultsFolderPath(projectName));
+    mkdirp.sync(getJsonFolderPath(projectName));
+
+    if (commit) {
+        mkdirp.sync(getBaseFolderPath(projectName) + 'results/' + getLabel(commit) + '/');
+    }
 };
 
 module.exports.raw = {
@@ -37,16 +40,16 @@ module.exports.raw = {
     }),
 };
 
-module.exports.results = {
-    path: getResultsFolderPath,
+module.exports.json = {
+    path: getJsonFolderPath,
     save: (projectName, commit, info) => {
-        return fs.writeFileAsync(getResultsPath(projectName, getLabel(commit)), info);
+        return fs.writeFileAsync(getJsonPath(projectName, getLabel(commit)), info);
     },
     exists: (projectName, commit) => {
-        return fs.statAsync(getResultsPath(projectName, getLabel(commit))).return(true).catchReturn(false);
+        return fs.statAsync(getJsonPath(projectName, getLabel(commit))).return(true).catchReturn(false);
     },
     get: (projectName, commit) => {
-        return fs.readFileAsync(getResultsPath(projectName, getLabel(commit)), 'utf-8')
+        return fs.readFileAsync(getJsonPath(projectName, getLabel(commit)), 'utf-8')
         .catchReturn(null);
     },
 };

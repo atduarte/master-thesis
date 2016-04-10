@@ -14,7 +14,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
     let startDate = 0;
     let done = [];
 
-    log.info(logPrefix, 'Setting up');
+    log.info(logPrefix, 'Raw Extraction started');
 
     // Setup
     return cache.setup(projectName)
@@ -46,5 +46,5 @@ module.exports = (projectConfig, projectName, repoPath) => {
         .then(info => document.raw.save(projectName, commit, info));
     }, {concurrency: 1})
 
-    .tap(() => log.info(logPrefix, 'Extraction concluded'));
+    .tap(() => log.info(logPrefix, 'Raw Extraction concluded'));
 };

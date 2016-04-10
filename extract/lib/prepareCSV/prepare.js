@@ -10,8 +10,10 @@ const _ = require('lodash');
 
 const logPrefix = 'prepareCSV/prepare';
 
-function createStream(projectName, name) {
-    return Promise.promisifyAll(fs.createWriteStream(`out/${projectName}/${name}.csv`, {defaultEncoding: 'utf8'}));
+function createStream(projectName, commit, name) {
+    const path = `out/${projectName}/results/${commit.id().toString()}/${name}.csv`;
+
+    return Promise.promisifyAll(fs.createWriteStream(path, { defaultEncoding: 'utf8' }));
 }
 
 function getColumns(jsonFilenames) {
@@ -28,18 +30,22 @@ function getColumns(jsonFilenames) {
 }
 
 module.exports = (projectConfig, projectName, repoPath) => {
-    log.info(logPrefix, 'Setting up');
-    document.setup(projectName);
+    const csv = {};
 
-    // Create CSVs
-    const csv = {
-        master: createStream(projectName, 'master'),
-        history: createStream(projectName, 'history'),
-    };
+    log.info(logPrefix, 'CSV Preparation started');
 
     return Promise.resolve(Git.Repository.open(repoPath))
     .call('getHeadCommit')
     .tap(commit => log.info(logPrefix, `Head Commit: ${commit.id()}`))
+
+    // Create Folders
+    .tap(masterCommit => document.setup(projectName, masterCommit))
+
+    // Create CSVs
+    .tap(masterCommit => {
+          csv.master = createStream(projectName, masterCommit, 'master');
+          csv.history = createStream(projectName, masterCommit, 'history');
+    })
 
     // Get the files
 
@@ -51,7 +57,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
             .then(oid => oid.toString())
             .then(oid => Promise.props({
                 oid,
-                exists: document.results.exists(projectName, oid),
+                exists: document.json.exists(projectName, oid),
             }))
             .then(data => { if (data.exists) oids.push(data.oid); })
             .then(walk)
@@ -62,7 +68,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
 
         return walk().then(() => oids);
     })
-    .map(oid => document.results.path(projectName) + oid)
+    .map(oid => document.json.path(projectName) + oid)
     .tap(files => log.info(logPrefix, `Got ${files.length} files`))
 
     // Get the columns
@@ -94,5 +100,5 @@ module.exports = (projectConfig, projectName, repoPath) => {
         });
     }, { concurrency: 3 }))
 
-    .tap(() => log.info(logPrefix, 'Preparation finished'));
+    .tap(() => log.info(logPrefix, 'CSV Preparation finished'));
 };
