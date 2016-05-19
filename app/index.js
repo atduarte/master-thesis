@@ -41,6 +41,8 @@ yargs
 .command('results', 'Prepare results from JSON data.', require('./lib/cli/results'))
 .command('all', 'Extract and prepare', require('./lib/cli/all'))
 
+.command('modifier', 'Modify Barinel results', require('./lib/cli/modifier'))
+
 .argv;
 
 

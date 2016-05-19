@@ -24,12 +24,12 @@ module.exports = (projectConfig, projectName, repoPath) => {
     .then(() => Git.Repository.open(repoPath))
     .tap(repo => getStartDate(repo).then(date => startDate = date))
     .call('getHeadCommit')
-    .tap(commit => log.info(logPrefix, `Head Commit: ${commit.id()}`))
+    .tap(commit => log.verbose(logPrefix, `Head Commit: ${commit.id()}`))
 
     // Identify fixes
     .then(masterCommit => {
         return identifyFixes(projectConfig.fixRegex, masterCommit)
-        .then(fixes => [masterCommit].concat(fixes)); // Also analyze current commit
+        .then(fixes => [masterCommit].concat(fixes).splice(0, 500)); // Also analyze current commit
     })
     .tap(commits => log.info(logPrefix, `${commits.length - 1} fix commits found`))
 
@@ -40,11 +40,15 @@ module.exports = (projectConfig, projectName, repoPath) => {
     .each((commit, i) => {
         if (done.indexOf(commit.id().toString()) !== -1) return;
 
-        return extract(projectConfig, commit)
-        .then(info => { delete info.commit; return info; })
-        .then(info => Object.assign(info, {startDate}))
-        .then(info => document.raw.save(projectName, commit, info));
+        return extract(projectConfig, commit, i)
+        .then(info => {
+            if (!info) return;
+
+            delete info.commit;
+            info = Object.assign(info, {startDate});
+            return document.raw.save(projectName, commit, info);
+        });
     }, {concurrency: 1})
 
-    .tap(() => log.info(logPrefix, 'Raw Extraction concluded'));
+    .tap(() => log.verbose(logPrefix, 'Raw Extraction concluded'));
 };

@@ -9,6 +9,8 @@ import pickle
 
 data_file = sys.argv[1]
 model_file = sys.argv[2]
+x = sys.argv[3]
+x = int(float(x))
 label = '_mostChanged25'
 
 # Load
@@ -61,7 +63,7 @@ train = labelIt(slicePercentage(data_clean, 0, breakpoint) + data_buggy)
 
 # Train
 
-clf = RandomForestClassifier(n_estimators=1000, n_jobs=3, class_weight="balanced", criterion='entropy')
+clf = RandomForestClassifier(n_estimators=x, n_jobs=3, class_weight="balanced", criterion='entropy')
 clf = clf.fit(train['data'], train['labels'])
 
 pickle.dump(clf, open(model_file, "wb"))

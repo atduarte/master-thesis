@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.3.3",
+    "csv-to-array": "^1.0.2",
     "filendir": "^1.0.0",
     "humanize-duration": "^3.7.0",
     "iterate-files": "^0.1.1",

@@ -37,8 +37,8 @@ module.exports = (projectConfig, projectName) => {
         .then(info => JSON.stringify(info, null, 2))
         .then(info => document.json.save(projectName, getLabelFromFilename(filename), info))
         .tap(() => {
-            if (i % 10 === 0) log.info(logPrefix, `Prepared ${i} files`);
+            if (i % 10 === 0) log.verbose(logPrefix, `Prepared ${i} files`);
         });
     }, {concurrency: 15})
-    .tap(() => log.info(logPrefix, 'JSON Preparation finished'));
+    .tap(() => log.verbose(logPrefix, 'JSON Preparation finished'));
 };

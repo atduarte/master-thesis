@@ -4,7 +4,7 @@ const redis = require('redis');
 
 const logPrefix = 'extract/cache';
 
-const client = Promise.promisifyAll(redis.createClient());
+let client = null;
 
 const change = (commit, blobId, filename, data) => {
     return {
@@ -17,6 +17,7 @@ const change = (commit, blobId, filename, data) => {
 };
 
 module.exports.setup = () => {
+    client = Promise.promisifyAll(redis.createClient());
     return Promise.resolve(null); // TODO
 };
 
