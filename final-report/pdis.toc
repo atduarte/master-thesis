@@ -1,0 +1,31 @@
+\contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Contexto/Enquadramento}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Motiva\IeC {\c c}\IeC {\~a}o e Objetivos}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}Estrutura}{2}{section.1.3}
+\contentsline {chapter}{\numberline {2}Revis\IeC {\~a}o Bibliogr\IeC {\'a}fica}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}\emph {Fault Localization Software}}{3}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}\emph {Program Slicing}}{3}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}\emph {Spectrum-based diagnosis}}{4}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}\emph {Model-based diagnosis}}{4}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}\emph {Barinel}}{5}{subsection.2.1.4}
+\contentsline {subsubsection}{\numberline {2.1.4.1}Gera\IeC {\c c}\IeC {\~a}o de candidatos}{5}{subsubsection.2.1.4.1}
+\contentsline {subsubsection}{\numberline {2.1.4.2}Ordena\IeC {\c c}\IeC {\~a}o de candidatos}{6}{subsubsection.2.1.4.2}
+\contentsline {subsubsection}{\numberline {2.1.4.3}\emph {Crowbar}}{7}{subsubsection.2.1.4.3}
+\contentsline {section}{\numberline {2.2}\emph {Software Repository Mining}}{7}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Identifica\IeC {\c c}\IeC {\~a}o de corre\IeC {\c c}\IeC {\~o}es e defeitos}{7}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Ferramentas}{8}{subsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.1}\emph {libgit2}}{8}{subsubsection.2.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2.2}\emph {GHTorrent}}{8}{subsubsection.2.2.2.2}
+\contentsline {section}{\numberline {2.3}Abordagens \IeC {\`a} previs\IeC {\~a}o de defeitos}{8}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}\emph {BugCache/FixCache}}{9}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}\emph {Buggy Change Classification}}{9}{subsection.2.3.2}
+\contentsline {chapter}{\numberline {3}Estimating Defect Probabilities}{11}{chapter.3}
+\contentsline {subsection}{\numberline {3.0.3}Install}{11}{subsection.3.0.3}
+\contentsline {subsection}{\numberline {3.0.4}Usage}{11}{subsection.3.0.4}
+\contentsline {subsection}{\numberline {3.0.5}Process}{12}{subsection.3.0.5}
+\contentsline {subsubsection}{\numberline {3.0.5.1}Extraction}{12}{subsubsection.3.0.5.1}
+\contentsline {subsubsection}{\numberline {3.0.5.2}Modeling}{12}{subsubsection.3.0.5.2}
+\contentsline {subsubsection}{\numberline {3.0.5.3}Prediction}{12}{subsubsection.3.0.5.3}
+\contentsline {chapter}{\numberline {4}Valida\IeC {\c c}\IeC {\~a}o}{13}{chapter.4}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~o}es e Trabalho Futuro}{15}{chapter.5}
+\contentsline {chapter}{Refer\^{e}ncias}{17}{section*.14}

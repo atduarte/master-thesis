@@ -6,7 +6,8 @@ const _ = require('lodash');
 
 // Proof-of-concept ...
 
-const div = 2;
+const min = 0.8;
+const div = 1.5;
 const from = 0.2;
 
 module.exports.builder = (yargs) => {
@@ -35,8 +36,8 @@ const modifier = (estimators, path) => {
     };
 
     const transformPredictionValue = (value) => {
-        if (value === undefined) return 1;
-        return Math.max((value / div) + ((1 - (from / div))), 1);
+        if (value === undefined) return min;
+        return Math.max((value / div) + ((1 - (from / div))), min);
     };
 
     const getMinimumPosition = (results, classNames) => {
@@ -118,7 +119,7 @@ module.exports.handler = (argv) => {
         .tap(result => {
             const stat = _.countBy(result);
             //log.info('result', stat);
-            log.info('result', `Affects: ${stat['-1'] + stat['1']} (` + (stat['-1'] / stat['1']).toFixed(3) + ' / 1)');
+            log.info('result', `Affects: ${stat['-1'] + stat['1']} (${stat['-1']} / ${stat['1']} = ${(stat['-1'] / stat['1']).toFixed(3)})`);
         });
     //paths.forEach(modifier)
 };

@@ -119,7 +119,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
     .tap(commit => spawn('./lib/ml/model.py', [csv.history.path, `/tmp/${uid}.pickle`, estimators]))
 
     .tap(commit => log.info('results/ml', `Predicting`))
-    .tap(commit => spawn('./lib/ml/predict.py', [`/tmp/${uid}.pickle`, csv.master.path, repoPath + `/prediction.n.${estimators}.csv`]))
+    .tap(commit => spawn('./lib/ml/predict.py', [`/tmp/${uid}.pickle`, csv.master.path, repoPath + `/prediction.csv`]))
 
     .tap(() => log.verbose(logPrefix, 'CSV Preparation finished'));
 };

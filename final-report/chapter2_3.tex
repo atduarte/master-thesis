@@ -1,0 +1,31 @@
+\section{Abordagens à previsão de defeitos}
+
+Foram já exploradas algumas abordagens para a predição da qualidade do código. Salientam-se neste capítulo algumas técnicas como \emph{BugCache}, \emph{FixCache} e \emph{Buggy Change Classification}, que são técnicas que se incluem no tipo de abordagem que pretendemos seguir (\emph{change log}) e que permitem, em conjunto com outras técnicas, otimizar a localização dos defeitos.
+
+\subsection{\emph{BugCache/FixCache}}
+
+Com base na premissa de que as falhas nunca ocorrem isoladamente e que portanto onde existe um defeito existem outros, o \emph{BugCache} cria uma lista de componentes onde a probabilidade de conterem erros é elevada, com base na análise em todo o histórico de alterações do projeto.
+
+Este algoritmo destaca-se pela sua precisão, conseguindo uma exatidão de 73 a 95\% quando usado com uma granularidade ao nível do ficheiro, sendo portanto o melhor até à data \cite{Kim2006}.
+
+Os defeitos são identificados por ordem temporal e adicionados à lista. Quando esta lista atinge o tamanho máximo, os componentes vão sendo removidos de acordo com o método de substituição escolhido. Existem diversos métodos que utilizam diferentes métricas como última utilização (\emph{Least Recent Used - LRU}), número de defeitos recentes e número de alterações recentes \cite{Kim2006}.
+
+Conclui-se com este algoritmo que \cite{Kim2006}:
+%
+\begin{itemize}
+	\item Caso tenha sido introduzido um defeito, há uma tendência para serem introduzidos mais defeitos em breve. (\emph{temporal locality})
+	\item Caso um componente tenha sido acrescentado ou modificado recentemente este tem uma maior probabilidade de ser defeituoso (\emph{changed-entity locality}, \emph{new-entity locality})
+	\item Caso um componente tenha introduzido um erro, os componentes ligados mais diretamente a este introduzirão também erros no futuro (\emph{spatial locality})
+\end{itemize}
+
+A diferença entre o \emph{BugCache} e o \emph{FixCache} é o momento em que cada um atualiza a lista. Sendo que o primeiro atualiza a lista quando um defeito é introduzido, o segundo atualiza apenas quando o erro é corrigido. Devido a esta diferença a implementação do \emph{FixCache} torna-se mais fácil.
+
+\subsection{\emph{Buggy Change Classification}}
+
+\emph{Change Classification} tem uma abordagem fundamentalmente diferente e tem um objetivo também distinto. O \emph{Change Classification}, com recurso a técnicas de \emph{Machine Learning} e às informações disponíveis quanto a erros anteriores, é capaz de prever se uma alteração introduziu ou não um novo defeito. Esta previsão é feita com um rigor muito elevado de 78\% \cite{Whitehead2008}.
+
+Numa primeira fase, todas as alterações feita até ao momento são classificados como \emph{buggy} ou \emph{clean}. Com esta classificação feita e com a extração de dados para cada também concluída, procede-se à criação de um modelo através do \"treino\" de um algoritmo de classificação.
+
+O tipo de dados usados dividem-se em sete grupos: métricas de complexidade, código adicionado, código removido, nome do ficheiro e diretório, novo código e meta-dados \cite{Whitehead2008}.
+
+Tanto \emph{Support Vector Machine} (SVM) como \emph{Naïve Bayes} foram usados no estudo, tendo sido o classificador feito com recurso a SVM aquele que apresentou melhores resultados \cite{Whitehead2008}.

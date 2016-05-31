@@ -1,0 +1,72 @@
+\chapter{Estimating Defect Probabilities} \label{chap:chap3}
+
+\section*{}
+
+In order to estimate the defect probabilty of each software component we developed a data mining application able to automatically do all the necessary steps,
+such as: \emph{Git} repository data extraction, modeling and prediction. The project is written in Javascript (Node.js) and Python 3 and heavily uses \emph{node-git}
+and \emph{scikit-learn}.
+
+In this chapter, we will approach the process used in each of the steps and will explain how to install and use this application.
+
+\subsection{Install}
+
+The application relies on \emph{Git}, \emph{Node.js} and \emph{Python 3} and requires some dependencies such as \emph{ScyPy}, \emph{scikit-learn}, \emph{numpy}.
+
+\begin{lstlisting}
+  git clone --depth 1 https://github.com/atduarte/master-thesis.git
+  cd master-thesis/app
+  npm install --prod
+\end{lstlisting}
+
+\subsection{Usage}
+
+After all the dependencies installed the usage is very straight-forward.
+In order to automatically execute all the steps (extraction, modeling and prediction) the following command should be used
+by replacing "\{project-name\}" and "\{repository-path\}" respectively with
+the chosen project name and the path to the folder containing the repository we want to analyze:
+
+\begin{lstlisting}
+  npm start all {project-name} {repository-path}
+\end{lstlisting}
+
+Some extra configurations are available by creating a project configuration file, in the folder \emph{project-config/}, with the same name as the \emph{project-name} plus ".js".
+It allows to change the \emph{regex} used to identify the fix commits, to define a file filter and to define an email normalizer, in order to improve the quality of the extracted data .
+
+\begin{lstlisting}
+  'use strict';
+
+  module.exports = {
+      fileFilter: (filename) => {
+          filename = filename.toLowerCase();
+
+          return filename.endsWith('.java') // Is Java
+              && !filename.startsWith('src/test'); // Aren't tests
+      },
+  };
+\end{lstlisting}
+
+It's also possible to define the level of logging by appending, for example, "--log-level=verbose". The existing levels available, from higher to lower priority, are
+"error", "warn", "info", "verbose" and "silly". The default log level is "info".
+
+- TODO: Output 1
+
+Before terminating, the application will create a file ("prediction.csv") in the repository folder containing the predicted defect probability for each source code file.
+
+- TODO: Output - prediction.csv
+
+In order to be able to execute only some step of the process, there's the possibility of executing only one operation. The available commands are:
+%
+\begin{itemize}
+\item "raw" - Extracts data from \emph{Git} and saves it to "out/{project-name}/raw"
+\item "json" - Processes the raw data and converts it to a new JSON structure. Results are saved to "out/{project-name}/json"
+\item "results" - Creates the CSV files for training and prediction data, based on the JSON files, creates the model and predicts the defect probability.
+Final result is saved at "{repository-path}/prediction.csv".
+\end{itemize}
+
+\subsection{Process}
+
+\subsubsection{Extraction}
+
+\subsubsection{Modeling}
+
+\subsubsection{Prediction}
