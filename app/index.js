@@ -36,6 +36,22 @@ yargs
     global: true,
 })
 
+.option('classification-label', {
+    type: 'string',
+    alias: 'cl',
+    default: '_mostChanged25',
+    describe: 'The label used for the classification',
+    global: true,
+})
+
+.option('estimators', {
+    type: 'string',
+    alias: 'e',
+    default: 500,
+    describe: 'The number of estimators used in the Random Forest classification',
+    global: true,
+})
+
 .command('raw', 'Extract raw data from Git Repo.', require('./lib/cli/raw'))
 .command('json', 'Prepare JSON from raw data.', require('./lib/cli/json'))
 .command('results', 'Prepare results from JSON data.', require('./lib/cli/results'))
@@ -44,5 +60,3 @@ yargs
 .command('modifier', 'Modify Barinel results', require('./lib/cli/modifier'))
 
 .argv;
-
-

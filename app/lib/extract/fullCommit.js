@@ -30,11 +30,13 @@ module.exports = (projectConfig, commit, i) => {
                 .splice(0, 4 * _.size(changedComponents))
                 .value();
 
-            info.components = Object.assign({}, 
-                changedComponents, 
+            info.components = Object.assign({},
+                changedComponents,
                 _.pick(info.components, cleanComponentNames)
             );
-        }        
+        }
+
+        console.log(commit.id());
 
         // Filter
         return Promise.resolve(Object.keys(info.components))

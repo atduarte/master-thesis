@@ -3,4 +3,4 @@ npm-debug.*
 /.idea
 config.js
 /out
-
+*.rdb

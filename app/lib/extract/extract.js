@@ -29,7 +29,7 @@ module.exports = (projectConfig, projectName, repoPath) => {
     // Identify fixes
     .then(masterCommit => {
         return identifyFixes(projectConfig.fixRegex, masterCommit)
-        .then(fixes => [masterCommit].concat(fixes).splice(0, 500)); // Also analyze current commit
+        .then(fixes => [masterCommit].concat(fixes)); // Also analyze current commit
     })
     .tap(commits => log.info(logPrefix, `${commits.length - 1} fix commits found`))
 

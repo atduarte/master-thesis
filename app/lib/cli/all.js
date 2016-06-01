@@ -18,10 +18,11 @@ module.exports.handler = (argv) => {
     const projectName = argv._[1];
     const repoPath = argv._[2];
     const projectConfig = getProjectConfig(projectName, argv.projectConfig);
+    const classificationLabel = argv.classificationLabel;
+    const estimators = argv.estimators;
 
     return extract(projectConfig, projectName, repoPath)
     .then(() => prepareJSON(projectConfig, projectName))
-    .then(() => prepareResults(projectConfig, projectName, repoPath))
+    .then(() => prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators))
     .then(() => process.exit(0));
 };
-

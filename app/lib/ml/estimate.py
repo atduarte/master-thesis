@@ -9,7 +9,9 @@ import pickle
 import numpy as np
 
 data_file = sys.argv[1]
-label = '_mostChanged25'
+n = int(float(sys.argv[2]))
+label = sys.argv[3]
+out_file = sys.argv[4]
 
 # Load
 
@@ -61,7 +63,7 @@ data_clean = slicePercentage(data_clean, 0, breakpoint)
 train = labelIt(slicePercentage(data_clean, 0, 0.7) + slicePercentage(data_buggy, 0, 0.7))
 # Train
 
-clf = RandomForestClassifier(n_estimators=100, n_jobs=3, class_weight="balanced", criterion='entropy')
+clf = RandomForestClassifier(n_estimators=n, n_jobs=3, class_weight="balanced", criterion='entropy')
 clf = clf.fit(train['data'], train['labels'])
 
 
@@ -77,3 +79,13 @@ predict_clean = predictProbs(slicePercentage(data_clean, breakpoint, 1))
 
 print('Buggy (%d): mean = %.2f%%; std = %.2f%%' % (len(predict_buggy), np.mean(predict_buggy)*100, np.std(predict_buggy)*100))
 print('Clean (%d): mean = %.2f%%; std = %.2f%%' % (len(predict_clean), np.mean(predict_clean)*100, np.std(predict_clean)*100))
+
+# Meta out file
+
+with open(out_file, 'w') as metafile:
+    metafile.write('buggy_length=%d\n' % len(predict_buggy))
+    metafile.write('clean_length=%d\n' % len(predict_clean))
+    metafile.write('buggy_mean=%.2f\n' % (np.mean(predict_buggy)*100))
+    metafile.write('clean_mean=%.2f\n' % (np.mean(predict_clean)*100))
+    metafile.write('buggy_std=%.2f\n' % (np.std(predict_buggy)*100))
+    metafile.write('clean_std=%.2f\n' % (np.std(predict_clean)*100))

@@ -8,6 +8,7 @@ const document = require('../document');
 const createCSV = require('./create');
 const _ = require('lodash');
 const spawn = require('spawn-promise');
+const isFix = require('../util/isFix');
 
 const logPrefix = 'results/prepare';
 
@@ -34,10 +35,9 @@ function getColumns(jsonFilenames) {
     .then(() => columns.sort());
 }
 
-module.exports = (projectConfig, projectName, repoPath) => {
+module.exports = (projectConfig, projectName, repoPath, classificationLabel, estimators) => {
     const csv = {};
     const uid = 'model-' + Math.ceil(Math.random()*10000);
-    const estimators = 500;
 
     log.info(logPrefix, 'CSV Preparation started');
 
@@ -65,8 +65,13 @@ module.exports = (projectConfig, projectName, repoPath) => {
             .then(oid => Promise.props({
                 oid,
                 exists: document.json.exists(projectName, oid),
+                commit: masterCommit.owner().getCommit(oid),
             }))
-            .then(data => { if (data.exists) oids.push(data.oid); })
+            .then(data => {
+              if (data.exists && isFix(projectConfig.fixRegex, data.commit)) {
+                oids.push(data.oid);
+              }
+            })
             .then(walk)
             .catch(error => { if (error.errno !== Git.Error.CODE.ITEROVER) throw error; });
         };
@@ -109,17 +114,26 @@ module.exports = (projectConfig, projectName, repoPath) => {
 
     // ML
 
-    //.tap(() => {
-    //    log.info('results/ml', `Estimating Accuracy`);
-    //    return spawn('./lib/ml/estimate.py', [csv.history.path])
-    //    .tap(stdout => log.info('results/ml', stdout.toString().trim()))
-    //})
+    .tap(() => {
+       log.info('results/ml', `Estimating Accuracy`);
+       return spawn('./lib/ml/estimate.py', [
+         csv.history.path,
+         estimators,
+         classificationLabel,
+         repoPath + `/prediction.0.e${estimators}.${classificationLabel}.meta.csv`
+       ])
+       .tap(stdout => log.info('results/ml', stdout.toString().trim()))
+    })
 
     .tap(commit => log.info('results/ml', `Modeling`))
-    .tap(commit => spawn('./lib/ml/model.py', [csv.history.path, `/tmp/${uid}.pickle`, estimators]))
+    .tap(commit => spawn('./lib/ml/model.py', [csv.history.path, `/tmp/${uid}.pickle`, estimators, classificationLabel]))
 
     .tap(commit => log.info('results/ml', `Predicting`))
-    .tap(commit => spawn('./lib/ml/predict.py', [`/tmp/${uid}.pickle`, csv.master.path, repoPath + `/prediction.csv`]))
+    .tap(commit => spawn('./lib/ml/predict.py', [
+        `/tmp/${uid}.pickle`,
+        csv.master.path,
+        repoPath + `/prediction.0.e${estimators}.${classificationLabel}.csv`
+    ]))
 
     .tap(() => log.verbose(logPrefix, 'CSV Preparation finished'));
 };
