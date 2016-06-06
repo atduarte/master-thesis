@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 // TODO
 
 const twr = (start, end, eventDate) => {
@@ -30,7 +32,7 @@ const getBaseInfo = (projectConfig, data, componentName, component) => {
 
     return {
         __changed: (component.linesAdded + component.linesRemoved) > 0 && lines > 0,
-        //__date: data.date,
+        __date: data.date,
         //__type: getExt(componentName),
         //_commitId: data.id,
         __filename: componentName,
@@ -155,9 +157,9 @@ const attributors = [
     getBaseInfo,
     getChangeCount,
     getWeightedChangeCount,
-    //getAuthorsCount,
-    //getAuthorChangeCount,
-    //getAuthorWeightedChangeCount,
+    getAuthorsCount,
+    getAuthorChangeCount,
+    getAuthorWeightedChangeCount,
 ];
 
 const postStep = (projectConfig, data, result) => {
@@ -191,7 +193,19 @@ const postStep = (projectConfig, data, result) => {
     });
 };
 
-module.exports = (projectConfig, data) => {
+const removeOwnCommit = (data) => {
+    _.forIn(data.components, (info, name) => {
+        if (info.changes[0] && info.changes[0].id == data.id) {
+            data.components[name].changes.shift();
+        }
+    });
+
+    return data;
+};
+
+module.exports = (projectConfig, data, isHead) => {
+    if (!isHead) data = removeOwnCommit(data);
+
     data = Object.assign.apply(null, [data].concat(preSteps.map(_ => _(projectConfig, data))));
     const result = Object.keys(data.components).map(key => {
         return Object.assign.apply(null, attributors.map(_ => _(projectConfig, data, key, data.components[key])));

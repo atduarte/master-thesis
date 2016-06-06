@@ -13,14 +13,14 @@ const isFix = require('../util/isFix');
 const logPrefix = 'results/prepare';
 
 function createStream(projectName, commit, name) {
-    const path = `out/${projectName}/results/${commit.id().toString()}/${name}.csv`;
+    const path = csvPath(projectName, commit, name);
     const stream = Promise.promisifyAll(fs.createWriteStream(path, { defaultEncoding: 'utf8' }));
 
     stream.path = path;
     return stream;
 }
 
-//const csvPath = (projectName, commit, name) => `out/${projectName}/results/${commit.id().toString()}/${name}.csv`;
+const csvPath = (projectName, commit, name) => `out/${projectName}/results/${commit.id().toString()}/${name}.csv`;
 
 function getColumns(jsonFilenames) {
     let columns = [];
@@ -37,13 +37,15 @@ function getColumns(jsonFilenames) {
 
 module.exports = (projectConfig, projectName, repoPath, classificationLabel, estimators) => {
     const csv = {};
-    const uid = 'model-' + Math.ceil(Math.random()*10000);
+    const uid = 'model-' + Math.ceil(Math.random()*100000);
+    let masterCommit = null;
 
     log.info(logPrefix, 'CSV Preparation started');
 
     return Promise.resolve(Git.Repository.open(repoPath))
     .call('getHeadCommit')
     .tap(commit => log.verbose(logPrefix, `Head Commit: ${commit.id()}`))
+    .then(commit => masterCommit = commit)
 
     // Create Folders
     .tap(masterCommit => document.setup(projectName, masterCommit))
@@ -57,7 +59,7 @@ module.exports = (projectConfig, projectName, repoPath, classificationLabel, est
     // Get the files
 
     .then(masterCommit => {
-        let oids = [];
+        let oids = [masterCommit.id().toString()];
         const walker = Git.Revwalk.create(masterCommit.owner());
         const walk = () => {
             return walker.next()
@@ -98,8 +100,8 @@ module.exports = (projectConfig, projectName, repoPath, classificationLabel, est
 
     // Write Rows
 
-    .then(data => Promise.each(data.files, (filename, i) => {
-        return fs.readFileAsync(path.join(process.cwd(), filename), 'utf-8')
+    .tap(data => Promise.each(data.files, (filename, i) => {
+        return fs.readFileAsync(path.join(process.cwd(), filename + (i == 0 ? '-head' : '')), 'utf-8')
 
         .then(JSON.parse)
         .map(jsonRow => createCSV(data.columns, jsonRow))
@@ -112,28 +114,34 @@ module.exports = (projectConfig, projectName, repoPath, classificationLabel, est
         });
     }, { concurrency: 3 }))
 
-    // ML
+     //ML
+    //
+    //.tap(() => {
+    //    log.info('results/ml', `Estimating Accuracy`);
+    //    return spawn('./lib/ml/estimate.py', [
+    //        csvPath(projectName, masterCommit, 'history'),
+    //        estimators,
+    //        classificationLabel,
+    //        repoPath + `/prediction.e${estimators}.${classificationLabel}.balanced.meta.csv`
+    //    ])
+    //    .tap(stdout => log.info('results/ml', stdout.toString().trim()))
+    //})
 
-    .tap(() => {
-       log.info('results/ml', `Estimating Accuracy`);
-       return spawn('./lib/ml/estimate.py', [
-         csv.history.path,
-         estimators,
-         classificationLabel,
-         repoPath + `/prediction.0.e${estimators}.${classificationLabel}.meta.csv`
-       ])
-       .tap(stdout => log.info('results/ml', stdout.toString().trim()))
-    })
-
-    .tap(commit => log.info('results/ml', `Modeling`))
-    .tap(commit => spawn('./lib/ml/model.py', [csv.history.path, `/tmp/${uid}.pickle`, estimators, classificationLabel]))
-
-    .tap(commit => log.info('results/ml', `Predicting`))
-    .tap(commit => spawn('./lib/ml/predict.py', [
-        `/tmp/${uid}.pickle`,
-        csv.master.path,
-        repoPath + `/prediction.0.e${estimators}.${classificationLabel}.csv`
+    .tap(() => log.info('results/ml', `Modeling`))
+    .tap(() => spawn('./lib/ml/ml.py', [
+        csvPath(projectName, masterCommit, 'history'),
+        csvPath(projectName, masterCommit, 'master'),
+        classificationLabel,
+        repoPath + `/prediction.e${estimators}.${classificationLabel}.06.04.csv`
     ]))
+
+    //
+    //.tap(() => log.info('results/ml', `Predicting`))
+    //.tap(() => spawn('./lib/ml/predict.py', [
+    //    `/tmp/${uid}.pickle`,
+    //    csvPath(projectName, masterCommit, 'master'),
+    //    repoPath + `/prediction.e${estimators}.${classificationLabel}.7.csv`
+    //]))
 
     .tap(() => log.verbose(logPrefix, 'CSV Preparation finished'));
 };

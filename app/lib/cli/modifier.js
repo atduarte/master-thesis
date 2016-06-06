@@ -6,17 +6,18 @@ const _ = require('lodash');
 
 // Proof-of-concept ...
 
-const min = 0.8;
-const div = 1.5;
-const from = 0.2;
+const min = 0.5;
+const div = 1;
+const from = 0.5;
+const undefinedValue = 0.5;
 
 module.exports.builder = (yargs) => {
     return yargs
-    .usage('Modify Barinel results.\n\nUsage: ./$0 modify <folder-path>')
+    .usage('Modify Barinel results.\n\nUsage: ./$0 modify <estimators> <label> <folder-path> ')
     .demand(2);
 };
 
-const modifier = (estimators, path) => {
+const modifier = (estimators, label, path) => {
     const name = _.head(_.takeRight(path.split('/'), 2));
 
     const valueToFloat = (obj) => Object.assign(obj, {value: parseFloat(obj.value)});
@@ -32,16 +33,51 @@ const modifier = (estimators, path) => {
             results.push({value: undefined});
         }
 
-        return transformPredictionValue(results[0].value);
+        return transformPredictionValue(results[0].value,  _.meanBy(predictions, 'value'));
     };
 
-    const transformPredictionValue = (value) => {
-        if (value === undefined) return min;
+    const transformPredictionValue = (value, mean) => {
+        value = value || mean;
         return Math.max((value / div) + ((1 - (from / div))), min);
+        //return value + 0.4;
+        //return value;
     };
 
     const getMinimumPosition = (results, classNames) => {
-        return _.min(_.map(classNames, (className) => _.findIndex(results, (result) => result.name.startsWith(className)))) + 1;
+        //const matchedLines = _(results)
+        //    .map((result, index) => _.extend({}, result, {index}))
+        //    .filter((result) => _.some(classNames, className => result.name.startsWith(className)))
+        //    .value();
+
+        const x = _.reduce(results, (previous, result, index) => {
+            if (previous[2] == true) return previous;
+            return [
+                previous[1] == result.value ? previous[0] : index,
+                result.value,
+                _.some(classNames, className => result.name.startsWith(className))
+            ]
+
+        }, [-1, -1, false]);
+
+        //if (!x[2]) console.log('not found');
+
+        //console.log(x);
+
+        return x[0] + 1; // pos; value; found
+
+
+        //console.log(matchedLines);
+        //
+        //
+        //
+        ////_.each(classNames, (className) => )
+        //
+        //
+        //const first = _.min(_.map(classNames, (className) =>
+        //    _.findIndex(results, (result) => result.name.startsWith(className))
+        //));
+        //
+        //return first + 1;
     };
 
     const resultsPromise = csv({
@@ -56,7 +92,7 @@ const modifier = (estimators, path) => {
         .map(valueToFloat);
 
     const predictionsPromise = csv({
-        file: path + `/prediction.n.${estimators}.csv`,
+        file: path + `/prediction.e${estimators}.${label}.csv`,
         columns: ['name', 'value'],
     })
         .filter(item => !item.name.startsWith('JodaTimeContrib'))
@@ -67,7 +103,8 @@ const modifier = (estimators, path) => {
         .then(data => data.split('\n'))
         .filter(line => line.startsWith('d4j.classes.modified='))
         .then(data => data[0].split('=')[1].split(','))
-        .map(className => className.replace(/\./g, '/') + '/');
+        .map(className => className.replace(/\./g, '/') + '/')
+        .catch(() => undefined);
 
     return Promise.props({
             results: resultsPromise,
@@ -78,6 +115,8 @@ const modifier = (estimators, path) => {
             const results = data.results;
             const predictions = data.predictions;
             const classNames = data.classNames;
+
+            if (!classNames) return 0;
 
             const newResults = _(results)
                 .map(result => Object.assign({}, result, {
@@ -91,6 +130,12 @@ const modifier = (estimators, path) => {
             const diff = position - newPosition;
 
             (diff < 0 ? log.warn : (diff == 0 ? log.verbose : log.info))(name, `${position} - ${newPosition} = ${position - newPosition}`);
+
+            //if (diff != 0) {
+            //    console.log(classNames);
+            //    console.log(results.splice(0, 15));
+            //    console.log(newResults.splice(0, 15));
+            //}
 
             return diff;
 
@@ -109,12 +154,14 @@ module.exports.handler = (argv) => {
     log.timestamp = false;
 
     const estimators = argv._[1];
-    const paths = argv._.slice(2).sort();
+    const label = argv._[2];
+    const paths = argv._.slice(3).sort();
 
+    log.info('info', `Estimators: ${estimators}; Label: ${label};`);
     log.info('info', `Div: ${div}; From: ${from}; Length: ${paths.length}`);
 
     return Promise.resolve(paths)
-        .map(path => modifier(estimators, path), {concurrency: 1})
+        .map(path => modifier(estimators, label, path), {concurrency: 1})
         .map(diff => diff == 0 ? 0 :diff / Math.abs(diff))
         .tap(result => {
             const stat = _.countBy(result);

@@ -22,7 +22,14 @@ module.exports.handler = (argv) => {
     const estimators = argv.estimators;
 
     return extract(projectConfig, projectName, repoPath)
-    .then(() => prepareJSON(projectConfig, projectName))
+    .then(() => prepareJSON(projectConfig, projectName, repoPath))
     .then(() => prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators))
     .then(() => process.exit(0));
+
+    //return prepareJSON(projectConfig, projectName, repoPath)
+    //.then(() => prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators))
+    //.then(() => process.exit(0));
+    //
+    //return prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators)
+    //.then(() => process.exit(0));
 };

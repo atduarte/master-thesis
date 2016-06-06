@@ -22,10 +22,10 @@
 \contentsline {chapter}{\numberline {3}Estimating Defect Probabilities}{11}{chapter.3}
 \contentsline {subsection}{\numberline {3.0.3}Install}{11}{subsection.3.0.3}
 \contentsline {subsection}{\numberline {3.0.4}Usage}{11}{subsection.3.0.4}
-\contentsline {subsection}{\numberline {3.0.5}Process}{12}{subsection.3.0.5}
-\contentsline {subsubsection}{\numberline {3.0.5.1}Extraction}{12}{subsubsection.3.0.5.1}
-\contentsline {subsubsection}{\numberline {3.0.5.2}Modeling}{12}{subsubsection.3.0.5.2}
-\contentsline {subsubsection}{\numberline {3.0.5.3}Prediction}{12}{subsubsection.3.0.5.3}
-\contentsline {chapter}{\numberline {4}Valida\IeC {\c c}\IeC {\~a}o}{13}{chapter.4}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~o}es e Trabalho Futuro}{15}{chapter.5}
-\contentsline {chapter}{Refer\^{e}ncias}{17}{section*.14}
+\contentsline {subsection}{\numberline {3.0.5}Process}{13}{subsection.3.0.5}
+\contentsline {subsubsection}{\numberline {3.0.5.1}Extraction}{13}{subsubsection.3.0.5.1}
+\contentsline {subsubsection}{\numberline {3.0.5.2}Data Preparation}{15}{subsubsection.3.0.5.2}
+\contentsline {subsubsection}{\numberline {3.0.5.3}Modeling and Prediction}{17}{subsubsection.3.0.5.3}
+\contentsline {chapter}{\numberline {4}Valida\IeC {\c c}\IeC {\~a}o}{19}{chapter.4}
+\contentsline {chapter}{\numberline {5}Conclus\IeC {\~o}es e Trabalho Futuro}{21}{chapter.5}
+\contentsline {chapter}{Refer\^{e}ncias}{23}{section*.14}

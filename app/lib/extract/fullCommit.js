@@ -8,12 +8,7 @@ const _ = require('lodash');
 const logPrefix = 'extract/fullCommit';
 
 module.exports = (projectConfig, commit, i) => {
-    const walker = Git.Revwalk.create(commit.owner());
-
     log.verbose(logPrefix, `Extracting ${commit.id()}`);
-
-    walker.push(commit.id());
-    walker.sorting(Git.Revwalk.SORT.TOPOLOGICAL | Git.Revwalk.SORT.TIME);
 
     return extractBaseInfo(projectConfig, commit)
     .then(info => {
@@ -35,8 +30,6 @@ module.exports = (projectConfig, commit, i) => {
                 _.pick(info.components, cleanComponentNames)
             );
         }
-
-        console.log(commit.id());
 
         // Filter
         return Promise.resolve(Object.keys(info.components))
