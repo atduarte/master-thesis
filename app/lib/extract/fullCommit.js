@@ -18,17 +18,17 @@ module.exports = (projectConfig, commit, i) => {
 
             if (_.size(changedComponents) == 0) return null;
 
-            const cleanComponentNames = _(info.components)
-                .pickBy(x => x.linesAdded + x.linesRemoved == 0)
-                .keys()
-                .shuffle()
-                .splice(0, 4 * _.size(changedComponents))
-                .value();
-
-            info.components = Object.assign({},
-                changedComponents,
-                _.pick(info.components, cleanComponentNames)
-            );
+            //const cleanComponentNames = _(info.components)
+            //    .pickBy(x => x.linesAdded + x.linesRemoved == 0)
+            //    .keys()
+            //    .shuffle()
+            //    .splice(0, 4 * _.size(changedComponents))
+            //    .value();
+            //
+            //info.components = Object.assign({},
+            //    changedComponents,
+            //    _.pick(info.components, cleanComponentNames)
+            //);
         }
 
         // Filter

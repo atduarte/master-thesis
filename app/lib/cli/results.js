@@ -18,7 +18,8 @@ module.exports.handler = (argv) => {
     const projectConfig = getProjectConfig(projectName, argv.projectConfig);
     const classificationLabel = argv.classificationLabel;
     const estimators = argv.estimators;
+    const fileLabel = argv.fileLabel;
 
-    return prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators)
+    return prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators, fileLabel)
     .then(() => process.exit(0));
 };

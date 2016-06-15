@@ -19,7 +19,15 @@ The only information that can be used is related to the file changes, authors, n
 
 After the extraction, a machine learning model, created using the information about past defects, should predict the defect probability of each component present in the current state of the project.
 
-% TODO: Explaining image
+% CHOURIÇO: Explaining image
+
+\subsection{Main difficulties}
+
+% **Difficulties**
+% Accuracy now vs future
+% Noisy commit messages
+% Uncertantity about the clean/buggy stated used to train
+% Language Agnostic
 
 \subsection{Install}
 
@@ -35,17 +43,17 @@ The application relies on \emph{Redis}, \emph{Git}, \emph{Node.js} and \emph{Pyt
 
 After all the dependencies installed the usage is very straight-forward.
 In order to automatically execute all the steps (extraction, data preparation, modeling and prediction) the following command should be used
-by replacing "\{project-name\}" and "\{repository-path\}" respectively with
+by replacing "\code{{project-name}}" and "\code{{repository-path}}" respectively with
 the chosen project name and the path to the folder containing the repository we want to analyze:
 
 \begin{lstlisting}
   $ node index.js all {project-name} {repository-path}
 \end{lstlisting}
 
-It's possible to specify a diferent classification label (e.g. "--classification-label=\_mostChanged", default is "\_mostChanged25"), 
-a different number of estimators used when modeling (e.g. "--estimators=100", default is 500) or even
-to define the level of logging by appending, for example, "--log-level=verbose". The existing levels available, from higher to lower priority, are
-"error", "warn", "info", "verbose" and "silly". The default log level is "info".
+It's possible to specify a diferent classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"), 
+a different number of estimators used when modeling (e.g. "\code{--estimators=100}", default is 5) or even
+to define the level of logging by appending, for example, "\code{--log-level=verbose}". The existing levels available, from higher to lower priority, are
+"\code{error}", "\code{warn}", "\code{info}", "\code{verbose}" and "\code{silly}". The default log level is "\code{info}".
 
 \begin{lstlisting}[style=npmlog]
   ?$  node index.js all math ../../tests/Math001?
@@ -59,7 +67,7 @@ to define the level of logging by appending, for example, "--log-level=verbose".
   @info@ !results/ml! Modeling
 \end{lstlisting}
 
-Some extra configurations are also available by creating a project configuration file, in the folder \emph{project-config/}, with the same name as the \emph{project-name} plus ".js".
+Some extra configurations are also available by creating a project configuration file, in the folder "\code{project-config/}", with the same name as the \code{project-name} plus ".js".
 It allows to change the \emph{regex} used to identify the fix commits, to define a file filter and to define an email normalizer, in order to improve the quality of the extracted data .
 
 \begin{lstlisting}[language=Javascript]
@@ -75,8 +83,7 @@ It allows to change the \emph{regex} used to identify the fix commits, to define
   };
 \end{lstlisting}
 
-Before terminating, the application will create a file ("prediction.e500.\_mostChanged25.csv", by default) in the repository folder containing the predicted defect probability for each source code file.
-%  and another file containing metadata information, such as the mean predicted defect probability for \emph{buggy} components on the test set.
+Before terminating, the application will create a file ("\code{prediction.e500._mostChanged25.csv}", by default) in the repository folder containing the predicted defect probability for each source code file.
 
 \begin{lstlisting}
   ...
@@ -93,15 +100,15 @@ Before terminating, the application will create a file ("prediction.e500.\_mostC
   ...
 \end{lstlisting}
 
-% TODO: Example of metadata information!?
+% CHOURIÇO: Example of metadata information
 
 In order to be able to execute only some step of the process, there's the possibility of executing only one operation. The available commands are:
 %
 \begin{itemize}
-\item "raw" - Extracts data from \emph{Git} and saves it to "out/{project-name}/raw"
-\item "json" - Processes the raw data and converts it to a new JSON structure. Results are saved to "out/{project-name}/json"
-\item "results" - Creates the CSV files for training and prediction data, based on the JSON files, creates the model and predicts the defect probability.
-Final result is saved at "{repository-path}/prediction.csv".
+\item "\code{raw}" - Extracts data from \emph{Git} and saves it to "\code{out/{project-name}/raw}"
+\item "\code{json}" - Processes the raw data and converts it to a new JSON structure. Results are saved to "\code{out/{project-name}/json}"
+\item "\code{results}" - Creates the CSV files for training and prediction data, based on the JSON files, creates the model and predicts the defect probability.
+Final result is saved at "\code{{repository-path}/prediction.csv}".
 \end{itemize}
 
 \subsection{Process}
@@ -112,7 +119,7 @@ As stated before the process is divided in extraction, data preparation, modelin
 
 The first objective is to get the list of commits to analyze: the HEAD commit and all the fix commits that preceded it. 
 So, first, the \emph{HEAD} commit is identified. The application then walks recursively through each parent commit or commits and,
-if it's message matches the defined regex and it isn't a merge, adds it to the list of commits to analyze.
+if it's message matches the defined regex, doesn't contain any word from the stop words list, such as "typo" or "javadoc", and it isn't a merge, adds it to the list of commits to analyze.
 
 % TODO: REGEX EXEMPLO
 
@@ -150,9 +157,9 @@ limits the extraction of \emph{clean} components up to a maximum of four times t
 
 % TODO: Formula representing the maximum number o components?
 
-% OP: Explain cache details
+% CHOURIÇO: Explain cache details
 
-This data is then saved to a file named according to the commit id, in the "raw" folder (e.g "out/math/raw/17d6f2163db436518f953166c1e9d495232f90b6").
+This data is then saved to a file named according to the commit id, in the "\code{raw}" folder (e.g "\code{out/math/raw/17d6f2163db436518f953166c1e9d495232f90b6}").
 
 \begin{lstlisting}
   {
@@ -199,7 +206,7 @@ This data is then saved to a file named according to the commit id, in the "raw"
 \subsubsection{Data Preparation}
 
 This step is the simplest. The only task is to convert the raw JSON structure, focused on the commit, to a JSON structure, focused on the component. 7
-Iterating through each file at the "raw" folder and creating a new one with the same name in the "json" folder.
+Iterating through each file at the "\code{raw}" folder and creating a new one with the same name in the "\code{json}" folder.
 
 The data contained in this new file will be ready for being converted to CSV and to be used for modeling or prediction.
 
@@ -234,49 +241,78 @@ In order to improve modeling results, we also created the columns "changes-other
 Ploting the results we noticed that the date influenced significantly the data related to changes, since older commits have less history behind. 
 So for each, we added a normalized version by the commit.
 
-% TODO: Plot plot plot
+\begin{figure}[H]
+  \begin{center}
+    \leavevmode
+    \includegraphics[width=0.75\textwidth]{date-changes_norm_math001.pdf}
+    \caption{Example of the influence of the date on number of changes. (Project Math, Defect 1)}
+    \label{fig:date-changes.raw}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+    \leavevmode
+    \includegraphics[width=0.75\textwidth]{date-changes_norm_math001.pdf}
+    \caption{Example of the relation between the date on the normalized number of changes. (Project Math, Defect 1)}
+    \label{fig:date-changes.norm}
+  \end{center}
+\end{figure}
 
 \begin{lstlisting}
 [
   {
     "__changed": true,
-    "__filename": "src/java/org/apache/commons/math/ContractableDoubleArray.java",
-    "_lines": 322,
-    "_bytes": 12984,
+    "__date": 1364521362,
+    "__filename": "src/main/java/org/apache/commons/math3/distribution/fitting/MultivariateNormalMixtureExpectationMaximization.java",
+    "_lines": 441,
+    "_bytes": 18211,
     "_mostChanged": false,
     "_mostChanged25": true,
     "_mostChanged50": true,
     "_mostChanged75": true,
-    "changes:raw": 6,
-    "changes:normalized": 0.45454545454545453,
-    "changes-fixes:raw": 1,
-    "changes-fixes:normalized": 0.3333333333333333,
-    "changes-others:raw": 5,
-    "changes-others:normalized": 0.5,
-    "changes:date-weighted:raw": 1.055159,
-    "changes:date-weighted:normalized": 0.254963045236254,
-    "changes:size-weighted:raw": 748,
-    "changes:size-weighted:normalized": 0.56738768718802,
-    "changes:date+size-weighted:raw": 17.613201,
-    "changes:date+size-weighted:normalized": 0.03216156542178275,
-    "changes-fixes:date-weighted:raw": 0.993307,
-    "changes-fixes:date-weighted:normalized": 0.9654987062622351,
-    "changes-fixes:size-weighted:raw": 6,
-    "changes-fixes:size-weighted:normalized": 0.015037593984962405,
-    "changes-fixes:date+size-weighted:raw": 5.959843,
-    "changes-fixes:date+size-weighted:normalized": 0.017828836536508293,
-    "changes-others:date-weighted:raw": 0.06185199999999991,
-    "changes-others:date-weighted:normalized": 0.014392704034689525,
-    "changes-others:size-weighted:raw": 742,
-    "changes-others:size-weighted:normalized": 0.5728813559322034,
-    "changes-others:date+size-weighted:raw": 11.653358,
-    "changes-others:date+size-weighted:normalized": 0.02475776974320204
+    "changes:raw": 3,
+    "changes:normalized": 0.2857142857142857,
+    "changes-fixes:raw": 0,
+    "changes-fixes:normalized": 0,
+    "changes-others:raw": 3,
+    "changes-others:normalized": 0.3333333333333333,
+    "changes:date-weighted:raw": 2.979453,
+    "changes:date-weighted:normalized": 0.290809968305134,
+    "changes:size-weighted:raw": 481,
+    "changes:size-weighted:normalized": 0.4746494066882416,
+    "changes:date+size-weighted:raw": 477.701982,
+    "changes:date+size-weighted:normalized": 0.4831911672918317,
+    "changes-fixes:date-weighted:raw": 0,
+    "changes-fixes:date-weighted:normalized": 0,
+    "changes-fixes:size-weighted:raw": 0,
+    "changes-fixes:size-weighted:normalized": 0,
+    "changes-fixes:date+size-weighted:raw": 0,
+    "changes-fixes:date+size-weighted:normalized": 0,
+    "changes-others:date-weighted:raw": 2.979453,
+    "changes-others:date-weighted:normalized": 0.3394176672358086,
+    "changes-others:size-weighted:raw": 481,
+    "changes-others:size-weighted:normalized": 0.4845814977973568,
+    "changes-others:date+size-weighted:raw": 477.701982,
+    "changes-others:date+size-weighted:normalized": 0.49340824785460163,
+    "authors:raw": 3,
+    "authors:normalized": 0.6666666666666666,
+    "authorChanges::luc@apache.org:raw": 1,
+    "authorChanges::luc@apache.org:normalized": 0,
+    ...
+    "authorChanges:date-weighted::luc@apache.org:raw": 0.993164,
+    "authorChanges:date-weighted::luc@apache.org:normalized": 0.00025474141229450394,
+    "authorChanges:size-weighted::luc@apache.org:raw": 33,
+    "authorChanges:size-weighted::luc@apache.org:normalized": 0.5454545454545454,
+    "authorChanges:date+size-weighted::luc@apache.org:raw": 32.774417,
+    "authorChanges:date+size-weighted::luc@apache.org:normalized": 0.5455704368440787,
+    ...
   },
   ...
 ]
 \end{lstlisting}
+\caption{Example of extracted data}
 
-% TODO: AUTORES
 
 The data from the multiple fix commits is then combined in a file named "history.csv" and the data from the \emph{HEAD} commit is placed at "master.csv". 
 These two files will be only files required to execute the next step.
@@ -285,13 +321,12 @@ These two files will be only files required to execute the next step.
 \subsubsection{Modeling and Prediction}
 
 For modeling and predicting \emph{Python 3} and \emph{scikit-learn} is used.
-Random Forests, Decision Trees and Naive Bayes were tried, but the former achieved significantly better results as it's presented in the Experimental Results chapter.
+Random Forests, Decision Trees and Naive Bayes were tried, but the former achieved significantly better results as it's presented in the Experimental Results chapter \ref{chap:exp-res}.
 Neural Networks weren't used since the training set is normally small.
-% TODO: Chapter Link
 
 Before training the model, the training set is randomized and balanced, first to a ratio of 5 \emph{clean} component for each \emph{buggy} component 
-and then SMOTE is used to create more \emph{buggy} component entries. In order to train the model a \emph{Stratified KFold} (10 folds) is used and run 10 times, 
-generating 100 different models. Performance of these 100 models is measured according to the difference of the mean defect probability of buggy test data and clean test data. 
-The 20 models with the highest difference are then used to predict the defect probability of each component in the current project state and a mean is calculated.
+and then SMOTE is used to create more \emph{buggy} component entries. In order to train the model a \emph{Stratified KFold} (4 folds) is used and run 10 times, 
+generating 40 different models. Performance of these 40 models is measured according to the difference of the mean defect probability of buggy test data and clean test data. 
+The 15 models with the highest difference are then used to predict the defect probability of each component in the current project state and a mean is calculated.
 
 As refered before, the results are saved directly at the repository folder.

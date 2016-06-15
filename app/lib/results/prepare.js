@@ -35,9 +35,9 @@ function getColumns(jsonFilenames) {
     .then(() => columns.sort());
 }
 
-module.exports = (projectConfig, projectName, repoPath, classificationLabel, estimators) => {
+module.exports = (projectConfig, projectName, repoPath, classificationLabel, estimators, fileLabel) => {
+    fileLabel = fileLabel.trim('.');
     const csv = {};
-    const uid = 'model-' + Math.ceil(Math.random()*100000);
     let masterCommit = null;
 
     log.info(logPrefix, 'CSV Preparation started');
@@ -115,33 +115,16 @@ module.exports = (projectConfig, projectName, repoPath, classificationLabel, est
     }, { concurrency: 3 }))
 
      //ML
-    //
-    //.tap(() => {
-    //    log.info('results/ml', `Estimating Accuracy`);
-    //    return spawn('./lib/ml/estimate.py', [
-    //        csvPath(projectName, masterCommit, 'history'),
-    //        estimators,
-    //        classificationLabel,
-    //        repoPath + `/prediction.e${estimators}.${classificationLabel}.balanced.meta.csv`
-    //    ])
-    //    .tap(stdout => log.info('results/ml', stdout.toString().trim()))
-    //})
 
-    .tap(() => log.info('results/ml', `Modeling`))
+    .tap(() => log.info('results/ml', `Modeling /prediction.e${estimators}.${classificationLabel}.${fileLabel}.csv`))
     .tap(() => spawn('./lib/ml/ml.py', [
         csvPath(projectName, masterCommit, 'history'),
         csvPath(projectName, masterCommit, 'master'),
         classificationLabel,
-        repoPath + `/prediction.e${estimators}.${classificationLabel}.06.04.csv`
-    ]))
-
-    //
-    //.tap(() => log.info('results/ml', `Predicting`))
-    //.tap(() => spawn('./lib/ml/predict.py', [
-    //    `/tmp/${uid}.pickle`,
-    //    csvPath(projectName, masterCommit, 'master'),
-    //    repoPath + `/prediction.e${estimators}.${classificationLabel}.7.csv`
-    //]))
+        estimators,
+        repoPath + `/prediction.e${estimators}.${classificationLabel}.${fileLabel}.csv`,
+        repoPath + `/prediction.e${estimators}.${classificationLabel}.${fileLabel}.meta.csv`
+    ]).then(msg => console.log(msg.toString().trim())))
 
     .tap(() => log.verbose(logPrefix, 'CSV Preparation finished'));
 };

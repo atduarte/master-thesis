@@ -1,6 +1,13 @@
+\select@language {english}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Visualiza\IeC {\c c}\IeC {\~a}o Sunburst do Crowbar\relax }}{7}{figure.caption.10}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Example of the influence of the date on number of changes. (Project Math, Defect 1)\relax }}{17}{figure.caption.12}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Example of the relation between the date on the normalized number of changes. (Project Math, Defect 1)\relax }}{17}{figure.caption.13}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Histogram of predicted defect probabilities for Project Math, Defect 15\relax }}{24}{figure.caption.18}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Histogram of the percentage of components with higher defect probability than the faulty component for all defects of all projects\relax }}{25}{figure.caption.19}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Histogram of all the faulty component positions, wh \relax }}{26}{figure.caption.20}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Results modification effect on Barinel results, by minimum defect probability\relax }}{26}{figure.caption.21}

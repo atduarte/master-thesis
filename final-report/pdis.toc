@@ -1,3 +1,4 @@
+\select@language {english}
 \contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Contexto/Enquadramento}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Motiva\IeC {\c c}\IeC {\~a}o e Objetivos}{1}{section.1.2}
@@ -20,12 +21,20 @@
 \contentsline {subsection}{\numberline {2.3.1}\emph {BugCache/FixCache}}{9}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}\emph {Buggy Change Classification}}{9}{subsection.2.3.2}
 \contentsline {chapter}{\numberline {3}Estimating Defect Probabilities}{11}{chapter.3}
-\contentsline {subsection}{\numberline {3.0.3}Install}{11}{subsection.3.0.3}
-\contentsline {subsection}{\numberline {3.0.4}Usage}{11}{subsection.3.0.4}
-\contentsline {subsection}{\numberline {3.0.5}Process}{13}{subsection.3.0.5}
-\contentsline {subsubsection}{\numberline {3.0.5.1}Extraction}{13}{subsubsection.3.0.5.1}
-\contentsline {subsubsection}{\numberline {3.0.5.2}Data Preparation}{15}{subsubsection.3.0.5.2}
-\contentsline {subsubsection}{\numberline {3.0.5.3}Modeling and Prediction}{17}{subsubsection.3.0.5.3}
-\contentsline {chapter}{\numberline {4}Valida\IeC {\c c}\IeC {\~a}o}{19}{chapter.4}
-\contentsline {chapter}{\numberline {5}Conclus\IeC {\~o}es e Trabalho Futuro}{21}{chapter.5}
-\contentsline {chapter}{Refer\^{e}ncias}{23}{section*.14}
+\contentsline {subsection}{\numberline {3.0.3}Concept}{11}{subsection.3.0.3}
+\contentsline {subsection}{\numberline {3.0.4}Main difficulties}{11}{subsection.3.0.4}
+\contentsline {subsection}{\numberline {3.0.5}Install}{11}{subsection.3.0.5}
+\contentsline {subsection}{\numberline {3.0.6}Usage}{12}{subsection.3.0.6}
+\contentsline {subsection}{\numberline {3.0.7}Process}{13}{subsection.3.0.7}
+\contentsline {subsubsection}{\numberline {3.0.7.1}Extraction}{13}{subsubsection.3.0.7.1}
+\contentsline {subsubsection}{\numberline {3.0.7.2}Data Preparation}{15}{subsubsection.3.0.7.2}
+\contentsline {subsubsection}{\numberline {3.0.7.3}Modeling and Prediction}{19}{subsubsection.3.0.7.3}
+\contentsline {chapter}{\numberline {4}Barinel Integration}{21}{chapter.4}
+\contentsline {subsection}{\numberline {4.0.8}Priors Replacement}{21}{subsection.4.0.8}
+\contentsline {subsection}{\numberline {4.0.9}Results Modification}{21}{subsection.4.0.9}
+\contentsline {chapter}{\numberline {5}Experimental Results}{23}{chapter.5}
+\contentsline {subsection}{\numberline {5.0.10}Estimating Defect Probability}{23}{subsection.5.0.10}
+\contentsline {subsection}{\numberline {5.0.11}Barinel Integration}{25}{subsection.5.0.11}
+\contentsline {subsubsection}{\numberline {5.0.11.1}Results Modification}{26}{subsubsection.5.0.11.1}
+\contentsline {subsubsection}{\numberline {5.0.11.2}Priors Replacement}{26}{subsubsection.5.0.11.2}
+\contentsline {chapter}{References}{27}{section*.22}

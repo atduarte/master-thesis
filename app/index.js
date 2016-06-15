@@ -47,8 +47,15 @@ yargs
 .option('estimators', {
     type: 'string',
     alias: 'e',
-    default: 500,
+    default: 5,
     describe: 'The number of estimators used in the Random Forest classification',
+    global: true,
+})
+
+.option('file-label', {
+    type: 'string',
+    alias: 'fl',
+    describe: 'The label to be given to the results file',
     global: true,
 })
 
@@ -58,5 +65,6 @@ yargs
 .command('all', 'Extract and prepare', require('./lib/cli/all'))
 
 .command('modifier', 'Modify Barinel results', require('./lib/cli/modifier'))
+.command('diagnose', 'Diagnose Barinel results', require('./lib/cli/diagnose'))
 
 .argv;

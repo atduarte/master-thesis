@@ -20,16 +20,14 @@ module.exports.handler = (argv) => {
     const projectConfig = getProjectConfig(projectName, argv.projectConfig);
     const classificationLabel = argv.classificationLabel;
     const estimators = argv.estimators;
+    const fileLabel = argv.fileLabel;
 
-    return extract(projectConfig, projectName, repoPath)
-    .then(() => prepareJSON(projectConfig, projectName, repoPath))
-    .then(() => prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators))
-    .then(() => process.exit(0));
+    //return extract(projectConfig, projectName, repoPath)
+    //.then(() => prepareJSON(projectConfig, projectName, repoPath))
+    //.then(() => prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators, fileLabel))
+    //.then(() => process.exit(0));
 
-    //return prepareJSON(projectConfig, projectName, repoPath)
-    //.then(() => prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators))
-    //.then(() => process.exit(0));
-    //
-    //return prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators)
-    //.then(() => process.exit(0));
+
+    return prepareResults(projectConfig, projectName, repoPath, classificationLabel, estimators, fileLabel)
+        .then(() => process.exit(0));
 };

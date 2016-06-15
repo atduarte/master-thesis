@@ -1,4 +1,4 @@
-\BOOKMARK [0][-]{init.0}{P\341gina de Rosto}{}% 1
+\BOOKMARK [0][-]{init.0}{Front Page}{}% 1
 \BOOKMARK [0][-]{contents.0}{Conte\372do}{}% 2
 \BOOKMARK [0][-]{figures.0}{Lista de Figuras}{}% 3
 \BOOKMARK [0][-]{tables.0}{Lista de Tabelas}{}% 4
@@ -19,9 +19,15 @@
 \BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 BugCache/FixCache}{section.2.3}% 19
 \BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Buggy Change Classification}{section.2.3}% 20
 \BOOKMARK [0][-]{chapter.3}{3 Estimating Defect Probabilities}{}% 21
-\BOOKMARK [1][-]{subsection.3.0.3}{3.0.3 Install}{chapter.3}% 22
-\BOOKMARK [2][-]{subsection.3.0.4}{3.0.4 Usage}{subsection.3.0.3}% 23
-\BOOKMARK [2][-]{subsection.3.0.5}{3.0.5 Process}{subsection.3.0.3}% 24
-\BOOKMARK [0][-]{chapter.4}{4 Valida\347\343o}{}% 25
-\BOOKMARK [0][-]{chapter.5}{5 Conclus\365es e Trabalho Futuro}{}% 26
-\BOOKMARK [0][-]{section*.14}{Refer\352ncias}{}% 27
+\BOOKMARK [1][-]{subsection.3.0.3}{3.0.3 Concept}{chapter.3}% 22
+\BOOKMARK [2][-]{subsection.3.0.4}{3.0.4 Main difficulties}{subsection.3.0.3}% 23
+\BOOKMARK [2][-]{subsection.3.0.5}{3.0.5 Install}{subsection.3.0.3}% 24
+\BOOKMARK [2][-]{subsection.3.0.6}{3.0.6 Usage}{subsection.3.0.3}% 25
+\BOOKMARK [2][-]{subsection.3.0.7}{3.0.7 Process}{subsection.3.0.3}% 26
+\BOOKMARK [0][-]{chapter.4}{4 Barinel Integration}{}% 27
+\BOOKMARK [1][-]{subsection.4.0.8}{4.0.8 Priors Replacement}{chapter.4}% 28
+\BOOKMARK [2][-]{subsection.4.0.9}{4.0.9 Results Modification}{subsection.4.0.8}% 29
+\BOOKMARK [0][-]{chapter.5}{5 Experimental Results}{}% 30
+\BOOKMARK [1][-]{subsection.5.0.10}{5.0.10 Estimating Defect Probability}{chapter.5}% 31
+\BOOKMARK [2][-]{subsection.5.0.11}{5.0.11 Barinel Integration}{subsection.5.0.10}% 32
+\BOOKMARK [0][-]{section*.22}{References}{}% 33

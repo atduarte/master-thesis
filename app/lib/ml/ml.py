@@ -21,16 +21,23 @@ import numpy as np
 history_file = sys.argv[1]
 master_file = sys.argv[2]
 label = sys.argv[3]
-out_file = sys.argv[4]
+n_estimators = sys.argv[4]
+out_file = sys.argv[5]
+out_label = out_file.split('.')[-2]
+algorithm = out_file.split('.')[-3]
+meta_file = sys.argv[6]
+
+dropped_columns = []
 
 # Helpers
 
 def dropColumns(data) :
-    toDrop = [x for x in data.columns.values if x.endswith(':raw')]
-    # toDrop += [x for x in data.columns.values if 'author' in x]
-    # toDrop += [x for x in data.columns.values if 'others' in x]
+    toDrop = []
+    if ('raw' not in out_label) : toDrop += [x for x in data.columns.values if x.endswith(':raw')]
+    if ('norm' not in out_label) : toDrop += [x for x in data.columns.values if x.endswith(':normalized')]
+    if ('author' not in out_label) : toDrop += [x for x in data.columns.values if x.startswith('author')]
+    if ('date' not in out_label) : toDrop += ['__date']
     toDrop += [
-        '__date',
         '__filename',
         '__changed',
         '_mostChanged',
@@ -56,10 +63,16 @@ def train(train, test) :
     smote = SMOTE(kind='regular', verbose=False)
     train_matrix, train_labels = smote.fit_transform(train.drop('label', 1), train.label)
 
-    clf = RandomForestClassifier(n_estimators=5, n_jobs=3, criterion='entropy')
+    if (algorithm == 'random-forest') :
+        clf = RandomForestClassifier(n_estimators=5, n_jobs=3, criterion='entropy')
+    elif (algorithm == 'adaboost') :
+        clf = AdaBoostClassifier()
+
+    # clf = SVC(class_weight="balanced", probability=True, verbose=False)
+
     clf.fit(train_matrix, train_labels)
 
-    return [testMeanDiff(clf, test), clf]
+    return [testMeanDiff(clf, test), clf.score(test.drop('label', 1), test.label),  clf]
 
 # Get File
 
@@ -76,6 +89,8 @@ history_data['label'] = history_data['label'].astype(str)
 history_data = dropColumns(history_data)
 dropped_master_data = dropColumns(master_data)
 
+print(history_data.columns.values)
+
 # Train set cut
 
 clean_history = history_data[history_data.label == '0']
@@ -90,7 +105,7 @@ train_data = train_data.reset_index().drop(['index'], 1)
 
 # Train
 
-skf = StratifiedKFold(train_data.label, n_folds=10, shuffle=True)
+skf = StratifiedKFold(train_data.label, n_folds=4, shuffle=True)
 
 models = []
 for i in range(0, 10) :
@@ -98,15 +113,13 @@ for i in range(0, 10) :
         models.append(train(train_data.ix[train_index], train_data.ix[test_index]))
 
 models.sort(key=lambda x: -x[0])
-best_models = models[:20]
-
-print(np.mean([x[0] for x in models][:10]))
+best_models = models[:15]
 
 # Predict using all models
 
 results = []
 for best_model in best_models :
-    prediction = best_model[1].predict_proba(dropped_master_data).tolist()
+    prediction = best_model[2].predict_proba(dropped_master_data).tolist()
     results.append([x[1] for x in prediction])
 
 master_data['result'] = np.mean(results, axis=0)
@@ -122,3 +135,9 @@ for index, row in master_data.iterrows() :
 with open(out_file, 'w') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerows(predictions)
+
+with open(meta_file, 'w') as file:
+    writer = csv.writer(file)
+    writer.writerows([['range', 10], ['folds', 4], ['n', 15]])
+    writer.writerows([dropped_columns])
+    writer.writerows([model[:2] for model in models])
