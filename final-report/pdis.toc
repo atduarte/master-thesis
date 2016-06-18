@@ -36,5 +36,5 @@
 \contentsline {subsection}{\numberline {5.0.10}Estimating Defect Probability}{23}{subsection.5.0.10}
 \contentsline {subsection}{\numberline {5.0.11}Barinel Integration}{25}{subsection.5.0.11}
 \contentsline {subsubsection}{\numberline {5.0.11.1}Results Modification}{26}{subsubsection.5.0.11.1}
-\contentsline {subsubsection}{\numberline {5.0.11.2}Priors Replacement}{26}{subsubsection.5.0.11.2}
-\contentsline {chapter}{References}{27}{section*.22}
+\contentsline {subsubsection}{\numberline {5.0.11.2}Priors Replacement}{27}{subsubsection.5.0.11.2}
+\contentsline {chapter}{References}{29}{section*.22}
