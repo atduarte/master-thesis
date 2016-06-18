@@ -5,15 +5,6 @@
 # Written by JCL
 #
 
-# orelse
-#
-# latexmk completely automates the process of generating a LaTeX document. 
-# Given the source files for a document, latexmk issues the appropriate 
-# sequence of commands to generate a .dvi, .ps, .pdf or hardcopy version 
-# of the document
-#
-# latexmk $TARGET.tex -bibtex -pdf -recorder -pvc
-
 ## programs
 LATEX=latex
 PDFLATEX=pdflatex
@@ -24,14 +15,10 @@ DVI2PS=dvips -t landscape -x 707
 PS2PDF=ps2pdf -dEmbedAllFonts#true
 MKIDX=makeindex
 
-## Basename for PDIS
-TARGET=pdis
-#TARGET=pdis-en
-
 ## Basename for result in PT
-#TARGET=mieic
+#TARGET=tese
 ## Basename for result in EN
-#TARGET=mieic-en
+TARGET=thesis
 
 ## .tex files
 TEXFILES=$(wildcard *.tex **/*.tex)
@@ -60,7 +47,6 @@ biblio:
 	  $(BIBTEX) $(TARGET); $(PDFLATEX) $< $@; fi
 	while grep 'Rerun to get cross-references right.' $*.log ; do \
 	  $(PDFLATEX) $< $@ || { rm -f $*.aux $*.idx && false ; } ; done
-	evince $(TARGET).pdf
 
 .tex.dvi:
 	rm -f $*.ps $*.pdf
@@ -104,6 +90,8 @@ EXTS=aux toc idx ind ilg log out lof lot lol bbl blg
 clean:
 	for EXT in ${EXTS}; do \
 	  find `pwd` -name \*\.$${EXT} -exec rm -v \{\} \; ; done
+	rm -f tese.pdf
+	rm -f thesis.pdf
 
 ##show PDF
 display: $(TARGET).pdf

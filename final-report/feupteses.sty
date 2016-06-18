@@ -3,7 +3,7 @@
 %%
 %% PLEASE send improvements to jlopes at fe.up.pt and to jcf at fe.up.pt
 %%
-  
+
 \NeedsTeXFormat{LaTeX2e}
 \def \filename {feupteses.sty}
 \def \filedate {2014/01/24}
@@ -146,7 +146,7 @@ with the `report' document style}{}}{}
 \RequirePackage[T1]{fontenc}
 
 \if@portugues
-  \RequirePackage[portuguese]{babel}
+  \RequirePackage[portugues]{babel}
   \RequirePackage{indentfirst}
 \else
   \RequirePackage[english]{babel}
@@ -162,8 +162,8 @@ with the `report' document style}{}}{}
 \widowpenalty=6000
 
 \RequirePackage{mathptmx}	   % font times
-%\RequirePackage[scaled]{couriers}  % font courier
-%\RequirePackage[scaled]{helvet}    % font helvetica
+\RequirePackage[scaled]{couriers}  % font courier
+\RequirePackage[scaled]{helvet}    % font helvetica
 \RequirePackage[pdftex]{graphicx}
 \RequirePackage{url}
 \RequirePackage{setspace}
@@ -179,7 +179,7 @@ with the `report' document style}{}}{}
   \newcommand{\citet}{\cite}
   \newcommand{\citep}{\cite}
 \else
-  \if@alpharefs 
+  \if@alpharefs
      \newcommand{\citet}{\cite}
      \newcommand{\citep}{\cite}
   \else
@@ -215,7 +215,7 @@ with the `report' document style}{}}{}
 \def\additionalfronttext#1{\gdef\@provisionaltext{#1}}
 
 %% Members of the committee (viva)
-\newbox\@vivatext 
+\newbox\@vivatext
 
 %% add initial text
 \def\committeetext#1{%
@@ -247,7 +247,7 @@ with the `report' document style}{}}{}
 %% the user makes multiple calls to \supervisor
 %% Usage: \supervisor{role}{name}{title}
 
-\newbox\@supervisorstext 
+\newbox\@supervisorstext
 
 \def\supervisor#1#2{%
   \setbox\@supervisorstext\vbox%
@@ -375,7 +375,7 @@ with the `report' document style}{}}{}
 %% If the titlepage environment, the paragraph skip is infinitely
 %% stretchable, so if you leave a blank line between lines that you
 %% want space between, the space will stretch so that the title page
-%% fills up the entire page. 
+%% fills up the entire page.
 \def\titlepage{\cleardoublepage\centering
   \thispagestyle{empty}
   \parindent 0pt \parskip 10pt plus 1fil minus 1fil
@@ -470,9 +470,9 @@ with the `report' document style}{}}{}
  \fi
 \fi
 
-\if@onpaper 
+\if@onpaper
   \hypersetup{%
-    plainpages=false, 
+    plainpages=false,
     pdfpagelayout=SinglePage,
     bookmarksopen=false,
     bookmarksnumbered=true,
@@ -483,7 +483,7 @@ with the `report' document style}{}}{}
   }
 \else
   \hypersetup{%
-    plainpages=false, 
+    plainpages=false,
     pdfpagelayout=SinglePage,
     bookmarksopen=false,
     bookmarksnumbered=true,
@@ -582,20 +582,6 @@ with the `report' document style}{}}{}
     \begin{singlespace}\printindex\end{singlespace}}
 
 \fi % Some language-dependent definitions
-
-% Custom Changes
-
-% List separator space
-\renewcommand{\@listI}{%
-  \topsep=4pt plus 2pt minus 4pt
-  \partopsep=0pt plus 1pt minus 1pt
-  \parsep=3pt plus 1pt
-  \itemsep=\parsep
-}
-
-\usepackage{amsmath}
-\newcommand{\pr}{\mbox{Pr}}
-\newcommand{\gFunc}[1][d]{\displaystyle\prod_{j \in (d \cap obs_i)} g_j}
 
 \AtBeginDocument{\@StartDoc}
 

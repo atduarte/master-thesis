@@ -1,0 +1,142 @@
+%% FEUP THESIS STYLE for LaTeX2e
+%% how to use feupteses (English version)
+%%
+%% FEUP, JCL & JCF, 31 July 2012
+%%
+%% PLEASE send improvements to jlopes at fe.up.pt and to jcf at fe.up.pt
+%%
+
+%%========================================
+%% Commands: pdflatex tese
+%%           bibtex tese
+%%           makeindex tese (only if creating an index)
+%%           pdflatex tese
+%% Alternative:
+%%          latexmk -pdf tese.tex
+%%========================================
+
+\documentclass[11pt,a4paper,twoside,openright]{report}
+% TODO: Open right
+
+%% For iso-8859-1 (latin1), comment next line and uncomment the second line
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+%\usepackage[latin1]{inputenc}
+
+%% English version
+
+%% MIEIC options
+\usepackage[mieic]{feupteses}
+%\usepackage[mieic,juri]{feupteses}
+%\usepackage[mieic,final]{feupteses}
+%\usepackage[mieic,final,onpaper]{feupteses}
+
+%% Additional options for feupteses.sty:
+%% - onpaper: links are not shown (for paper versions)
+%% - backrefs: include back references from bibliography to citation place
+
+%% Include color package
+
+%% Include source-code listings package
+
+
+%% Uncomment to create an index (at the end of the document)
+%\makeindex
+
+%% Path to the figures directory
+%% TIP: use folder ``figures'' to keep all your figures
+\graphicspath{{figures/}}
+
+%%----------------------------------------
+%% TIP: if you want to define more macros, use an external file to keep them
+\include{mymacros}
+%%----------------------------------------
+
+%%========================================
+%% Start of document
+%%========================================
+\begin{document}
+
+%%----------------------------------------
+%% Information about the work
+%%----------------------------------------
+\title{Software Repository Mining for Estimating Software Component Reliability}
+\author{André Duarte}
+
+%% Comment next line if not necessary for degree
+% \degree{Programa Doutoral em Engenharia Informática}
+
+%% Uncomment next line for date of submission
+\thesisdate{June 24, 2016}
+
+%% Comment next line copyright text if not used
+% \copyrightnotice{Name of the Author, 2008}
+
+\supervisor{Supervisor}{Rui Maranhão}
+\supervisor{Second Supervisor}{Alexandre Perez}
+
+%% Uncomment committee stuff in the final version if used
+%\committeetext{Approved by \ldots:}
+%\committeemember{President}{Name of the President}
+%\committeemember{Referee}{Name of the Referee}
+%\committeemember{Referee}{Name of the Referee}
+%\signature
+
+%% Specify cover logo (in folder ``figures'')
+\logo{uporto-feup.pdf}
+
+%% Uncomment next line for additional text below the author's name (front page)
+%\additionalfronttext{Preparação da Dissertação}
+
+%%----------------------------------------
+%% Preliminary materials
+%%----------------------------------------
+
+% remove unnecessary \include{} commands
+\begin{Prolog}
+  \include{abstract} % the abstract
+  \include{acknows}  % the acknowledgments
+  \include{quote}    % initial quotation if desired
+  \cleardoublepage
+  \pdfbookmark[0]{Table of Contents}{contents}
+  \tableofcontents
+  \cleardoublepage
+  \pdfbookmark[0]{List of Figures}{figures}
+  \listoffigures
+  \cleardoublepage
+  \pdfbookmark[0]{List of Tables}{tables}
+  \listoftables
+  \include{abbrevs}  % the list of abbreviations used
+\end{Prolog}
+
+%%----------------------------------------
+%% Body
+%%----------------------------------------
+\StartBody
+
+%% TIP: use a separate file for each chapter
+\include{chapters/intro}
+\include{chapters/sota}
+\include{chapters/estimating-dp}
+\include{chapters/barinel-integration}
+\include{chapters/exp-results}
+
+%% comment next 2 commands if numbered appendices are not used
+% \appendix
+% \include{appendix1}
+
+%%----------------------------------------
+%% Final materials
+%%----------------------------------------
+
+%% Bibliography
+%% Comment the next command if BibTeX file not used
+%% bibliography is in ``myrefs.bib''
+\PrintBib{myrefs}
+
+%% Index
+%% Uncomment next command if index is required
+%% don't forget to run ``makeindex thesis'' command
+%\PrintIndex
+
+\end{document}

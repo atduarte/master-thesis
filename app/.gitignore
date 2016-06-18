@@ -4,3 +4,6 @@ npm-debug.*
 config.js
 /out
 *.rdb
+/lib/ml/experiences
+/lib/ml/test
+
