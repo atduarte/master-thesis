@@ -17,14 +17,16 @@ We might say, for example, that having a high number of recent changes or having
 
 Based on that assumption, the application, for a given repository state, extracts metadata knowledge from past commits with faulty components, the parent commits of a fix. For each of these commits, all of components are analyzed and labeled as faulty or clean, if it was or not changed on the fix, respectively.
 %
-\begin{figure}[H]
-  \begin{center}
-    \leavevmode
-    \includegraphics[width=0.7\textwidth]{commits.pdf}
-    \caption{Example representation of commits history, with fix commits illustrated in a diamond shape}
-    \label{fig:commits}
-  \end{center}
-\end{figure}
+% CHOURIÇO:
+%
+%\begin{figure}[H]
+%  \begin{center}
+%    \leavevmode
+%    \includegraphics[width=0.7\textwidth]{commits.pdf}
+%    \caption{Example representation of commits history, with fix commits illustrated in a diamond shape}
+%    \label{fig:commits}
+%  \end{center}
+%\end{figure}
 
 Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis is not used. 
 The only information that is used is information diretly related to the file changes, authors, number of lines or bytes.
@@ -54,7 +56,7 @@ The application relies on \emph{Redis}, \emph{Git}, \emph{Node.js} and \emph{Pyt
 
 \section{Usage}
 
-After all the dependencies installed the usage is very straight-forward.
+Having all the required dependencies installed, the usage is very straight-forward.
 In order to automatically execute all the steps (extraction, data preparation, modeling and prediction) the following command should be used
 by replacing "\code{{project-name}}" and "\code{{repository-path}}" respectively with
 the chosen project name and the path to the folder containing the repository we want to analyze:
@@ -130,12 +132,13 @@ As stated before the process is divided in extraction, data preparation, modelin
 
 The first objective is to get the list of commits to analyze: the HEAD commit and all the fix commits that preceded it. 
 So, first, the \emph{HEAD} commit is identified. The application then walks recursively through each parent commit or commits and,
-if it is message matches the defined regex, does not contain any word from the stop words list, such as "typo" or "javadoc", and it is not a merge, adds it to the list of commits to analyze.
+if it is message matches the following regex and it is not a merge, adds it to the list of commits to analyze.
 
-\todo{Regex}
+\begin{lstlisting}
+(\b|)fix(|\b|ed|ing)|bug( | \#|\-|)[0-9]+
+\end{lstlisting}
 
-Having this list, it analyzes each commit individually, ignoring the ones that were already extracted or that have no changed files after filtering
-according to configuration.
+Having this list, it analyzes each commit individually, ignoring the ones that were already extracted or that have no changed files after filtering according to configuration.
 First the information directly related to the commit and its tree is extracted:
 %
 \begin{itemize}
@@ -161,58 +164,83 @@ Then, the application walks through the changes history of each component, follo
 \item linesRemoved - Number of lines removed
 \end{itemize}
 
-Since this procedure has a high computation cost, some enhancements have been made. It relies heavily on \emph{Redis} for caching 
-and the number of components analyzed is reduced when possible. Considering that the modeling step will balance the training data, 
-reducing the number of \emph{clean} components according to the number of existing \emph{buggy} components, the system randomizes the list and
-limits the extraction of \emph{clean} components up to a maximum of four times the number of \emph{buggy} components on the given commit.
-
-\todo{Formula representing the maximum number of components}
-
-\todo{Explain Cache Details}
-
 This data is then saved to a file named according to the commit id, in the "\code{raw}" folder (e.g "\code{out/math/raw/17d6f2163db436518f953166c1e9d495232f90b6}").
 
 \begin{lstlisting}
-  {
-    "id": "0b1b9a9dc86da871ce5e7839b1b2df13c99dd9f8",
-    "message": "Submitted Javadoc fixes from Andreou Andreas ...",
-    "date": 1055343030,
-    "author": "tobrien@apache.org",
-    "components": {
-      "src/java/org/apache/commons/math/ContractableDoubleArray.java": {
-        "linesAdded": 3,
-        "linesRemoved": 3,
-        "changes": [
-          {
-            "id": "8b62ed457040b6a1b4562aa0d0df88e1e77bddce",
-            "date": 1053499586,
-            "author": "tobrien@apache.org",
-            "parentCount": 1,
-            "isFix": false,
-            "filename": "src/java/org/apache/commons/math/ContractableDoubleArray.java",
-            "lines": 322,
-            "byteSize": 12970,
-            "linesAdded": 54,
-            "linesRemoved": 3
-          },
-          ...
-        ]
-      }
+{
+  "id": "0b1b9a9dc86da871ce5e7839b1b2df13c99dd9f8",
+  "message": "Submitted Javadoc fixes from Andreou Andreas ...",
+  "date": 1055343030,
+  "author": "tobrien@apache.org",
+  "components": {
+    "src/java/org/apache/commons/math/ContractableDoubleArray.java": {
+      "linesAdded": 3,
+      "linesRemoved": 3,
+      "changes": [
+        {
+          "id": "8b62ed457040b6a1b4562aa0d0df88e1e77bddce",
+          "date": 1053499586,
+          "author": "tobrien@apache.org",
+          "parentCount": 1,
+          "isFix": false,
+          "filename": "src/java/org/apache/commons/math/ContractableDoubleArray.java",
+          "lines": 322,
+          "byteSize": 12970,
+          "linesAdded": 54,
+          "linesRemoved": 3
+        },
+        ...
+      ]
     }
   }
+}
 \end{lstlisting}
 
-% GUIDELINE
+Since this procedure has a high computation cost, some enhancements have been made. Considering that the modeling step will balance the training data set, 
+reducing the number of \emph{clean} components according to the number of existing \emph{faulty} components, the system randomizes the list and
+limits the extraction of \emph{clean} components up to a maximum of four times the number of \emph{faulty} components on the given commit: 
+%
+\begin{lstlisting}[language=Javascript]
+const _ = require('lodash');
 
-% Identifica Head commit
-% Percorre todos os commits que existem para traz e identifica fixes
-% Extrai dados do Head Commit e dos fix commits (max = 1000) 
-% Fix commits que não tenham ficheiros que procuramos alterados, nao são analisados
-% Em Fix commits -> Nº de componentes nao modificados que sao analisados = 4 * Nº de ficheiros alterados no commit
-% Lista de cenas que saca?
-% > Base info
-% > additional info
-% example
+if (notHead) {
+  const changedComponents = _.pickBy(info.components, x => x.linesAdded + x.linesRemoved > 0);
+
+  // ...
+
+  const cleanComponentNames = _(info.components)
+      .pickBy(x => x.linesAdded + x.linesRemoved == 0)
+      .keys()
+      .shuffle()
+      .splice(0, 4 * _.size(changedComponents)).value();
+  
+  info.components = Object.assign({}, changedComponents,
+      _.pick(info.components, cleanComponentNames)
+  );
+}
+\end{lstlisting}
+
+It also relies heavily on caching. Since in most cases the commits analyze common files, we can cache some information and improve performance. 
+Due to the ability to merge two different commits, \emph{Git} can have a non-linear history. 
+As a result iterating recursively through all parent commits for each analyzed commit is necessary in order to safely determine which parent commits changed which files. 
+Although, for any given file and commit, this list will most of the times have common elements with lists from changes of the same component for other commits. 
+Given this, the data that is extracted for each item on the list is cached in \emph{Redis}, using file name and commit as reference.
+
+Figure \ref{fig:cache} illustrates a possible Git history. We will assume that only one file exists, $F$, it was changed in all commits and will also assume commit $C1$ and commit $C2$ as fix commits. 
+The application would extract data for $HEAD$, $C4$ and $C5$ and for $F$ each time. When extracting $F$ on $HEAD$ the list of changes would be $[C6, C5, C4, C3, C2, C1]$, on $C5$ it would be $[C3, C2, C1]$ and on $C4$ it would be $[C2, C1]$.
+Then for each change data, such as number of lines added and lines removed, have to be extracted. 
+As we saw, extraction happens for each analyzed commit, for each file, for each past file change and takes some time.
+Without cache, it would extract $[C6, C5, C4, C3, C2, C1, C3, C2, C1, C2, C1]$, but since the results are cached it just runs for $[C6, C5, C4, C3, C2, C1]$, improving performance significantly.
+%
+\begin{figure}[ht]
+  \begin{center}
+    \leavevmode
+    \includegraphics[width=0.5\textwidth]{cache.pdf}
+    \caption{Example representation of commits history, with fix commits illustrated in a diamond shape}
+    \label{fig:cache}
+  \end{center}
+\end{figure}
+
 
 \subsection{Data Preparation}
 
@@ -243,7 +271,12 @@ The following columns are prepared for each component:
 \item authorChanges:date+size-weighted:{author} - Sum of the result of the time-weighted function applied to each change made by a specific author multiplied for the number of lines added and removed in it. E.g. authorChanges:date+size-weighted::luc@apache.org
 \end{itemize}
 
-\todo{Time-weighted function}
+Being $t$ the normalized timestamp of the change, where 0 is the timestamp of the first commit and 1 of the latest, and $W = 0.5$, the time-weighted function used was the following:
+%
+\begin{equation}
+  %\sum_{i=0}^{n}%
+  \frac {1} {1 + e^{(-12 \cdot t) + (1 - W) \cdot 10 + 2}}
+\end{equation}
 
 In order to improve modeling results, we also created the columns "changes-others", "changes-others:date-weighted", "changes-others:size-weighted", "changes-others:date+size-weighted", 
 "changes-fixes", "changes-fixes:date-weighted", "changes-fixes:size-weighted" and "changes-fixes:date+size-weighted" that are equal to the already existing columns starting with
@@ -252,7 +285,7 @@ In order to improve modeling results, we also created the columns "changes-other
 Ploting the results we noticed that the date influenced significantly the data related to changes, since older commits have less history behind. 
 So for each, we added a normalized version by the commit.
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.75\textwidth]{date-changes_raw_math001.pdf}
@@ -261,7 +294,7 @@ So for each, we added a normalized version by the commit.
   \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.75\textwidth]{date-changes_norm_math001.pdf}

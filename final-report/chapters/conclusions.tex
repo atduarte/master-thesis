@@ -3,31 +3,63 @@
 
 \section*{}
 
-As said before, we consider that building tools to help developers do a better job is crucial and have a huge impact on the global economy. With this research we make one more step in the right direction. 
+We consider that building tools to help developers do a better job is crucial and have a huge positive impact on the global economy. 
 
-The data mining application developed is based only on metadata information from the files on the Git repository, what makes it language agnostic, and showed that is capable to identify components with an high defect probability, the code hotspots
+By reviewing the available literature, it is possible to conclude that interest exists in bridging knowledge from the domain of Artificial Intelligence to Software Engineering.
+This research aims to contribute to it.
 
-This capacity of identifying hotspots is highly valuable and can save help save time. It can be used, for example, to advise software developers doing code reviews to be more careful about some file, or to improve results from Fault Localization Software, such as Barinel .
+\section{Goals contribution}
 
-\section{Goals Satisfaction}
+We set the goal at building a project that would be able to predict the component defect probability of any software project, written in any language, that uses \emph{Git}, with enough precision to improve Barinel results and achieved it. 
 
-The application is able to to predict the defect probability for any component on any software project, that uses Git, with a precision that also allowed to improve some results of Barinel.
+Even with experimental results showing that Barinel already classified the faulty component as one of the top 10 probably fauly components in $88.04\%$ of its results. 
 
 So we can conclude that the project was successful and achieved the defined goals.
 
-\todo{Chouriço++}
+
+\section{Main Contributions}
+
+Results confirm that it is possible to predict that a software component is faulty with $X\%$ of precision and $Y\%$ of recall, by using metadata information available at the Git repository and ignoring language-specific software metrics.
+
+Research also revealed that using this information to calculate prior values improves Barinel results by $Z\%$.
+
+Data mining application is open-source and can be already used with any \emph{Git} project to help identifying code hotspots. We consider that this capacity can help save time, by for example advising software developers doing code reviews to be more careful about specific files.
 
 \section{Further Work}
 
-This project can be further improved and can also be used to create new or integrate with existing applications for which defect probability is important. There are plenty relevant opportunities to further work:
-%
-\begin{itemize}
-\item Improving fix commits identification
-\item Improving precision by adding static code analysis features 
-\item Improving machine learning model accuracy, by reducing the noise, removing outlier and better managing the unbalanced data
-\item Integrating with GitHub Pull Requests to help identify code hotspots
-\item Improving extracting performance
-\end{itemize}
+Although the development and validation proved its concept and prediction capability, there is still room for development and future enhancements. Following are
+some interesting ideas of future work.
 
+\subsection{Improving fix commits identification}
 
-\todo{Add more and explain each deeply}
+In order to not depend on the usage of a bug tracker software, the fix commits identification is made by analysing the commit message. 
+
+Since using this approach may introduce noise in the train set, which may lower the accuracy of the model, the bug tracker software information could be used when existing.
+
+Other possible improvement is to enhance the regex used for the identification.
+
+\subsection{Adding static code analysis features, when available}
+
+The project showed that it is possible to not use static code analysis features to train a defect classifier. Nonetheless using those features would probably improve the model's accuracy. 
+
+So, implementing such features for a set of languages and using them when possible could present interesting results.
+
+\subsection{Improving machine learning model accuracy}
+
+As stated in Chapter \ref{chap:discussion}, the train data set can be noisy and unbalanced. There are a wide range of different approaches to these problems and we have believe they could have a positive impact on the model's accuracy.
+
+\subsection{Integrating with \emph{GitHub}}
+
+Since the project showed to be able to predict that a software component has a defect with $X\%$ of precision and $Y\%$ of recall, it could be used to warn developers directly at \emph{Github} \footnote{\url{https://github.com}}.
+
+Every time a pull request is created, the data mining application could analyze the project and if any changed file has a high defect probability or any changed files have their defect probability significantly increased a automatic comment would be made, alerting the submitter and the reviewers.
+
+\subsection{Creating a different data structure to represent commit history tree}
+
+Even with the performance improvements made through ignoring repeated tasks and caching the application is rather slow extracting the information from \emph{Git} and can benefit from more enhancements.
+
+Project's performance can be enhanced, for example, by saving the commit history tree in a data structure that allows to more easily find past commits that changed a given file.
+
+\subsection{Parallelization}
+
+The extraction runs on \emph{node.js} so only one core is used at a time. Parallelization would improve application's performance and is possible, for example, using worker processes.

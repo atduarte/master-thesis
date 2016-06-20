@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \section{\emph{Fault Localization Software}}
 
-O \emph{Fault Localization Software} auxilia na localização automática do código que origina falhas na sua execução, diminuindo o custo desta identificação que teria de ser feita manualmente pelo programador. Existem três categorias principais: \emph{Program Slicing}, \emph{Spectrum-based diagnosis} e \emph{Model-based diagnosis}. Sendo que as abordagens \emph{Spectrum-based diagnosis} serão analisadas mais ao detalhe devido à sua maior importância para este trabalho.
+\emph{Fault Localization Software} helps to automatically locate code that generates faults when it is executed, reducing the costs associated with finding it, which would have to be done manually by the developer.  There are three main types of approach: \emph{Program Slicing}, \emph{Spectrum-based diagnosis} and \emph{Model-based diagnosis}. The \emph{Spectrum-based diagnosis} approaches will have a more detailed analysis due to their greater relevance to this work.
 
 % 
 % ==========
@@ -11,11 +11,11 @@ O \emph{Fault Localization Software} auxilia na localização automática do có
 
 \subsection{\emph{Program Slicing}}
 
-Introduzida por Mark Weiser em 1981 \cite{Weiser1981, Weiser1982}, esta técnica começa a análise a partir da falha e através do fluxo de dados e de controlo do programa tenta chegar à origem do problema. 
+Introduced by Mark Weiser in 1981 \cite{Weiser1981, Weiser1982}, this method starts its analysis from the fault and, by way of the program's data and control flow, tries to find where the problem originates. 
 
-Removendo todas as operações que não afetam os dados ou o fluxo do programa, este método define uma porção de código (\emph{slice}) que diz respeito às operações que poderão ser a causa do problema e que terão de ser inspecionadas \cite{Perez2004}. Ao reduzir o número de operações que necessitam de ser analisadas, o tempo necessário para a correção do erro diminui.
+By removing all statements that won't affect the data set or program flow, this method determines a section of code (\emph{slice}) corresponding to all statements that may be the root of the problem and must be inspected. \cite{Perez2004}. By reducing the amount of statements that require inspection, the time needed to fix an error is also reduced.
 
-Normalmente uma análise estática do programa resulta numa porção de código grande, havendo outras técnicas, dinâmicas, que reduzem consideravelmente o seu tamanho, como \emph{program dice} ou \emph{dynamic program slicing} \cite{Perez2004}.
+Usually, a static analysis of the program will result in a huge section of code, so there are other, dynamic, methods that will considerably reduce its size, such as \emph{program dice} or \emph{dynamic program slicing} \cite{Perez2004}.
 
 % 
 % ==========
@@ -25,39 +25,39 @@ Normalmente uma análise estática do programa resulta numa porção de código 
 
 \subsection{\emph{Spectrum-based diagnosis}}
 
-\emph{Spectrum-based Fault Localization} (SFL) é uma técnica estatística de deteção de falhas  que calcula a probabilidade de cada componente de \emph{software} conter falhas, através da análise de informação relativa às execuções, bem sucedidas ou falhadas \cite{Abreu2007}. Esta técnica apresenta bons resultados quando o projeto têm um número elevado de casos de teste e é capaz de executar num tempo reduzido, escalando bem para projetos grandes \cite{Mayer2008}.
+\emph{Spectrum-based Fault Localization} (SFL) is a probability-based fault detection method that will estimate each \emph{software} component's probability of containing faults by analyzing execution-related information, whether that execution is successful or not \cite{Abreu2007}. This method is able to generate good results when the project contains a big amount of test cases and can be executed swiftly, being able to scale well to big projects \cite{Mayer2008}.
 
-Esta técnica gera uma matriz, com base nos dados guardados durante a execução (\emph{program spectrum} \cite{Reps1997}), que relaciona as execuções de casos de teste, com os componentes que executou e com o sucesso ou insucesso do mesmo.
+This method generates a matrix based of data saved during the execution (\emph{program spectrum} \cite{Reps1997}), connecting each test case ran with the components executed and the result, successful or unsuccessful, of that test.
 
 \begin{table}[H]
-	\centering
-	\begin{tabular}{c|ccc|c} 
-		& \multicolumn{3}{c|}{\textit{obs}} &  \\
-		& $c_1$ & $c_2$ & $c_3$ & e \\ 
-	 	\hline
-		$t_1$ & 1 & 1 & 0 & 1 \\
-		$t_2$ & 0 & 1 & 1 & 1 \\
-		$t_3$ & 1 & 0 & 0 & 1 \\
-		$t_4$ & 1 & 0 & 1 & 0 \\
-	\end{tabular}
-	\caption{\emph{Hit-spectra matrix}}
-	\label{tab:hit-spectra}
+  \centering
+  \begin{tabular}{c|ccc|c} 
+    & \multicolumn{3}{c|}{\textit{obs}} &  \\
+    & $c_1$ & $c_2$ & $c_3$ & e \\ 
+    \hline
+    $t_1$ & 1 & 1 & 0 & 1 \\
+    $t_2$ & 0 & 1 & 1 & 1 \\
+    $t_3$ & 1 & 0 & 0 & 1 \\
+    $t_4$ & 1 & 0 & 1 & 0 \\
+  \end{tabular}
+  \caption{\emph{Hit-spectra matrix}}
+  \label{tab:hit-spectra}
 \end{table}
 
-Com esta matriz, também denominada \emph{hit-spectra matrix}, é calculado o coeficiente de similaridade (\emph{similarity coefficient}) para cada um dos componentes \cite{Abreu2009}, que corresponde à probabilidade desse componente ter uma falha. A forma como este coeficiente é calculado difere de algoritmo para algoritmo. Dando como exemplos o \emph{Pinpoint} \cite{Chen2002}, o \emph{Tarantula} \cite{Jones2005} e o \emph{Ochiai} \cite{Abreu2007}, que têm os coeficientes respetivamente calculados do seguinte modo
+With this matrix, also called \emph{hit-spectra matrix}, a \emph{similarity coefficient} is calculated for each of the components \cite{Abreu2009}, showing how likely it is that a component may have a fault. The way this coefficient is calculated is different, depending on the algorithm used. For example, \emph{Pinpoint} \cite{Chen2002}, \emph{Tarantula} \cite{Jones2005} and \emph{Ochiai} \cite{Abreu2007}, each, respectively, calculate the coefficient as follows
 %
 \begin{equation}
-	s_J(j) = \frac {a_{11}(j)} {a_{11}(j) + a_{01}(j) + a_{10}(j)}
+  s_J(j) = \frac {a_{11}(j)} {a_{11}(j) + a_{01}(j) + a_{10}(j)}
 \end{equation}
 %
 \begin{equation}
-	s_T(j) = \frac  { \frac {a_{11}(j)} {a_{11}(j) + a_{01}(j)} } 
-				 	{ \frac{a_{11}(j)}{a_{11}(j) + a_{01}(j)} + \frac{a_{10}(j)}{a_{10}(j) + a_{00}(j)}}
+  s_T(j) = \frac  { \frac {a_{11}(j)} {a_{11}(j) + a_{01}(j)} } 
+          { \frac{a_{11}(j)}{a_{11}(j) + a_{01}(j)} + \frac{a_{10}(j)}{a_{10}(j) + a_{00}(j)}}
 \end{equation}
 %
 \begin{equation}
-	s_O(j) = \frac  {a_{11}(j)} 
-				 	{\sqrt{(a_{11}(j) + a_{01}(j)) * (a_{11}(j) + a_{10}(j))}}
+  s_O(j) = \frac  {a_{11}(j)} 
+          {\sqrt{(a_{11}(j) + a_{01}(j)) * (a_{11}(j) + a_{10}(j))}}
 \end{equation}
 
 
@@ -69,11 +69,11 @@ Com esta matriz, também denominada \emph{hit-spectra matrix}, é calculado o co
 
 \subsection{\emph{Model-based diagnosis}}
 
-O princípio base do diagnóstico baseado no modelo (\emph{Model-based diagnosís}) é o de comparar o modelo, isto é a descrição de funcionamento do sistema, ao comportamento efetivamente observado \cite{Mayer2008}. Sendo depois a diferença entre os dois usada para identificar os componentes que possam explicar os erros. Isto na prática requer uma descrição formal do sistema, o que torna a tarefa bastante difícil \cite{Perez2004}.
+The basis of \emph{Model-based diagnosis} is comparing the model, i.e. the description of the system's behavior, with the actually observed behavior \cite{Mayer2008}. The difference between the two is then used to identify components that may explain errors occurred. This actually requires a formal description of the system,  which makes the task harder \cite{Perez2004}.
 
-De forma a facilitar o uso deste método recorre-se por vezes à inferência do modelo, através do próprio \emph{software}, mais especificamente através dos testes definidos neste \cite{Perez2004}.
+In order to facilitate using this method, the model is usually inferred by using the \emph{software} itself, specifically, by using the test cases defined in it \cite{Perez2004}.
 
-Apesar da elevada fiabilidade dos resultados que resultam desta técnica, o esforço computacional necessário na criação do modelo de uma programa de grande dimensão impede, maior parte das vezes, o seu uso em projetos reais \cite{Mayer2008}.
+Although this method generates high-reliability results, the computational effort required to create a model for a big program will prevent it to be used in real projects most of the times \cite{Mayer2008}.
 
 % 
 % ==========
@@ -83,39 +83,39 @@ Apesar da elevada fiabilidade dos resultados que resultam desta técnica, o esfo
 
 \subsection{\emph{Barinel}}
 
-O \emph{Barinel} é um algoritmo que se inspira nos dois métodos descritos anteriormente, \emph{program-spectra based} e \emph{model-based diagnosis}, e que com isto consegue melhores resultados que as outras soluções com um custo pouco superior \cite{Abreu2009}.
+\emph{Barinel} is an algorithm inspired by the two methods previously described, \emph{program-spectra based} and \emph{model-based diagnosis}, thus being able to generate better results than the other approaches, albeit with a slightly higher cost \cite{Abreu2009}.
 
-O algoritmo começa por analisar uma \emph{hit-spectra matrix}, que representa os testes executados em relação aos componentes que foram executados e ao seu resultado final.
+This algorithm starts by analyzing a \emph{hit-spectra matrix}, representing a connection between the executed tests, the executed components, and their final result.
 
 \begin{table}[H]
-	\centering
-	\begin{tabular}{c|ccc|c} 
-		& \multicolumn{3}{c|}{\textit{obs}} &  \\
-		& $c_1$ & $c_2$ & $c_3$ & e \\ 
-	 	\hline
-		$t_1$ & 1 & 1 & 0 & 1 \\
-		$t_2$ & 0 & 1 & 1 & 1 \\
-		$t_3$ & 1 & 0 & 0 & 1 \\
-		$t_4$ & 1 & 0 & 1 & 0 \\
-	\end{tabular}
-	\caption{\emph{Hit-spectra matrix}}
-	\label{tab:hit-spectra}
+  \centering
+  \begin{tabular}{c|ccc|c} 
+    & \multicolumn{3}{c|}{\textit{obs}} &  \\
+    & $c_1$ & $c_2$ & $c_3$ & e \\ 
+    \hline
+    $t_1$ & 1 & 1 & 0 & 1 \\
+    $t_2$ & 0 & 1 & 1 & 1 \\
+    $t_3$ & 1 & 0 & 0 & 1 \\
+    $t_4$ & 1 & 0 & 1 & 0 \\
+  \end{tabular}
+  \caption{\emph{Hit-spectra matrix}}
+  \label{tab:hit-spectra}
 \end{table}
 
 
-Na tabela \ref{tab:hit-spectra}, temos identificados 3 componentes distintos ($c_1$, $c_2$ e $c_3$), 4 testes executados ($t_1$, $t_2$, $t_3$ e $t_4$) e o respectivo resultado da execução ($e$). O valor 1 em qualquer uma das colunas das observações (\emph{obs}) indica que o dado componente foi executado nesse teste e o valor 0 indica o contrário, que o componente não foi executado. Na coluna $e$, o algarismo 1 declara que o teste correspondente falhou. 
-Pelo que, por exemplo, o teste $t_4$ executou os componentes $c_1$ e $c_3$ e foi concluído com sucesso.
+In the table \ref{tab:hit-spectra}, we have identified 3 distinct components ($c_1$, $c_2$ e $c_3$), 4 executed tests ($t_1$, $t_2$, $t_3$ e $t_4$) and the result of their execution ($e$). A value of 1 in any of the observation columns (\emph{obs}) shows that the specific component has been executed in that test, while a value of 0 shows the opposite, the component has not been executed in that test. For the column $e$, a value of 1 indicates that the corresponding test has failed. 
+For example, the test $t_4$ has executed the components $c_1$ and $c_3$ and completed successfully.
 
 
 % 
-% Geração de candidatos
+% Generating candidates
 %
 
-\subsubsection{Geração de candidatos} 
+\subsubsection{Generating candidates} 
 
-Com base nesta matriz, uma lista de conjuntos de candidatos ($d$) é gerada, sendo esta reduzida ao número mínimo de candidatos possível, dado que estes subsumem todos os outros candidatos e minimizam o espaço de pesquisa. Este problema denominado \emph{minimal hitting set} (MHS) é só por si um problema \emph{NP-hard} o que levou à necessidade de criação de heurísticas próprias \cite{RuiAbreu, Cardoso2013}. O algoritmo usado pelo \emph{Barinel} na resolução deste problema é o \emph{Staccato}.
+Using this matrix, a list of candidate sets ($d$) is generated. This list is reduced to the lowest possible amount of candidates, as they encompass all other candidates and allow a reduction of the search space. This problem, entitled \emph{minimal hitting set} (MHS), is itself an \emph{NP-hard} problem, which means specific heuristics had to be created \cite{RuiAbreu, Cardoso2013}. The algorithm used by \emph{Barinel} to resolve this problem is \emph{Staccato}.
 
-Neste caso, seriam gerados apenas dois candidatos:
+In this case, only two candidates would be generated:
 
 \begin{itemize}
 \item $d_1 = \{c_1, c_2\}$ 
@@ -123,38 +123,38 @@ Neste caso, seriam gerados apenas dois candidatos:
 \end{itemize}
 
 % 
-% Ordenação de candidatos
+% Candidate sorting
 %
 
-\subsubsection{Ordenação de candidatos} 
+\subsubsection{Candidate sorting} 
 
-Para cada candidato $d$, é calculada a probabilidade de acordo com a regra de \emph{Naïve Bayes}:
+For each candidate $d$, a probability is calculated using a \emph{Naïve Bayes} model:
 %
 \begin{equation}
-	\pr(d\mid obs,e) =  \pr(d) \cdot \prod_{i}\frac{\pr(obs_i, e_i \mid d)}{\pr(obs_i)}
+  \pr(d\mid obs,e) =  \pr(d) \cdot \prod_{i}\frac{\pr(obs_i, e_i \mid d)}{\pr(obs_i)}
 \end{equation}
 
 
-$Pr(obs_i)$ é apenas um termo normalizador idêntico para todos os candidatos, pelo que não é usado para proceder à ordenação.
+$Pr(obs_i)$ is just a normalized term, identical for every candidate and not used for sorting.
 
-Sendo $p_j$ a probabilidade à \emph{priori} do componente $c_j$ originar uma falha, também denominada \emph{prior}, podemos definir $Pr(d)$, probabilidade do candidato ser responsável pelo erro, não tendo em conta evidências adicionais, como
+Being $p_j$ the \emph{a priori} probability of component $c_j$ causing a fault, also called \emph{prior}, we can define $Pr(d)$, the probability of the candidate being responsible for the error, without taking into account additional evidence, such as
 %
 \begin{equation}
   \pr(d) = \prod_{j \in d} p_j \cdot \prod_{j \notin d} (1 - p_j)
 \end{equation}
 
 
-Sendo $g_j$ (\emph{component goodness}) a probabilidade do componente $c_j$ executar de forma correta dado o facto de $c_j$ integrar o conjunto de componentes faltosos, temos que
+Being $g_j$ (\emph{component goodness}) the probability of component $c_j$ executing correctly if $c_j$ is part of the faulty components set, we have
 % 
 \begin{equation}
   \pr(obs_i, e_i \mid  d) = 
   \begin{cases}
-    \gFunc 		& \textrm{if} e_i = 0 \\
-	1 - \gFunc  & \textrm{otherwise}
+    \gFunc    & \textrm{if} e_i = 0 \\
+  1 - \gFunc  & \textrm{otherwise}
   \end{cases}
 \end{equation}
 
-Tendo em conta o nosso exemplo
+Taking our example into account
 %
 \begin{equation}
     \pr(d_1 \mid obs,e) =
@@ -187,9 +187,9 @@ Tendo em conta o nosso exemplo
 \end{equation}
 
 
-Quando existem valores $g_j$ desconhecidos, é maximizado o valor de $Pr(obs, e | d)$ usando o algoritmo \emph{Maximum Likelyhood Estimation} (MLE).
+In cases where there are unknown $g_j$ values, the value of $Pr(obs, e | d)$ is maximized using the \emph{Maximum Likelihood Estimation} (MLE) algorithm.
 
-Neste caso, todos os valores de $g_j$ são desconhecidos. Executando o algoritmo MLE para ambas as funções e calculando o resultado final temos que:
+In this case, all of $g_j$ values are unknown. Applying the MLE algorithm to both functions and calculating the final result gives us:
 %
 \begin{itemize}
 \item $Pr(d_1, obs, e) = 1.9 \times 10^{-9}$\ \ ($g_1 = 0.47$ e $g_2 = 0.19$)
@@ -204,11 +204,11 @@ Neste caso, todos os valores de $g_j$ são desconhecidos. Executando o algoritmo
 %
 \subsubsection{\emph{Crowbar}}
 
-\emph{Crowbar}\footnote{ \url{http://crowbar.io}}, anteriormente conhecido como GZoltar\footnote{ \url{http://www.gzoltar.com/}}, é a ferramenta que materializa o algoritmo \emph{Barinel} e que permite uma análise de projetos \emph{Java} \cite{Campos2012}.
+\emph{Crowbar}\footnote{ \url{http://crowbar.io}}, formerly known as GZoltar\footnote{ \url{http://www.gzoltar.com/}}, is the tool used to materialize the \emph{Barinel} algorithm and that allows the analysis of \emph{Java} projects \cite{Campos2012}.
 
-Através de injeção de código e da execução dos testes \emph{JUnit}, o \emph{Crowbar} é capaz de identificar os componentes que foram executados e associá-los aos testes falhados.
+By using code injection and running \emph{JUnit} tests, \emph{Crowbar} is able to identify executed components and connect them to unsuccessful tests.
 
-A representação dos resultados pode ser feita de várias formas, sendo a principal a visualização \emph{Sunburst} que podemos ver na Figura~\ref{fig:crowbar-sunburst} e que apresenta em cada anel um grau de granularidade diferente, desde o projeto à linha de código \cite{Gouveia2013}.
+There are different ways to present the results, the main one being the \emph{Sunburst} visualization, shown in Figure~\ref{fig:crowbar-sunburst}, where each ring represents a different granularity level, from the project to a line of code \cite{Gouveia2013}.
 
 \begin{figure}[H]
   \begin{center}
@@ -219,4 +219,4 @@ A representação dos resultados pode ser feita de várias formas, sendo a princ
   \end{center}
 \end{figure}
 
-Para além desta informação, a ferramenta apresenta-nos também com a lista de componentes ordenada de acordo com a probabilidade de este ter falhas.
+In addition to that information, this tool also shows us the component list sorted by fault likelihood.

@@ -1,28 +1,28 @@
 %!TEX root = ../thesis.tex
 \section{\emph{Software Repository Mining}}
 
-Entende-se por \emph{Software Repository Mining} todo o \emph{software} que é capaz objetivo de extrair dados de repositórios, como \emph{Git} ou \emph{SVN}.
+\emph{Software Repository Mining} encompasses all \emph{software} which is able to extract data from repositories, such as \emph{Git} or \emph{SVN}.
 
-\subsection{Identificação de correções e defeitos}
+\subsection{Corrections and defects identification}
 
-Na extração de informações de repositórios de código, como o \emph{Git}, torna-se importante identificar o tipo de alterações feitas. A descrição textual associada à alteração é bastante importante nesta identificação e permite fazê-lo com um elevado grau de precisão, dependendo do projeto em causa \cite{Mockus2000}.
+While extracting information from code repositories, such as \emph{Git}, it is important to identify the types of changes that were made. A text description associated with the change is of the utmost importance for this identification, allowing it to be made with a high degree of precision, depending on the project \cite{Mockus2000}.
 
-É estimado que 34 a 46\% de todas as alterações correspondam a correções e que estas representem 18 a 27\% das linhas adicionadas e removidas \cite{Mockus2000}. Foram também encontrados padrões que relacionam as correções com o seu tamanho, em termos de código, e com o dia da semana em que foram executadas \cite{Sliwerski2005}.
+It is estimated that between 34 and 46\% of all changes are corrections and that they represent between 18 and 27\% of all added and removed lines of code \cite{Mockus2000}. There were also some patterns found relating code corrections with their size and with the day of the week in which they were executed \cite{Sliwerski2005}.
 
-Após esta identificação é possível identificar as alterações que introduziram os erros usando o algoritmo \emph{SZZ} \cite{Sliwerski2005}. Este algoritmo recorre ao histórico e à análise do código em questão para corretamente localizar o \emph{commit} (alteração) que introduziu o defeito, ignorando, por exemplo, alterações que apenas introduzam comentários.
+After this identification, it is possible to find out which changes have introduced the errors by using the \emph{SZZ} algorithm \cite{Sliwerski2005}. This algorithm analyzes the code and uses its history to correctly locate which \emph{commit} has introduced the defect, ignoring changes that only inserted comments, for example.
 
-\subsection{Ferramentas}
+\subsection{Tools}
 
-Existem diversas ferramentas que facilitam este processo, pelo que destacamos duas.
+There are several tools to facilitate this process. Let us highlight two of them.
 
 \subsubsection{\emph{libgit2}}
 
-Libgit2\footnote{\url{https://libgit2.github.com/}} é uma biblioteca multi-plataforma, sem dependências, que permite a interação direta com o repositório \emph{Git} com uma performance nativa.
+Libgit2\footnote{\url{https://libgit2.github.com/}} is a multi-platform library, without dependences, allowing a direct and native performance interaction with the \emph{Git} repository.
 
-Esta biblioteca pode ser usada em qualquer linguagem que permita ligação a \emph{C}, pelo que existem dezenas de implementações em linguagem como \emph{Python}\footnote{pygit2 - \url{http://www.pygit2.org/}}, \emph{Javascript}\footnote{nodegit - \url{https://github.com/nodegit/nodegit}} e \emph{Java}\footnote{Jagged - \url{https://github.com/ethomson/jagged}}.
+This library can be used with any language supporting \emph{C} bindings, so there are dozens of implementations using languages like \emph{Python}\footnote{pygit2 - \url{http://www.pygit2.org/}}, \emph{Javascript}\footnote{nodegit - \url{https://github.com/nodegit/nodegit}} and \emph{Java}\footnote{Jagged - \url{https://github.com/ethomson/jagged}}.
 
 \subsubsection{\emph{GHTorrent}}
 
-GHTorrent\footnote{\url{http://ghtorrent.org/}} é um projeto que tem por objetivo criar um armazém de dados escalável, facilmente pesquisável, mesmo \emph{offline}, que replique a informação obtida através da API REST do GitHub\footnote{\url{http://developer.github.com/}}.
+GHTorrent\footnote{\url{http://ghtorrent.org/}} is a project with the objective of creating a scalable and easily queriable (even \emph{offline}) database, which replicates the information obtained through the GitHub\footnote{\url{http://developer.github.com/}} REST API.
 
-Esta ferramenta funciona de uma forma distribuída e monitoriza a API do GitHub através da página \url{https://api.github.com/events}. Cada evento, despoleta a extração de informação e conteúdo para uma base de dados \emph{MongoDB} e outra \emph{MySQL} \cite{Gousios2012}.
+This tool works in a distributed way and monitors the GitHub API through the page \url{https://api.github.com/events}. Each event triggers an information and content extraction to a \emph{MongoDB} database and a different \emph{MySQL} database \cite{Gousios2012}.
