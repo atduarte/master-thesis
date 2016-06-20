@@ -11,24 +11,18 @@ In this chapter, we will explain the concept behind it, approach the process use
 
 \section{Concept}
 
-We assume that the patterns found in the components changed in older fix commits can help us determine present defective components. 
-So, for a given repository state, we must identify the fix commits and the components changed in them, which are considered faulty.
-Then for each fix commit the information about the components' state before the change must be extracted, as well as the information about the current state of each component.
+Some patterns are easily recognizable when trying to identify faulty components on a software project and this information could be helpful for software such as Barinel. 
 
-Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis must not used. 
-The only information that can be used is related to the file changes, authors, number of lines or bytes.
+We might say, for example, that having a high number of recent changes or having been changed by a given junior developer new to the project probabily increases the chances of a file having an error, due to past experiences. So, deep down we are just assuming that the knowledge of the metadata of old faulty components may allow us to predict which components are more probable to be faulty, now.
 
-After the extraction, a machine learning model, created using the information about past defects, should predict the defect probability of each component present in the current state of the project.
+Based on that assumption, the application, for a given repository state, must extract metadata knowledge from past commits with faulty components, the parent commits of a fix. For each of these commits, all of components should be analyzed and labeled as faulty or clean, if it was or not changed on the fix, respectively.
 
-% CHOURIÇO: Explaining image
+Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis can not used. 
+The only information that must be used is information diretly related to the file changes, authors, number of lines or bytes.
 
-\section{Main difficulties}
+Along with the extraction of the metadata information from the past faulty states, it must also extract the metadata of the given repository state. The data from the first extraction must be used to create a machine learning model, that should be able to predict the defect probability of each component present in the current state of the project.
 
-% **Difficulties**
-% Accuracy now vs future
-% Noisy commit messages
-% Uncertantity about the clean/buggy stated used to train
-% Language Agnostic
+\todo{Image}
 
 \section{Install}
 
@@ -122,7 +116,7 @@ The first objective is to get the list of commits to analyze: the HEAD commit an
 So, first, the \emph{HEAD} commit is identified. The application then walks recursively through each parent commit or commits and,
 if it's message matches the defined regex, doesn't contain any word from the stop words list, such as "typo" or "javadoc", and it isn't a merge, adds it to the list of commits to analyze.
 
-% TODO: REGEX EXEMPLO
+\todo{Regex}
 
 Having this list, it analyzes each commit individually, ignoring the ones that were already extracted or that have no changed files after filtering
 according to configuration.
@@ -156,7 +150,7 @@ and the number of components analyzed is reduced when possible. Considering that
 reducing the number of \emph{clean} components according to the number of existing \emph{buggy} components, the system randomizes the list and
 limits the extraction of \emph{clean} components up to a maximum of four times the number of \emph{buggy} components on the given commit.
 
-% TODO: Formula representing the maximum number o components?
+\todo{Formula representing the maximum number of components}
 
 % CHOURIÇO: Explain cache details
 

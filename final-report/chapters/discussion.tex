@@ -1,0 +1,68 @@
+%!TEX root = ../thesis.tex
+\chapter{Discussion} \label{chap:discussion}
+
+\section*{}
+
+The experimental results acknowledged that extracting the component changes metadata is valuable by allowing to predict, with good precision and independently of the language, which files are more probable to have defects (Figure \ref{fig:dp-faults-position}).
+
+\section{Estimating Defect Probability}
+
+In figures \ref{fig:clean-dp-count} and \ref{fig:buggy-dp-count} we clearly see two distinct types of distributions. 
+Probably clean components predicted defect probability tends to $0$, as intended, but the same can not be interpreted for the buggy components, whereas the distribution is more uniform. Preferably, the buggy components predicted defect probability distribution would tend more expressively to 1, being the reverse of figure \ref{fig:clean-dp-count}, but this may have been affected by the data imbalance and noise.
+
+Since in each fix commit just a small percentage is changed and all the others are considered clean, extracted data is extremely unbalanced and the number of fault components in the training set is small. Using SMOTE improved the results, but the tendency to $0$ continues to be noticeable.
+
+The assumption that all unmodified files are clean may also introduce noise in the data, by labeling faulty components as clean. This along with the uncertainty of the identification of fix commits by the commit message, that may lead to wrongly labeling clean components as faulty, may blur the difference between the two types and lower the prediction accuracy.
+
+Besides, the faulty component may be defectuous just because of a recent change in a related component and since the data set does not contain any information about the components relations, it would be difficult for it to have a high predicted defect probability.
+
+% Further more, one important aspect that can be observed on figure \ref{} and was verified by experimentation is that the model that allows to predict the faulty components now may not work in the future. The model must be trained with the most recent data, because the patterns that allow to identify to distinguish clean and fault component appear to change along with the project.
+
+Yet, even with so much aspects that may affect our prediction accuracy, the figure \ref{fig:dp-faults-position} shows that, in fact, the faulty components tends to be classified as one of the components with the highest defect probability. Which is crucial to our goal of improving Barinel results.
+
+\section{Barinel Integration}
+
+Analysis of the unmodified Barinel, illustrated in \ref{fig:fault-positions}, showed how good the results are and the tenuous percentage of tests that can be improved by using our approach to modify Barinel results. $14.67\%$ in the best case scenario. While in the worst case scenario, $29\%$ of the tests would worsen.
+
+Figure \ref{fig:results-modification} shows that when considering as faulty all the components with a predicted defect probability above $0.6$ the Barinel results improve, with little or no error. Examining for example the results for $0.65$ of minimum predicted probability, where the delta is higher, $13.5\%$ of the possible improvements occured and just one test worsened. Increasing the minimum diminishes both the number of improvements and errors, but starting at $0.75$ errors are completely eliminated.
+
+Given this data, we can concluded with some confidence that components with a predicted defect probability above $0.65$ have in fact a high real defect probability.
+
+\todo{The other barinel integration. + Flaky tests}
+
+\section{Threats to Validity}
+
+There are some threats to the validity of this research. The first is the fact that the Math project (101 tests of 184) appeared to have flaky tests, since with the exact same configuration Barinel, which is deterministic, reported some value changes. 
+
+Using three open source Java projects, with 184 tests, may also not be sufficient to predict the application behaviour in other different projects
+
+Being this research all about defect probabilities, we know that the application made to estimate the defect probability can also have defects and may somehow affect the predictions. Although the application was heavily tested and many results were manually checked for validity.
+
+Last but not least, the data mining application is nondeterministic. It creates models every time and chooses the most accurate ones, in order to avoid being able to predict completely different results, but there will be most certainly differences as expected in a data mining project.
+
+
+
+% Chapter 6 - GUIDELINES
+
+% (I think) it's cool at identifying hotspots
+% It was able to do this being language agnostic and just by analysing the changes metadata
+% Difficulty to predict future based on the past
+% commit message noise
+% noise + unbalanced
+% Improving Barinel it's hard
+% Barinel results gains are small but reveal something
+% To further improve Barinel results the defect probability prediction must be much more accurate
+% Pq que há Outliers
+% Zipf distribution
+% -> Threats to validity
+  % (internal) bugs no meu codigo
+  % (construct) commit messages
+
+% Conclusao
+
+% It can and should be further worked
+% Believe we can get better results by:
+%  - Better handling noisy/unbalanced data
+%  - Better identifying fixes
+%  - Extracting static code data
+

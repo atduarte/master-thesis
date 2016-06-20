@@ -1,0 +1,31 @@
+%!TEX root = ../thesis.tex
+\chapter{Conclusions and Further Work} \label{chap:conclusions}
+
+\section*{}
+
+As said before, we consider that building tools to help developers do a better job is crucial and have a huge impact on the global economy. With this research we make one more step in the right direction. 
+
+The data mining application developed is based only on metadata information from the files on the Git repository, what makes it language agnostic, and showed that is capable to identify components with an high defect probability, the code hotspots
+
+This capacity of identifying hotspots is highly valuable and can save help save time. It can be used, for example, to advise software developers doing code reviews to be more careful about some file, or to improve results from Fault Localization Software, such as Barinel .
+
+\section{Goals Satisfaction}
+
+The application is able to to predict the defect probability for any component on any software project, that uses Git, with a precision that also allowed to improve some results of Barinel.
+
+So we can conclude that the project was successful and achieved the defined goals.
+
+\section{Further Work}
+
+This project can be further improved and can also be used to create new or integrate with existing applications for which defect probability is important. There are plenty relevant opportunities to further work:
+%
+\begin{itemize}
+\item Improving fix commits identification
+\item Improving precision by adding static code analysis features 
+\item Improving machine learning model accuracy, by reducing the noise, removing outlier and better managing the unbalanced data
+\item Integrating with GitHub Pull Requests to help identify code hotspots
+\item Improving extracting performance
+\end{itemize}
+
+
+\todo{Add more and explain each deeply. Maybe add a image of the possible GitHub integration?}

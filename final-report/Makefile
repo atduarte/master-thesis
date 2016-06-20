@@ -95,7 +95,7 @@ clean:
 
 ##show PDF
 display: $(TARGET).pdf
-	evince $(TARGET).pdf &
+	evince $(TARGET).pdf &> /dev/null &
 
 ### misc
 .SUFFIXES: .tex .aux .toc .lof .lot .log .dvi .dvi2 .ps .ps2 .pdf .bib .bbl
