@@ -16,7 +16,7 @@ The assumption that all unmodified files are clean may also introduce noise in t
 
 Besides, the faulty component may be defectuous just because of a recent change in a related component and since the data set does not contain any information about the components relations, it would be difficult for it to have a high predicted defect probability.
 
-% Further more, one important aspect that can be observed on figure \ref{} and was verified by experimentation is that the model that allows to predict the faulty components now may not work in the future. The model must be trained with the most recent data, because the patterns that allow to identify to distinguish clean and fault component appear to change along with the project.
+Further more, one important aspect that can be observed on figure \ref{} and was verified by experimentation is that the model that allows to predict the faulty components now may not work in the future. The model must be trained with the most recent data, because the patterns that allow to identify to distinguish clean and fault component appear to change along with the project.
 
 Yet, even with so much aspects that may affect our prediction accuracy, the figure \ref{fig:dp-faults-position} shows that, in fact, the faulty components tends to be classified as one of the components with the highest defect probability. Which is crucial to our goal of improving Barinel results.
 
@@ -39,30 +39,3 @@ Using three open source Java projects, with 184 tests, may also not be sufficien
 Being this research all about defect probabilities, we know that the application made to estimate the defect probability can also have defects and may somehow affect the predictions. Although the application was heavily tested and many results were manually checked for validity.
 
 Last but not least, the data mining application is nondeterministic. It creates models every time and chooses the most accurate ones, in order to avoid being able to predict completely different results, but there will be most certainly differences as expected in a data mining project.
-
-
-
-% Chapter 6 - GUIDELINES
-
-% (I think) it's cool at identifying hotspots
-% It was able to do this being language agnostic and just by analysing the changes metadata
-% Difficulty to predict future based on the past
-% commit message noise
-% noise + unbalanced
-% Improving Barinel it's hard
-% Barinel results gains are small but reveal something
-% To further improve Barinel results the defect probability prediction must be much more accurate
-% Pq que há Outliers
-% Zipf distribution
-% -> Threats to validity
-  % (internal) bugs no meu codigo
-  % (construct) commit messages
-
-% Conclusao
-
-% It can and should be further worked
-% Believe we can get better results by:
-%  - Better handling noisy/unbalanced data
-%  - Better identifying fixes
-%  - Extracting static code data
-

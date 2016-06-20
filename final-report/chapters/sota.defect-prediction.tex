@@ -30,3 +30,26 @@ Numa primeira fase, todas as alterações feita até ao momento são classificad
 O tipo de dados usados dividem-se em sete grupos: métricas de complexidade, código adicionado, código removido, nome do ficheiro e diretório, novo código e meta-dados \cite{Whitehead2008}.
 
 Tanto \emph{Support Vector Machine} (SVM) como \emph{Naïve Bayes} foram usados no estudo, tendo sido o classificador feito com recurso a SVM aquele que apresentou melhores resultados \cite{Whitehead2008}.
+
+\subsection{Data-Augmented Software Diagnosis} \label{subsec:elmishali}
+
+A different approach that also aims to help predict the location of software faults is Data-Augmented Software Diagnosis \cite{Elmishali}.
+
+Model-based and spectrum-based approaches are able to identify faulty components with high precision and recall, but there is still room for improvement and since most projects use some kind of Version Control Software (VCS), there is a big amount of information that is not used. This opportunity is the foundation of the approach.
+
+Barinel assumes that the defect probability, known as the prior, of every component is uniform, $0.001$. However, this approach proved it is possible to optimize Barinel results for Java projects by leveraging information about the project and supervised machine learning algorithms to predict the real component's defect probability.
+
+First, healthy and faulty components are identified across the entire project's history according to Bug Trackers. For each component, a list of features, which is not specified, is extracted. The list is composed of traditional and object-oriented software complexity metrics, such as number of lines of code and cohesion, and values extracted from the software change history, like lines added or removed in last version and age of the file.
+
+With the help of a supervised machine learning algorithm (either Random Forest, J48 or Naive Bayes) a model is created and used to classify each component in the project as healthy or buggy. The confidence that a component is faulty is then used as prior.
+
+Experimental results revealed an increment both on precision and recall, see Figure \ref{fig:elmishali}. However, the solution was tested just on one project.
+%
+\begin{figure}%
+    \centering
+    \subfloat[Precision]{{\includegraphics[width=0.4\textwidth]{elmishali-precision} }}%
+    \qquad
+    \subfloat[Recall]{{\includegraphics[width=0.4\textwidth]{elmishali-recall} }}%
+    \caption{Diagnosis accuracy as a function of \# tests given to the diagnoser}%
+    \label{fig:elmishali}%
+\end{figure}

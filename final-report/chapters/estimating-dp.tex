@@ -7,7 +7,7 @@ In order to estimate the defect probabilty of each software component we develop
 It automatically extracts data from the current state and about older defects from a \emph{Git} repository, creates a model and predicts the probability. The project is written in Javascript (Node.js) and Python 3 and heavily uses \emph{node-git}
 and \emph{scikit-learn}.
 
-In this chapter, we will explain the concept behind it, approach the process used in each of the steps and will explain as how to install and use this application.
+In this chapter, we will explain the concept behind it, approach the process used in each of the steps and will explain how to install and use this application.
 
 \section{Concept}
 
@@ -15,14 +15,32 @@ Some patterns are easily recognizable when trying to identify faulty components 
 
 We might say, for example, that having a high number of recent changes or having been changed by a given junior developer new to the project probabily increases the chances of a file having an error, due to past experiences. So, deep down we are just assuming that the knowledge of the metadata of old faulty components may allow us to predict which components are more probable to be faulty, now.
 
-Based on that assumption, the application, for a given repository state, must extract metadata knowledge from past commits with faulty components, the parent commits of a fix. For each of these commits, all of components should be analyzed and labeled as faulty or clean, if it was or not changed on the fix, respectively.
+Based on that assumption, the application, for a given repository state, extracts metadata knowledge from past commits with faulty components, the parent commits of a fix. For each of these commits, all of components are analyzed and labeled as faulty or clean, if it was or not changed on the fix, respectively.
+%
+\begin{figure}[H]
+  \begin{center}
+    \leavevmode
+    \includegraphics[width=0.7\textwidth]{commits.pdf}
+    \caption{Example representation of commits history, with fix commits illustrated in a diamond shape}
+    \label{fig:commits}
+  \end{center}
+\end{figure}
 
-Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis can not used. 
-The only information that must be used is information diretly related to the file changes, authors, number of lines or bytes.
+Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis is not used. 
+The only information that is used is information diretly related to the file changes, authors, number of lines or bytes.
 
 Along with the extraction of the metadata information from the past faulty states, it must also extract the metadata of the given repository state. The data from the first extraction must be used to create a machine learning model, that should be able to predict the defect probability of each component present in the current state of the project.
+%
+\begin{figure}[ht]
+  \begin{center}
+    \leavevmode
+    \includegraphics[width=0.7\textwidth]{concept.pdf}
+    \caption{Representation of data flow}
+    \label{fig:concept}
+  \end{center}
+\end{figure}
 
-\todo{Image}
+This concept differs from Data-Augmented Software Diagnosis (Subsection \label{subsec:elmishali}) by being language agnostic, requiring a different set of features mostly focused on number of changes, categorized by type and authors, and weighted according to size and date. It also differs by not requiring that the project uses a bug tracking software and also, as explained in the following section. 
 
 \section{Install}
 
@@ -45,7 +63,7 @@ the chosen project name and the path to the folder containing the repository we 
   $ node index.js all {project-name} {repository-path}
 \end{lstlisting}
 
-It's possible to specify a diferent classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"), 
+It is possible to specify a diferent classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"), 
 a different number of estimators used when modeling (e.g. "\code{--estimators=100}", default is 5) or even
 to define the level of logging by appending, for example, "\code{--log-level=verbose}". The existing levels available, from higher to lower priority, are
 "\code{error}", "\code{warn}", "\code{info}", "\code{verbose}" and "\code{silly}". The default log level is "\code{info}".
@@ -95,9 +113,7 @@ Before terminating, the application will create a file ("\code{prediction.e500._
   ...
 \end{lstlisting}
 
-% CHOURIÇO: Example of metadata information
-
-In order to be able to execute only some step of the process, there's the possibility of executing only one operation. The available commands are:
+In order to be able to execute only some step of the process, there is the possibility of executing only one operation. The available commands are:
 %
 \begin{itemize}
 \item "\code{raw}" - Extracts data from \emph{Git} and saves it to "\code{out/{project-name}/raw}"
@@ -114,13 +130,13 @@ As stated before the process is divided in extraction, data preparation, modelin
 
 The first objective is to get the list of commits to analyze: the HEAD commit and all the fix commits that preceded it. 
 So, first, the \emph{HEAD} commit is identified. The application then walks recursively through each parent commit or commits and,
-if it's message matches the defined regex, doesn't contain any word from the stop words list, such as "typo" or "javadoc", and it isn't a merge, adds it to the list of commits to analyze.
+if it is message matches the defined regex, does not contain any word from the stop words list, such as "typo" or "javadoc", and it is not a merge, adds it to the list of commits to analyze.
 
 \todo{Regex}
 
 Having this list, it analyzes each commit individually, ignoring the ones that were already extracted or that have no changed files after filtering
 according to configuration.
-First the information directly related to the commit and it's tree is extracted:
+First the information directly related to the commit and its tree is extracted:
 %
 \begin{itemize}
 \item id - Id
@@ -152,7 +168,7 @@ limits the extraction of \emph{clean} components up to a maximum of four times t
 
 \todo{Formula representing the maximum number of components}
 
-% CHOURIÇO: Explain cache details
+\todo{Explain Cache Details}
 
 This data is then saved to a file named according to the commit id, in the "\code{raw}" folder (e.g "\code{out/math/raw/17d6f2163db436518f953166c1e9d495232f90b6}").
 
@@ -227,7 +243,7 @@ The following columns are prepared for each component:
 \item authorChanges:date+size-weighted:{author} - Sum of the result of the time-weighted function applied to each change made by a specific author multiplied for the number of lines added and removed in it. E.g. authorChanges:date+size-weighted::luc@apache.org
 \end{itemize}
 
-% TODO: Time-Weighted Function
+\todo{Time-weighted function}
 
 In order to improve modeling results, we also created the columns "changes-others", "changes-others:date-weighted", "changes-others:size-weighted", "changes-others:date+size-weighted", 
 "changes-fixes", "changes-fixes:date-weighted", "changes-fixes:size-weighted" and "changes-fixes:date+size-weighted" that are equal to the already existing columns starting with
@@ -315,8 +331,8 @@ These two files will be only files required to execute the next step.
 \subsection{Modeling and Prediction}
 
 For modeling and predicting \emph{Python 3} and \emph{scikit-learn} is used.
-Random Forests, Decision Trees and Naive Bayes were tried, but the former achieved significantly better results as it's presented in the Experimental Results chapter \ref{chap:exp-res}.
-Neural Networks weren't used since the training set is normally small.
+Random Forests, Decision Trees and Naive Bayes were tried, but the former achieved significantly better results as it is presented in the Experimental Results chapter \ref{chap:exp-results}.
+Neural Networks were not used since the training set is normally small.
 
 Before training the model, the training set is randomized and balanced, first to a ratio of 5 \emph{clean} component for each \emph{buggy} component 
 and then SMOTE is used to create more \emph{buggy} component entries. In order to train the model a \emph{Stratified KFold} (4 folds) is used and run 10 times, 

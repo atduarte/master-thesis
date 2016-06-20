@@ -42,11 +42,11 @@ Time             & 26              & 733            & 1474                      
 \end{table}
 
 Three different classification algorithms were tested: Support Vector Machines, Random Forests and AdaBoost.
-Our preliminary tests showed that Random Forests is the algorithm that provides an higher accuracy, that using the normalized values didn't help and the best label to use for training is \code{_mostChanged}, so we will focus on this test case.
+Our preliminary tests showed that Random Forests is the algorithm that provides an higher accuracy, that using the normalized values did not help and the best label to use for training is \code{_mostChanged}, so we will focus on this test case.
 
 Figures \ref{fig:clean-dp-count} and \ref{fig:buggy-dp-count} illustrate the different defect probabilities distributions of faulty and probably clean components, across all the 184 defects, respectively.
 %
-\begin{figure}[!]
+\begin{figure}[]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.6\textwidth]{clean-dp-count.pdf}
@@ -55,7 +55,7 @@ Figures \ref{fig:clean-dp-count} and \ref{fig:buggy-dp-count} illustrate the dif
   \end{center}
 \end{figure}
 %
-\begin{figure}[!]
+\begin{figure}[]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.6\textwidth]{buggy-dp-count.pdf}
@@ -101,7 +101,7 @@ Figure \ref{fig:dp-faults-position} exhibits the relative position of the faulty
 
 Two types of integration with Barinel were tested so the results will be presented separately in the following two sub-chapters. However, in the interest of better understanding the results, an analysis of the results of the unmodified Barinel was made.
 
-The unmodified Barinel analysis, represented on figure \ref{fig:fault-positions}, showed that on $44.57\%$ of the 184 project states the faulty component already are on the first position and on $5.98\%$ it has associated a $0\%$ probability of being faulty. So, no improvements can be made on $50.55\%$ of the examples of the test set. It also showed that in $88.04\%$ of the results the component with the defect is above the 10th position. For the sake of this analysis, in case of draw, we consider the best position and won't consider on the graphics the cases where the associated probability is $0\%$.
+The unmodified Barinel analysis, represented on figure \ref{fig:fault-positions}, showed that on $44.57\%$ of the 184 project states the faulty component already are on the first position and on $5.98\%$ it has associated a $0\%$ probability of being faulty. So, no improvements can be made on $50.55\%$ of the examples of the test set. It also showed that in $88.04\%$ of the results the component with the defect is above the 10th position. For the sake of this analysis, in case of draw, we consider the best position and will not consider on the graphics the cases where the associated probability is $0\%$.
 
 \begin{figure}[!]
   \begin{center}
