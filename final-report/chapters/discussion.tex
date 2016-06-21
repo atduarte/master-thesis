@@ -3,38 +3,50 @@
 
 \section*{}
 
-The experimental results acknowledged that extracting the component changes metadata is valuable by allowing to predict, with good precision and independently of the language, which files are more probable to have defects (Figure \ref{fig:dp-faults-position}).
+The experimental results acknowledged that extracting the component changes meta-data is valuable by allowing to predict, with good precision and independently of the language, which files are more probable to have defects (Figure \ref{fig:dp-faults-position}).
 
 \section{Estimating Defect Probability}
 
-In figures \ref{fig:clean-dp-count} and \ref{fig:buggy-dp-count} we clearly see two distinct types of distributions. 
-Probably clean components predicted defect probability tends to $0$, as intended, but the same can not be interpreted for the buggy components, whereas the distribution is more uniform. Preferably, the buggy components predicted defect probability distribution would tend more expressively to 1, being the reverse of figure \ref{fig:clean-dp-count}, but this may have been affected by the data imbalance and noise.
+In figure \ref{fig:dp-count-dist} we clearly see two distinct types of distributions. 
+Probably clean components predicted defect probability tends to $0$, as intended, but the same can not be interpreted for the buggy components, whereas the distribution is more uniform. Preferably, the buggy components predicted defect probability distribution would tend more expressively to 1.
+
+Precision and recall of the estimation of defect probability exhibited in Figure \ref{fig:dp-precision-recall} is also relevant to analyze. The precision improvement we see on this figure over an uniform probability distribution for clean and buggy illustrates the information gain we obtain with this solution.
+
+However, the mean accuracy obtained when classifying the test folds selected by Stratified KFold (Figure \ref{fig:kfold-accuracy-dist}) does not seem to be reflected when classifying the test set, namely the project's state. This could be explained by a overfitting mistake, but we think this is not the problem. We analyzed it, tried to use normalized values for changes, instead of the raw value plus date, and tried to use less features and tested the various options by cutting out more recent data and using the rest to model using KFold. The accuracy of classifying the most recent data was always much lower than the accuracy predicting data that was from a closer time frame. 
+
+This may be explained by the fact that evolution of the project may affect which patterns allow to identify faulty components, making data from within a closer time frame, more valuable.
+
+The inability to have more consistent results of the mean accuracy, that vary mainly between $0.8$ and $0.95$ as illustrated in Figure \ref{fig:kfold-accuracy-dist} may be caused by the data imbalance and noise.
 
 Since in each fix commit just a small percentage is changed and all the others are considered clean, extracted data is extremely unbalanced and the number of fault components in the training set is small. Using SMOTE improved the results, but the tendency to $0$ continues to be noticeable.
 
 The assumption that all unmodified files are clean may also introduce noise in the data, by labeling faulty components as clean. This along with the uncertainty of the identification of fix commits by the commit message, that may lead to wrongly labeling clean components as faulty, may blur the difference between the two types and lower the prediction accuracy.
 
-Besides, the faulty component may be defectuous just because of a recent change in a related component and since the data set does not contain any information about the components relations, it would be difficult for it to have a high predicted defect probability.
-
-Further more, one important aspect that can be observed on figure \ref{} and was verified by experimentation is that the model that allows to predict the faulty components now may not work in the future. The model must be trained with the most recent data, because the patterns that allow to identify to distinguish clean and fault component appear to change along with the project.
+Besides, the faulty component may contain a defect just because of a recent change in a related component and since the data set does not contain any information about the components relations, it would be difficult for it to have a high predicted defect probability.
 
 Yet, even with so much aspects that may affect our prediction accuracy, the figure \ref{fig:dp-faults-position} shows that, in fact, the faulty components tends to be classified as one of the components with the highest defect probability. Which is crucial to our goal of improving Barinel results.
 
 \section{Barinel Integration}
 
-Analysis of the unmodified Barinel, illustrated in \ref{fig:fault-positions}, showed how good the results are and the tenuous percentage of tests that can be improved by using our approach to modify Barinel results. $14.67\%$ in the best case scenario. While in the worst case scenario, $29\%$ of the tests would worsen.
+Analysis of the unmodified Barinel, illustrated in \ref{fig:fault-positions}, showed how good the results are and the tenuous percentage of tests that can be improved by using our approach to modify Barinel results
 
-Figure \ref{fig:results-modification} shows that when considering as faulty all the components with a predicted defect probability above $0.6$ the Barinel results improve, with little or no error. Examining for example the results for $0.65$ of minimum predicted probability, where the delta is higher, $13.5\%$ of the possible improvements occured and just one test worsened. Increasing the minimum diminishes both the number of improvements and errors, but starting at $0.75$ errors are completely eliminated.
+\subsection{Results Modification}
 
-Given this data, we can concluded with some confidence that components with a predicted defect probability above $0.65$ have in fact a high real defect probability.
+In the best case scenario, the results modification integration can improve $14.67\%$ of the tests. While in the worst case scenario, $29\%$ of the tests would worsen.
 
-\todo{The other barinel integration. + Flaky tests}
+Figure \ref{fig:results-modification} shows that when considering as faulty all the components with a predicted defect probability above $0.6$ the Barinel results improve, with little or no error. Examining for example the results for $0.65$ of minimum predicted probability, where the delta is higher, $13.5\%$ of the possible improvements occurred and just one test worsened. Increasing the minimum diminishes both the number of improvements and errors, but starting at $0.75$ errors are completely eliminated.
+
+\subsection{Priors Replacement}
+
+The best case scenario showed that even with $100\%$ precision the priors replacement integration can result in worsened tests. \todo{Explain why clearly}
+
+Even though, real results revealed to be promising by improving approximately $43\%$ of the possible tests and not damaging any. This may illustrate how important the defect probability prediction based on language agnostic features is to improve Barinel results.
 
 \section{Threats to Validity}
 
 There are some threats to the validity of this research. The first is the fact that the Math project (101 tests of 184) appeared to have flaky tests, since with the exact same configuration Barinel, which is deterministic, reported some value changes. 
 
-Using three open source Java projects, with 184 tests, may also not be sufficient to predict the application behaviour in other different projects
+Using three open source Java projects, with 184 tests, may also not be sufficient to predict the application behavior in other different projects
 
 Being this research all about defect probabilities, we know that the application made to estimate the defect probability can also have defects and may somehow affect the predictions. Although the application was heavily tested and many results were manually checked for validity.
 

@@ -1,34 +1,40 @@
 \chapter*{Abstract}
 %\addcontentsline{toc}{chapter}{Abstract}
 
-TODO
+Given the rising necessity of identifying errors on the source code of software, in order to make the developers work easier and to speed up the development process, many progresses have been made in its automation. 
+
+There are three main approaches: Program-spectra based (PSB), Model-based diagnosis (MDB) and Program slicing. 
+
+Barinel, solution that integrates both PSB and MDB, is, until now, to our knowledge, the option that guarantees the best results. Despite this, the candidates (faulty components) set order does not take into account the real quality of the given component. 
+
+With this thesis we want to fix this issue and contribute for a better candidates ordered set, classifying the quality and reliability of each component, using Machine Learning techniques such as  Random Forest with language-agnostic information extracted from Git.
+
+Two approaches to the Barinel integration were tried, priors replacement and results modification, and better results were achieved in both.
 
 \vspace*{10mm}\noindent
 
-\textbf{Keyworks}: \emph{Software-fault Localization}, \emph{Software Repository Mining}, \emph{Machine Learning}, \emph{Classification}
+\textbf{Keyworks}: \emph{Software-fault Localization}, Software Repository Mining, \emph{Machine Learning}, \emph{Classification}
 
 \vspace*{5mm}\noindent
 
-\textbf{Classificação}: \emph{Software and its engineering - Software creation and management - Software verification and validation; Computing methodologies - Machine Learning - Machine Learning Approaches}
+\textbf{Classification}: \emph{Software and its engineering - Software creation and management - Software verification and validation; Computing methodologies - Machine Learning - Machine Learning Approaches}
 
 \chapter*{Resumo}
 %\addcontentsline{toc}{chapter}{Resumo}
 
-Dada a crescente necessidade de identificar a localização dos erros no código fonte de \emph{software}, de forma a facilitar o trabalho dos programadores e a acelerar o processo de desenvolvimento, muitos avanços têm sido feitos na sua automação.
+Dada a crescente necessidade de identificar a localização dos erros no código fonte de software, de forma a facilitar o trabalho dos programadores e a acelerar o processo de desenvolvimento, muitos avanços têm sido feitos na sua automação.
 
 Existem três abordagens principais: \emph{Program-spectra based} (PSB), \emph{Model-based diagnosis} (MDB) e \emph{Program slicing}.
 
-\emph{Barinel}, solução que integra tanto o PSB como o MDB, é, até hoje, com base na investigação feita, a que apresenta melhores resultados. Contudo, a ordenação de conjuntos de candidatos (componentes faltosos) não tem em conta a verdadeira qualidade do componente em causa, mas sim o conjunto de valores que maximizam a probabilidade do conjunto (\emph{Maximum Likehood Estimation} - MLE), devido à dificuldade da sua determinação.
+Barinel, solução que integra tanto o PSB como o MDB, é, até hoje, com base na investigação feita, a que apresenta melhores resultados. Contudo, a ordenação de conjuntos de candidatos (componentes faltosos) não tem em conta a verdadeira qualidade do componente em causa, mas sim o conjunto de valores que maximizam a probabilidade do conjunto (\emph{Maximum Likehood Estimation} - MLE), devido à dificuldade da sua determinação.
 
-Com esta tese pretende-se colmatar esta falha e contribuir para uma melhor ordenação dos conjuntos, classificando, com recurso a técnicas de Machine Learning como \emph{Naive Bayes}, \emph{Support Vector Machines} (SVM) ou \emph{Random Forests}, a qualidade e fiabilidade de cada componente, através das informações disponíveis no sistema de controlo de versões (\emph{Software Repository Mining}), neste caso \emph{Git}, como por exemplo: número de vezes que foi modificado, número de contribuidores, data de última alteração, nome de últimos contribuidores e tamanho das alterações.
+Com esta tese pretende-se colmatar esta falha e contribuir para uma melhor ordenação dos conjuntos, classificando, com recurso a técnicas de Machine Learning como \emph{Naive Bayes}, \emph{Support Vector Machines} (SVM) ou \emph{Random Forests}, a qualidade e fiabilidade de cada componente, através das informações, agnóticas à linguagem de programação usada, disponíveis no sistema de controlo de versões (Software Repository Mining), neste caso \emph{Git}.
 
-A investigação já feita, revelou a existência de algumas soluções de análise preditiva de \emph{software}, como \emph{BugCache}, \emph{FixCache} e \emph{Change Classification}, capazes de identificar componentes com grande probabilidade de falhar e de classificar as revisões (\emph{commits}) como faltosas ou não, mas nenhuma soluciona o problema.
-
-Este trabalho visa também a integração com o \emph{Crowbar} e a contribuição para a sua possível comercialização.
+Foram experimentadas das abordagens diferentes à integração com o Barinel, subsituição de \emph{priors} e modificação de resultados, e ambas resultaram numa melhor ordenação de resultados.
 
 \vspace*{10mm}\noindent
 
-\textbf{Palavras-chave}: \emph{Software-fault Localization}, \emph{Software Repository Mining}, \emph{Machine Learning}, \emph{Classification}
+\textbf{Palavras-chave}: \emph{Software-fault Localization}, Software Repository Mining, \emph{Machine Learning}, \emph{Classification}
 
 \vspace*{5mm}\noindent
 

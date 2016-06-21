@@ -3,7 +3,7 @@
 
 \section*{}
 
-In order to estimate the defect probabilty of each software component we developed a data mining application, agnostic to the project's language. 
+In order to estimate the defect probability of each software component we developed a data mining application, agnostic to the project's language. 
 It automatically extracts data from the current state and about older defects from a \emph{Git} repository, creates a model and predicts the probability. The project is written in Javascript (Node.js) and Python 3 and heavily uses \emph{node-git}
 and \emph{scikit-learn}.
 
@@ -13,9 +13,9 @@ In this chapter, we will explain the concept behind it, approach the process use
 
 Some patterns are easily recognizable when trying to identify faulty components on a software project and this information could be helpful for software such as Barinel. 
 
-We might say, for example, that having a high number of recent changes or having been changed by a given junior developer new to the project probabily increases the chances of a file having an error, due to past experiences. So, deep down we are just assuming that the knowledge of the metadata of old faulty components may allow us to predict which components are more probable to be faulty, now.
+We might say, for example that having a high number of recent changes or having been changed by a given junior developer new to the project probably increases the chances of a file having an error, due to past experiences. So, deep down we are just assuming that the knowledge of the meta-data of old faulty components may allow us to predict which components are more probable to be faulty, now.
 
-Based on that assumption, the application, for a given repository state, extracts metadata knowledge from past commits with faulty components, the parent commits of a fix. For each of these commits, all of components are analyzed and labeled as faulty or clean, if it was or not changed on the fix, respectively.
+Based on that assumption, the application, for a given repository state, extracts meta-data knowledge from past commits with faulty components, the parent commits of a fix. For each of these commits, all of components are analyzed and labeled as faulty or clean, if it was or not changed on the fix, respectively.
 %
 % CHOURIÇO:
 %
@@ -29,9 +29,9 @@ Based on that assumption, the application, for a given repository state, extract
 %\end{figure}
 
 Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis is not used. 
-The only information that is used is information diretly related to the file changes, authors, number of lines or bytes.
+The only information that is used is information directly related to the file changes, authors, number of lines or bytes.
 
-Along with the extraction of the metadata information from the past faulty states, it must also extract the metadata of the given repository state. The data from the first extraction must be used to create a machine learning model, that should be able to predict the defect probability of each component present in the current state of the project.
+Along with the extraction of the meta-data information from the past faulty states, it must also extract the meta-data of the given repository state. The data from the first extraction must be used to create a machine learning model, that should be able to predict the defect probability of each component presents in the current state of the project.
 %
 \begin{figure}[ht]
   \begin{center}
@@ -65,7 +65,7 @@ the chosen project name and the path to the folder containing the repository we 
   $ node index.js all {project-name} {repository-path}
 \end{lstlisting}
 
-It is possible to specify a diferent classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"), 
+It is possible to specify a different classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"), 
 a different number of estimators used when modeling (e.g. "\code{--estimators=100}", default is 5) or even
 to define the level of logging by appending, for example, "\code{--log-level=verbose}". The existing levels available, from higher to lower priority, are
 "\code{error}", "\code{warn}", "\code{info}", "\code{verbose}" and "\code{silly}". The default log level is "\code{info}".
@@ -282,7 +282,7 @@ In order to improve modeling results, we also created the columns "changes-other
 "changes-fixes", "changes-fixes:date-weighted", "changes-fixes:size-weighted" and "changes-fixes:date+size-weighted" that are equal to the already existing columns starting with
 "changes", but refer only to changes that were not fixes and changes that were fixes, respectively.
 
-Ploting the results we noticed that the date influenced significantly the data related to changes, since older commits have less history behind. 
+Plotting the results we noticed that the date influenced significantly the data related to changes, since older commits have less history behind. 
 So for each, we added a normalized version by the commit.
 
 \begin{figure}[ht]
@@ -372,4 +372,4 @@ and then SMOTE is used to create more \emph{buggy} component entries. In order t
 generating 40 different models. Performance of these 40 models is measured according to the difference of the mean defect probability of buggy test data and clean test data. 
 The 15 models with the highest difference are then used to predict the defect probability of each component in the current project state and a mean is calculated.
 
-As refered before, the results are saved directly at the repository folder.
+As referred before, the results are saved directly at the repository folder.

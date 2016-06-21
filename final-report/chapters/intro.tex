@@ -1,36 +1,30 @@
 %!TEX root = ../thesis.tex
-\chapter{Introdução} \label{chap:intro}
+\chapter{Introduction} \label{chap:intro}
 
 \section*{}
 
-\todo{Translate...}
+With this chapter we aim to frame the subject, explain our motivation and describe the document structure.
 
-Pretende-se com este capítulo enquadrar o tema, explicar as motivações e descrever sucintamente a estrutura deste documento.
+\section{Context} \label{sec:context}
 
-\section{Contexto/Enquadramento} \label{sec:context}
+With the big growth of the software development industry, the existence of tools that help programmers do a better job becomes even more important.
 
-Com o elevado crescimento da indústria de desenvolvimento de software,
-torna-se cada vez mais importante a existência de ferramentas que auxiliem
-os programadores a desenvolvê-lo mais eficientemente.
+It is estimated that the economy of the United States of America loses 60 billion dollars every year in costs associated with the development and distribution of fixes to defects on software and in its re-installation \cite{Zhivich2009}. Given this, we can claim that tools of software fault localization, by helping reduce the time invested in this task, may have a huge positive impact in the economy. In the domain of software fault localization the research is considerable. \emph{Ochiai}, \emph{Tarantula}, \emph{Bayes-A} and Barinel are just some of the existing solutions, being the Barinel algorithm the one that reveals better results.
+Even though, this algorithm can be optimized, returning more accurate results, by using defect probabilities estimated according to information related to the project.
 
-Estima-se que a economia dos Estados Unidos perca entre 60 mil milhões de dólares por ano em custos associados ao desenvolvimento e distribuição de correções para defeitos de \emph{software} e na sua reinstalação \cite{Zhivich2009}. Pelo que, podemos afirmar que as ferramentas de localização das falhas de \emph{software} (\emph{Software Fault Localization}), ajudando a reduzir o tempo investido nesta tarefa, poderão ter um impacto significativo na economia.
-Nesta área os avanços são consideráveis. \emph{Ochiai}, \emph{Tarantula}, \emph{Bayes-A} e \emph{Barinel} são apenas algumas das soluções existentes, sendo o algoritmo \emph{Barinel} aquele que apresenta melhores resultados. \cite{Abreu2009}
-Apesar dos bons resultados apresentados pelo \emph{Barinel}, este poderá apresentar resultados ainda mais rigorosos se tivermos informações relativas ao projeto, como a probabilidade média de erro ou a probabilidade de dado componente, que o constitui, ter defeitos.
+Given that version control systems, such as \emph{Git}, contain all the project's history and information about all changes (e.g. changed content, date and authors), we believe this data, along with Machine Learning algorithms, may be the key to Barinel, improvement.
 
-Ferramentas de controlo de versões, como o \emph{Git}, uma vez que mantêm todo o histórico do projeto e informações relacionadas com as diversas alterações (p.e. conteúdo, data e autores), em conjunto com técnicas de \emph{Machine Learning}, poderão ser a chave para a melhoria deste algoritmo.
+\section{Motivation and Objectives} \label{sec:goals}
 
-\section{Motivação e Objetivos} \label{sec:goals}
-
-Tendo em conta as possibilidades que a extração de dados de repositórios de controlo de versões e o \emph{Machine Learning} nos dão, pretende-se com esta dissertação:
+Given the possibilities of Machine Learning and information extraction from software repositories, with this dissertation we intend to:
 %
 \begin{itemize}
-\item Being able to predict the defect probability of each component in a given software project, that uses Git, with an useful precision, regardless of the programming language used.
+\item Be able to predict the defect probability of each component in a given software project that uses Git with an useful precision, regardless of the programming language used.
 \item Optimize the order of results of Barinel.
 \end{itemize}
 
-\section{Estrutura} \label{sec:struct}
+\section{Structure} \label{sec:struct}
 
-% TODO: CHANGE
+In addition to this chapter, this dissertation contains 6 more chapters.
 
-% Para além da introdução, esta dissertação contém mais 4 capítulos.
-% No capítulo~\ref{chap:sota}, é descrito o estado da arte e são apresentados trabalhos relacionados com \emph{fault localization software}, \emph{software repository mining} e ainda algumas abordagens à previsão de defeitos. No capítulo~\ref{chap:chap3}, expõe-se a perspetiva de solução e contrasta-se com as possíveis dificuldades que poderão ser encontradas durante a sua realização, apresentando no capítulo seguinte~\ref{chap:chap4} a forma como esta deve ser validada. Por último, o capítulo~\ref{chap:concl} conclui o relatório e explicita o plano de trabalhos, na forma de um gráfico de \emph{Gantt}.
+Chapter \ref{chap:sota} describes the state of the art and presents work related to fault localization software, software repository mining and some other approaches to defect prediction. Chapter \ref{cap:estimating-dp} presents the concept and working details of the solution created to estimate the defect probability. Chapter \ref{chap:barinel-integration} explains both integrations tried, results modification and priors replacement. Chapters \ref{chap:exp-results} and \ref{chap:discussion} contain the experimental results obtained by experimentation and the discussion of those results, respectively. Chapter \ref{chap:concl} concludes the dissertation by analyzing the goals satisfaction, main contributions and further work.

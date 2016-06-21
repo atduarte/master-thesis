@@ -5,7 +5,7 @@
 
 In order to reliably validate the defect probability prediction we used an existing database of faults, \emph{Defects4J}.
 This database contains a list of commits with defects and their location from five different projects (JFreechart, Closure compiler, Apache commons-lang, Apache commons-math and Joda-Time).
-Since compatibility with \emph{Barinel} and using \emph{Git} is required, only the last three projects were used, making a total of 184 commits.
+Since compatibility with Barinel and using \emph{Git} is required, only the last three projects were used, making a total of 184 commits.
 %
 \begin{table}[H]
 	\centering
@@ -44,29 +44,42 @@ Time             & 26              & 733            & 1474                      
 Three different classification algorithms were tested: Support Vector Machines, Random Forests and AdaBoost.
 Our preliminary tests showed that Random Forests is the algorithm that provides an higher accuracy, that using the normalized values did not help and the best label to use for training is \code{_mostChanged}, so we will focus on this test case.
 
-Figures \ref{fig:clean-dp-count} and \ref{fig:buggy-dp-count} illustrate the different defect probabilities distributions of faulty and probably clean components, across all the 184 defects, respectively.
+Figures \ref{fig:dp-count-dist} illustrates the different defect probabilities distributions of faulty and probably clean components, across all the 184 defects, respectively.
 %
-\begin{figure}[!]
+\begin{figure}[ht]%
+    \centering
+    \subfloat[Clean]{{\includegraphics[width=0.4\textwidth]{clean-dp-count.pdf} }}%
+    \qquad
+    \subfloat[Faulty]{{\includegraphics[width=0.4\textwidth]{buggy-dp-count.pdf} }}%
+    \caption{Distribution of predicted defect probabilities}%
+    \label{fig:dp-count-dist}%
+\end{figure}
+
+Since we used Stratified KFold we are able to determine the prediction accuracy of the model on the train data. Figure \ref{fig:kfold-accuracy-dist} illustrates the distribution of the mean accuracy of the 15 models used for evaluate each state of the projects.
+%
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
-    \includegraphics[width=0.6\textwidth]{clean-dp-count.pdf}
-    \caption{Distribution of predicted defect probabilities for probably clean components}
-    \label{fig:clean-dp-count}
+    \includegraphics[width=0.6\textwidth]{kfold-accuracy-dist.pdf}
+    \caption{Histogram of the mean accuracy of the models used for evaluating each project state at predicting KFold's test data}
+    \label{fig:kfold-accuracy-dist}
   \end{center}
 \end{figure}
+
+Precision and recall is compared between our solution and an uniform defect probability distribution for clean and faulty components is exhibited at Figure \ref{fig:dp-precision-recall}.
 %
-\begin{figure}[!]
-  \begin{center}
-    \leavevmode
-    \includegraphics[width=0.6\textwidth]{buggy-dp-count.pdf}
-    \caption{Distribution of predicted defect probabilities for faulty components}
-    \label{fig:buggy-dp-count}
-  \end{center}
+\begin{figure}[ht]%
+    \centering
+    \subfloat[Precision]{{\includegraphics[width=0.4\textwidth]{dp-precision.pdf} }}%
+    \qquad
+    \subfloat[Recall]{{\includegraphics[width=0.4\textwidth]{dp-recall.pdf} }}%
+    \caption{Prediction accuracy of identifying faulty components as a function of the minimum defect probability to consider as faulty, comparing our approach to an uniform defect probability distribution for clean and faulty components}%
+    \label{fig:dp-precision-recall}%
 \end{figure}
-%
+
 However since we want the faulty component to be the one with the highest defect probability, it is important not only to verify the defect probability for the faulty component, but also to compare it to the probabilities of the other, probably clean, components in the project. Figure \ref{fig:dp-count} illustrates a case where the faulty component has a low defect probability, $12\%$, but it still is on the top $17\%$.
 %
-\begin{figure}[!]
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.6\textwidth]{dp-count_math050.pdf}
@@ -77,7 +90,7 @@ However since we want the faulty component to be the one with the highest defect
 
 Figure \ref{fig:dp-faults-position} exhibits the relative position of the faulty component for all the 184 defects and allowed to concluded that the average percentage of components with higher defect probability than the faulty component is just $16.6\%$ and the median is $10.6\%$.
 
-\begin{figure}[!]
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.6\textwidth]{faults-position.pdf}
@@ -95,19 +108,15 @@ Figure \ref{fig:dp-faults-position} exhibits the relative position of the faulty
 
 \section{Barinel Integration}
 
-% Present the best possible results
-% Present the results with 10% better or 10% worse
-% Distribution of positions
-
 Two types of integration with Barinel were tested so the results will be presented separately in the following two sub-chapters. However, in the interest of better understanding the results, an analysis of the results of the unmodified Barinel was made.
 
-The unmodified Barinel analysis, represented on figure \ref{fig:fault-positions}, showed that on $44.57\%$ of the 184 project states the faulty component already are on the first position and on $5.98\%$ it has associated a $0\%$ probability of being faulty. So, no improvements can be made on $50.55\%$ of the examples of the test set. It also showed that in $88.04\%$ of the results the component with the defect is above the 10th position. For the sake of this analysis, in case of draw, we consider the best position and will not consider on the graphics the cases where the associated probability is $0\%$.
+The unmodified Barinel analysis, represented on figure \ref{fig:fault-positions}, showed that on $44.57\%$ of the 184 project states the faulty component already are on the first position and on $5.98\%$ it has associated a $0\%$ probability of being faulty. So, no improvements can be made on $50.55\%$ of the examples of the test set. It also showed that in $88.04\%$ of the results the component with the defect is above the 10th position. For the sake of this analysis, in case of draw, we consider the best position and will not consider in Figure \ref{fig:fault-positions} the cases where the associated probability is $0\%$.
 
-\begin{figure}[!]
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.6\textwidth]{unmodified-barinel_positions.pdf}
-    \caption{Histogram of the relative position of all faulty components, with a probability above zero, reported by the unmodified barinel}
+    \caption{Histogram of the relative position of all faulty components, with a probability above zero, reported by the unmodified Barinel}
     \label{fig:fault-positions}
   \end{center}
 \end{figure}
@@ -115,11 +124,11 @@ The unmodified Barinel analysis, represented on figure \ref{fig:fault-positions}
 
 \subsection{Results Modification}
 
-First, to be able to contextualize the results, the best and worst scenarios were tested. If the predicted defect faulty was 1 to all the faulty components and 0 for all the others, there would be an improve on 37 cases. If, for instance, the probabilities were totally wrong, it would worsen 54 cases.
+First, to be able to contextualize the results, the best and worst scenarios were tested. If the predicted defect faulty was 1 to all the faulty components and 0 for all the others, there would be an improvement on 37 cases. If, for instance, the probabilities were totally wrong, it would worsen 54 cases.
 
 Given the predicted defect probabilities is important to determine the best value to use as the minimum for a component to be considered possibly faulty. When considered possibly faulty, as explained in \ref{chap:barinel-integration}, the Barinel fault probability is doubled. For each value from $0.5$ to $1$, at $0.05$ steps, the gain, loss and delta was calculated, as we can see in \ref{fig:results-modification}.
 
-\begin{figure}[!]
+\begin{figure}[ht]
   \begin{center}
     \leavevmode
     \includegraphics[width=0.6\textwidth]{barinel-integration-1.pdf}
@@ -128,7 +137,12 @@ Given the predicted defect probabilities is important to determine the best valu
   \end{center}
 \end{figure}
 
-
 \subsection{Priors Replacement}
 
-\todo{... Waiting ... Flaky tests ...}
+Experimental results showed that some tests on the Math project are flaky\footnote{A flaky test is a test which could fail or pass for the same configuration}, making the Barinel results non-deterministic. Given this, only the defect from the Time and Lang projects will be considered and compared.
+
+Since Barinel computation is computationally heavy, just one minimum defect probability ($0.65$) was tested. In this case, all software components that were classified with an equal or higher defect probability than $0.65$ will have a prior of $0.002$. All the others will remain with $0.001$.
+
+The best case scenario was computed and showed that even with perfect precision it can worsen results. 14 improved results (9 from Lang, 5 from Time) and 3, all from Lang, worsened.
+
+Using the prediction output to change priors resulted in 6 improved results (5 from Lang, 1 from Time) and no worsened test.

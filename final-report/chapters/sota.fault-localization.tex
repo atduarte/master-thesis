@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
-\section{\emph{Fault Localization Software}}
+\section{Fault Localization Software}
 
-\emph{Fault Localization Software} helps to automatically locate code that generates faults when it is executed, reducing the costs associated with finding it, which would have to be done manually by the developer.  There are three main types of approach: \emph{Program Slicing}, \emph{Spectrum-based diagnosis} and \emph{Model-based diagnosis}. The \emph{Spectrum-based diagnosis} approaches will have a more detailed analysis due to their greater relevance to this work.
+Fault Localization Software helps to automatically locate code that generates faults when it is executed, reducing the costs associated with finding it, which would have to be done manually by the developer.  There are three main types of approach: \emph{Program Slicing}, \emph{Spectrum-based diagnosis} and \emph{Model-based diagnosis}. The \emph{Spectrum-based diagnosis} approaches will have a more detailed analysis due to their greater relevance to this work.
 
 % 
 % ==========
@@ -13,7 +13,7 @@
 
 Introduced by Mark Weiser in 1981 \cite{Weiser1981, Weiser1982}, this method starts its analysis from the fault and, by way of the program's data and control flow, tries to find where the problem originates. 
 
-By removing all statements that won't affect the data set or program flow, this method determines a section of code (\emph{slice}) corresponding to all statements that may be the root of the problem and must be inspected. \cite{Perez2004}. By reducing the amount of statements that require inspection, the time needed to fix an error is also reduced.
+By removing all statements that won't affect the data set or program flow, this method determines a section of code (slice) corresponding to all statements that may be the root of the problem and must be inspected. \cite{Perez2004}. By reducing the amount of statements that require inspection, the time needed to fix an error is also reduced.
 
 Usually, a static analysis of the program will result in a huge section of code, so there are other, dynamic, methods that will considerably reduce its size, such as \emph{program dice} or \emph{dynamic program slicing} \cite{Perez2004}.
 
@@ -25,7 +25,7 @@ Usually, a static analysis of the program will result in a huge section of code,
 
 \subsection{\emph{Spectrum-based diagnosis}}
 
-\emph{Spectrum-based Fault Localization} (SFL) is a probability-based fault detection method that will estimate each \emph{software} component's probability of containing faults by analyzing execution-related information, whether that execution is successful or not \cite{Abreu2007}. This method is able to generate good results when the project contains a big amount of test cases and can be executed swiftly, being able to scale well to big projects \cite{Mayer2008}.
+\emph{Spectrum-based Fault Localization} (SFL) is a probability-based fault detection method that will estimate each software component's probability of containing faults by analyzing execution-related information, whether that execution is successful or not \cite{Abreu2007}. This method is able to generate good results when the project contains a big amount of test cases and can be executed swiftly, being able to scale well to big projects \cite{Mayer2008}.
 
 This method generates a matrix based of data saved during the execution (\emph{program spectrum} \cite{Reps1997}), connecting each test case ran with the components executed and the result, successful or unsuccessful, of that test.
 
@@ -71,7 +71,7 @@ With this matrix, also called \emph{hit-spectra matrix}, a \emph{similarity coef
 
 The basis of \emph{Model-based diagnosis} is comparing the model, i.e. the description of the system's behavior, with the actually observed behavior \cite{Mayer2008}. The difference between the two is then used to identify components that may explain errors occurred. This actually requires a formal description of the system,  which makes the task harder \cite{Perez2004}.
 
-In order to facilitate using this method, the model is usually inferred by using the \emph{software} itself, specifically, by using the test cases defined in it \cite{Perez2004}.
+In order to facilitate using this method, the model is usually inferred by using the software itself, specifically, by using the test cases defined in it \cite{Perez2004}.
 
 Although this method generates high-reliability results, the computational effort required to create a model for a big program will prevent it to be used in real projects most of the times \cite{Mayer2008}.
 
@@ -81,9 +81,9 @@ Although this method generates high-reliability results, the computational effor
 % ==========
 %
 
-\subsection{\emph{Barinel}}
+\subsection{Barinel}
 
-\emph{Barinel} is an algorithm inspired by the two methods previously described, \emph{program-spectra based} and \emph{model-based diagnosis}, thus being able to generate better results than the other approaches, albeit with a slightly higher cost \cite{Abreu2009}.
+Barinel is an algorithm inspired by the two methods previously described, \emph{program-spectra based} and \emph{model-based diagnosis}, thus being able to generate better results than the other approaches, albeit with a slightly higher cost \cite{Abreu2009}.
 
 This algorithm starts by analyzing a \emph{hit-spectra matrix}, representing a connection between the executed tests, the executed components, and their final result.
 
@@ -113,7 +113,7 @@ For example, the test $t_4$ has executed the components $c_1$ and $c_3$ and comp
 
 \subsubsection{Generating candidates} 
 
-Using this matrix, a list of candidate sets ($d$) is generated. This list is reduced to the lowest possible amount of candidates, as they encompass all other candidates and allow a reduction of the search space. This problem, entitled \emph{minimal hitting set} (MHS), is itself an \emph{NP-hard} problem, which means specific heuristics had to be created \cite{RuiAbreu, Cardoso2013}. The algorithm used by \emph{Barinel} to resolve this problem is \emph{Staccato}.
+Using this matrix, a list of candidate sets ($d$) is generated. This list is reduced to the lowest possible amount of candidates, as they encompass all other candidates and allow a reduction of the search space. This problem, entitled \emph{minimal hitting set} (MHS), is itself an \emph{NP-hard} problem, which means specific heuristics had to be created \cite{RuiAbreu, Cardoso2013}. The algorithm used by Barinel to resolve this problem is \emph{Staccato}.
 
 In this case, only two candidates would be generated:
 
@@ -204,7 +204,7 @@ In this case, all of $g_j$ values are unknown. Applying the MLE algorithm to bot
 %
 \subsubsection{\emph{Crowbar}}
 
-\emph{Crowbar}\footnote{ \url{http://crowbar.io}}, formerly known as GZoltar\footnote{ \url{http://www.gzoltar.com/}}, is the tool used to materialize the \emph{Barinel} algorithm and that allows the analysis of \emph{Java} projects \cite{Campos2012}.
+\emph{Crowbar}\footnote{ \url{http://crowbar.io}}, formerly known as GZoltar\footnote{ \url{http://www.gzoltar.com/}}, is the tool used to materialize the Barinel algorithm and that allows the analysis of \emph{Java} projects \cite{Campos2012}.
 
 By using code injection and running \emph{JUnit} tests, \emph{Crowbar} is able to identify executed components and connect them to unsuccessful tests.
 
@@ -214,7 +214,7 @@ There are different ways to present the results, the main one being the \emph{Su
   \begin{center}
     \leavevmode
     \includegraphics[width=0.5\textwidth]{barinel1.png}
-    \caption{Visualização Sunburst do Crowbar}
+    \caption{Sunburst visualization on Crowbar}
     \label{fig:crowbar-sunburst}
   \end{center}
 \end{figure}

@@ -8,22 +8,24 @@ We consider that building tools to help developers do a better job is crucial an
 By reviewing the available literature, it is possible to conclude that interest exists in bridging knowledge from the domain of Artificial Intelligence to Software Engineering.
 This research aims to contribute to it.
 
+
 \section{Goals contribution}
 
-We set the goal at building a project that would be able to predict the component defect probability of any software project, written in any language, that uses \emph{Git}, with enough precision to improve Barinel results and achieved it. 
+We set the goal at building a project that would be able to predict the component defect probability of any software project, written in any language, that uses \emph{Git}, with enough precision to improve Barinel results and we achieved it. 
 
-Even with experimental results showing that Barinel already classified the faulty component as one of the top 10 probably fauly components in $88.04\%$ of its results. 
+Even with experimental results showing that Barinel already classified the faulty component as one of the top 10 probably faulty components in $88.04\%$ of its results. 
 
-So we can conclude that the project was successful and achieved the defined goals.
+So we can conclude that the project was successful and achieved all the defined goals.
 
 
 \section{Main Contributions}
 
-Results confirm that it is possible to predict that a software component is faulty with $X\%$ of precision and $Y\%$ of recall, by using metadata information available at the Git repository and ignoring language-specific software metrics.
+Results confirm that there is sufficient information available at the Git repository to be able to improve $14.67\%$ of the possible Barinel results, with no loss. It was also clear that priors replacement even if optimal can result in worse results.
 
-Research also revealed that using this information to calculate prior values improves Barinel results by $Z\%$.
+A different approach to Barinel results optimization was introduced with Results modification, which, with optimal software component defect probability classification, does never negatively affect results.
 
-Data mining application is open-source and can be already used with any \emph{Git} project to help identifying code hotspots. We consider that this capacity can help save time, by for example advising software developers doing code reviews to be more careful about specific files.
+Data mining application is open-source and can be already used with any \emph{Git} project to help identifying code hot spots. We consider that this capacity can help save time, by for example advising software developers doing code reviews to be more careful about specific files.
+
 
 \section{Further Work}
 
@@ -32,7 +34,7 @@ some interesting ideas of future work.
 
 \subsection{Improving fix commits identification}
 
-In order to not depend on the usage of a bug tracker software, the fix commits identification is made by analysing the commit message. 
+In order to not depend on the usage of a bug tracker software, the fix commits identification is made by analyzing the commit message. 
 
 Since using this approach may introduce noise in the train set, which may lower the accuracy of the model, the bug tracker software information could be used when existing.
 
@@ -46,13 +48,15 @@ So, implementing such features for a set of languages and using them when possib
 
 \subsection{Improving machine learning model accuracy}
 
-As stated in Chapter \ref{chap:discussion}, the train data set can be noisy and unbalanced. There are a wide range of different approaches to these problems and we have believe they could have a positive impact on the model's accuracy.
+As stated in Chapter \ref{chap:discussion}, the train data set can be noisy, unbalanced and seems to evolve different patterns with time, making it difficult to have good accuracy predicting data by training a model with much older information. Given this, newer train data should have a higher weight than older data when training the supervised machine learning model.
+
+There are a wide range of different approaches to these problems and we have believe they could have a positive impact on the model's accuracy.
 
 \subsection{Integrating with \emph{GitHub}}
 
-Since the project showed to be able to predict that a software component has a defect with $X\%$ of precision and $Y\%$ of recall, it could be used to warn developers directly at \emph{Github} \footnote{\url{https://github.com}}.
+This project could be used to warn developers directly at \emph{GitHub} \footnote{\url{https://github.com}} about code hotspots.
 
-Every time a pull request is created, the data mining application could analyze the project and if any changed file has a high defect probability or any changed files have their defect probability significantly increased a automatic comment would be made, alerting the submitter and the reviewers.
+For example, every time a pull request is created, the data mining application could analyze the project and if any changed file has a high defect probability or any changed files have their defect probability significantly increased a automatic comment would be made, alerting the submitter and the reviewers.
 
 \subsection{Creating a different data structure to represent commit history tree}
 
@@ -63,3 +67,9 @@ Project's performance can be enhanced, for example, by saving the commit history
 \subsection{Parallelization}
 
 The extraction runs on \emph{node.js} so only one core is used at a time. Parallelization would improve application's performance and is possible, for example, using worker processes.
+
+\subsection{Improve software component labeling}
+
+There is some uncertainty associated with the labeling used in this project. It can be improved if data is interpolated between commits. 
+
+For example, if in commit A the file X was faulty and in the commit B the file was exactly the same, both should be labeled as faulty.

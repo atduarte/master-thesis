@@ -7,11 +7,11 @@ We have already explored some approaches to code quality prediction. In this cha
 
 Based on the assumption that faults never occur isolated, and therefore where there's a defect others can also exist, \emph{BugCache} creates a list of components which have a high probability of containing defects, based on an analysis of the complete changes history of the project.
 
-This algorithm stands out due to its precision, managing a 73 to 95\% accuracy when used with file-level granularity, being the best to date \cite{Kim2006}.
+This algorithm stands out due to its precision, managing a 73 to 95\% accuracy when used with file-level granularity, being the best to date \cite{kim2006automatic}.
 
-Defects are identified by order of occurrence and added to the list. When that list reaches its maximum size, components start to be removed according to the chosen substitution method. There are several methods using different metrics, such as \emph{Least Recent Used - LRU}, number of recent defects and number of recent changes \cite{Kim2006}.
+Defects are identified by order of occurrence and added to the list. When that list reaches its maximum size, components start to be removed according to the chosen substitution method. There are several methods using different metrics, such as \emph{Least Recent Used - LRU}, number of recent defects and number of recent changes \cite{kim2006automatic}.
 
-With this algorithm, we can conclude \cite{Kim2006}:
+With this algorithm, we can conclude \cite{kim2006automatic}:
 %
 \begin{itemize}
 	\item If a defect has been introduced, there is a tendency to soon introduce additional new defects (\emph{temporal locality})
@@ -27,7 +27,7 @@ The difference between \emph{BugCache} and \emph{FixCache} is the time at which 
 
 In a first phase, all changes up to that moment are either classified as \emph{buggy} or \emph{clean}. After classifying them and extracting data for each one, a model is created by \"training\" a classification algorithm.
 
-The types of data used are divided in seven groups: complexity metrics, added code, removed code, file and folder names, new code and metadata \cite{Whitehead2008}.
+The types of data used are divided in seven groups: complexity metrics, added code, removed code, file and folder names, new code and meta-data \cite{Whitehead2008}.
 
 Both \emph{Support Vector Machine} (SVM) and \emph{Naive Bayes} were used in the study, with the SVM-based classifier being the one with better results \cite{Whitehead2008}.
 
@@ -41,7 +41,7 @@ Barinel assumes that the defect probability, known as the prior, of every compon
 
 First, healthy and faulty components are identified across the entire project's history according to Bug Trackers. For each component, a list of features, which is not specified, is extracted. The list is composed of traditional and object-oriented software complexity metrics, such as number of lines of code and cohesion, and values extracted from the software change history, like lines added or removed in last version and age of the file.
 
-With the help of a supervised machine learning algorithm (either Random Forest, J48 or Naive Bayes) a model is created and used to classify each component in the project as healthy or buggy. The confidence that a component is faulty is then used as prior.
+With the help of a supervised machine learning algorithm (either Random Forest, J48 or Naive Bayes) a model is created and used to classify each component in the project as healthy or faulty. The confidence that a component is faulty is then used as prior.
 
 Experimental results revealed an increment both on precision and recall, see Figure \ref{fig:elmishali}. However, the solution was tested just on one project.
 %
@@ -50,6 +50,6 @@ Experimental results revealed an increment both on precision and recall, see Fig
     \subfloat[Precision]{{\includegraphics[width=0.4\textwidth]{elmishali-precision} }}%
     \qquad
     \subfloat[Recall]{{\includegraphics[width=0.4\textwidth]{elmishali-recall} }}%
-    \caption{Diagnosis accuracy as a function of \# tests given to the diagnoser}%
+    \caption{Diagnosis accuracy as a function of \# tests given to the diagnoser. \cite{Elmishali}}%
     \label{fig:elmishali}%
 \end{figure}
