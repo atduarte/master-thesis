@@ -53,3 +53,24 @@ Experimental results revealed an increment both on precision and recall, see Fig
     \caption{Diagnosis accuracy as a function of \# tests given to the diagnoser. \cite{Elmishali}}%
     \label{fig:elmishali}%
 \end{figure}
+
+\subsection{Time-weighted Risk}
+
+Time-weighted risk is a formula developed at Google that helps in estimating component's reliability \cite{Lewis}. 
+%
+\begin{equation}
+  \sum_{i=0}^{n}  \frac {1} {1 + e^{(-12 \cdot t_i) + W}}
+\end{equation}
+
+Where $i$ is a fixing commit, $t$ is the normalized change timestamp, from 0 to 1. If the change is at the start of the repository, the normalized timestamp will be 0. If instead the change is the last change made, the normalized timestamp will be 1. $W$ defines the weight of the decay, shifting the scoring curve along the x-axis.
+
+The time-weighted curve produced by $\frac {1} {1 + e^{(-12 \cdot t_i) + W}}$ is the following:
+%
+\begin{figure}[H]
+  \begin{center}
+    \leavevmode
+    \includegraphics[width=0.5\textwidth]{twr.pdf}
+    \caption{Time-weighted risk as function of the normalized timestamp of a given commit}
+    \label{fig:crowbar-sunburst}
+  \end{center}
+\end{figure}

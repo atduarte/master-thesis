@@ -7,6 +7,8 @@ Software Repository Mining encompasses all software which is able to extract dat
 
 While extracting information from code repositories, such as \emph{Git}, it is important to identify the types of changes that were made. A text description associated with the change is of the utmost importance for this identification, allowing it to be made with a high degree of precision, depending on the project \cite{Mockus2000}.
 
+It is estimated that 33.8\% of all bug reports are misclassified, by identifying as feature, documentation update or internal refactor, instead of correctly identifying it as code fix \cite{Herzig2013b}. Furthermore, on average 39\% of files marked as faulty actually never had a defect \cite{Herzig2013b}.
+
 It is estimated that between 34 and 46\% of all changes are corrections and that they represent between 18 and 27\% of all added and removed lines of code \cite{Mockus2000}. There were also some patterns found relating code corrections with their size and with the day of the week in which they were executed \cite{Sliwerski2005}.
 
 After this identification, it is possible to find out which changes have introduced the errors by using the \emph{SZZ} algorithm \cite{Sliwerski2005}. This algorithm analyzes the code and uses its history to correctly locate which \emph{commit} has introduced the defect, ignoring changes that only inserted comments, for example.
@@ -14,6 +16,14 @@ After this identification, it is possible to find out which changes have introdu
 \subsection{Tools}
 
 There are several tools to facilitate this process. Let us highlight two of them.
+
+\subsubsection{\emph{Git-cli}}
+
+There are a lot of different ways to extract information from Git, one of which is Git on the command line. This tool is multi-platform and allows to execute all Git commands.
+
+Although, this tool does not have official bindings to any languages. So the only way of programmatically using it is by instantiating a \emph{git-cli} process and parse the output for each needed task.
+
+There exists some \emph{Node.js} modules that abstract the instantiation and parsing, such as \emph{git-cli}\footnote{git-cli - \url{https://www.npmjs.com/package/git-cli}}.
 
 \subsubsection{\emph{libgit2}}
 

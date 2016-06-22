@@ -271,11 +271,11 @@ The following columns are prepared for each component:
 \item authorChanges:date+size-weighted:{author} - Sum of the result of the time-weighted function applied to each change made by a specific author multiplied for the number of lines added and removed in it. E.g. authorChanges:date+size-weighted::luc@apache.org
 \end{itemize}
 
-Being $t$ the normalized timestamp of the change, where 0 is the timestamp of the first commit and 1 of the latest, and $W = 0.5$, the time-weighted function used was the following:
+Being $t$ the normalized timestamp of the change, where 0 is the timestamp of the first commit and 1 of the latest, and $W = 12$, the time-weighted function used was the following:
 %
 \begin{equation}
   %\sum_{i=0}^{n}%
-  \frac {1} {1 + e^{(-12 \cdot t) + (1 - W) \cdot 10 + 2}}
+  \frac {1} {1 + e^{(-12 \cdot t) + W}}
 \end{equation}
 
 In order to improve modeling results, we also created the columns "changes-others", "changes-others:date-weighted", "changes-others:size-weighted", "changes-others:date+size-weighted", 
