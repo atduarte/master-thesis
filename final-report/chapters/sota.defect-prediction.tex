@@ -25,11 +25,11 @@ The difference between \emph{BugCache} and \emph{FixCache} is the time at which 
 
 \emph{Change Classification} has a notably different approach and a very distinct objective too. \emph{Change Classification}, resorting to \emph{Machine Learning} methods and available information about previous errors, is able to predict if a change has introduced a new defect. This prediction has a high accuracy of 78\% \cite{Whitehead2008}.
 
-In a first phase, all changes up to that moment are either classified as \emph{buggy} or \emph{clean}. After classifying them and extracting data for each one, a model is created by \"training\" a classification algorithm.
+In a first phase, all changes up to that moment are either classified as \emph{buggy} or \emph{clean}. After classifying them and extracting data for each one, a model is created by "training" a classification algorithm.
 
 The types of data used are divided in seven groups: complexity metrics, added code, removed code, file and folder names, new code and meta-data \cite{Whitehead2008}.
 
-Both \emph{Support Vector Machine} (SVM) and \emph{Naive Bayes} were used in the study, with the SVM-based classifier being the one with better results \cite{Whitehead2008}.
+Both \emph{Support Vector Machine} (SVM) and \emph{Naive Bayes} were used in the approach, with the SVM-based classifier being the one with better results \cite{Whitehead2008}.
 
 \subsection{Data-Augmented Software Diagnosis} \label{subsec:elmishali}
 
@@ -56,7 +56,7 @@ Experimental results revealed an increment both on precision and recall, see Fig
 
 \subsection{Time-weighted Risk}
 
-Time-weighted risk is a formula developed at Google that helps in estimating component's reliability \cite{Lewis}. 
+Time-weighted risk is a formula developed at Google that helps in estimating component's reliability \cite{Lewis}.
 %
 \begin{equation}
   \sum_{i=0}^{n}  \frac {1} {1 + e^{(-12 \cdot t_i) + W}}
