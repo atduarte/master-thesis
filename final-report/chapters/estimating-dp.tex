@@ -3,7 +3,7 @@
 
 \section*{}
 
-In order to estimate the defect probability of each software component we developed a data mining application, agnostic to the project's language. 
+In order to estimate the defect probability of each software component we developed a data mining application, agnostic to the project's language.
 It automatically extracts data from the current state and about older defects from a \emph{Git} repository, creates a model and predicts the probability. The project is written in Javascript (Node.js) and Python 3 and heavily uses \emph{node-git}
 and \emph{scikit-learn}.
 
@@ -11,7 +11,7 @@ In this chapter, we will explain the concept behind it, approach the process use
 
 \section{Concept}
 
-Some patterns are easily recognizable when trying to identify faulty components on a software project and this information could be helpful for software such as Barinel. 
+Some patterns are easily recognizable when trying to identify faulty components on a software project and this information could be helpful for software such as Barinel.
 
 We might say, for example that having a high number of recent changes or having been changed by a given junior developer new to the project probably increases the chances of a file having an error, due to past experiences. So, deep down we are just assuming that the knowledge of the meta-data of old faulty components may allow us to predict which components are more probable to be faulty, now.
 
@@ -28,7 +28,7 @@ Based on that assumption, the application, for a given repository state, extract
 %  \end{center}
 %\end{figure}
 
-Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis is not used. 
+Since the application should be able to predict the defect probability for any given software project that uses \emph{Git}, static analysis is not used.
 The only information that is used is information directly related to the file changes, authors, number of lines or bytes.
 
 Along with the extraction of the meta-data information from the past faulty states, it must also extract the meta-data of the given repository state. The data from the first extraction must be used to create a machine learning model, that should be able to predict the defect probability of each component presents in the current state of the project.
@@ -42,7 +42,7 @@ Along with the extraction of the meta-data information from the past faulty stat
   \end{center}
 \end{figure}
 
-This concept differs from Data-Augmented Software Diagnosis (Subsection \label{subsec:elmishali}) by being language agnostic, requiring a different set of features mostly focused on number of changes, categorized by type and authors, and weighted according to size and date. It also differs by not requiring that the project uses a bug tracking software and also, as explained in the following section. 
+This concept differs from Data-Augmented Software Diagnosis (Subsection \ref{subsec:elmishali}) by being language agnostic, requiring a different set of features mostly focused on number of changes, categorized by type and authors, and weighted according to size and date. It also differs by not requiring that the project uses a bug tracking software and also, as explained in the following section. 
 
 \section{Install}
 
@@ -65,7 +65,7 @@ the chosen project name and the path to the folder containing the repository we 
   $ node index.js all {project-name} {repository-path}
 \end{lstlisting}
 
-It is possible to specify a different classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"), 
+It is possible to specify a different classification label (e.g. "\code{--classification-label=_mostChanged}", default is "\code{_mostChanged25}"),
 a different number of estimators used when modeling (e.g. "\code{--estimators=100}", default is 5) or even
 to define the level of logging by appending, for example, "\code{--log-level=verbose}". The existing levels available, from higher to lower priority, are
 "\code{error}", "\code{warn}", "\code{info}", "\code{verbose}" and "\code{silly}". The default log level is "\code{info}".
@@ -130,7 +130,7 @@ As stated before the process is divided in extraction, data preparation, modelin
 
 \subsection{Extraction}
 
-The first objective is to get the list of commits to analyze: the HEAD commit and all the fix commits that preceded it. 
+The first objective is to get the list of commits to analyze: the HEAD commit and all the fix commits that preceded it.
 So, first, the \emph{HEAD} commit is identified. The application then walks recursively through each parent commit or commits and,
 if it is message matches the following regex and it is not a merge, adds it to the list of commits to analyze.
 
@@ -196,9 +196,9 @@ This data is then saved to a file named according to the commit id, in the "\cod
 }
 \end{lstlisting}
 
-Since this procedure has a high computation cost, some enhancements have been made. Considering that the modeling step will balance the training data set, 
+Since this procedure has a high computation cost, some enhancements have been made. Considering that the modeling step will balance the training data set,
 reducing the number of \emph{clean} components according to the number of existing \emph{faulty} components, the system randomizes the list and
-limits the extraction of \emph{clean} components up to a maximum of four times the number of \emph{faulty} components on the given commit: 
+limits the extraction of \emph{clean} components up to a maximum of four times the number of \emph{faulty} components on the given commit:
 %
 \begin{lstlisting}[language=Javascript]
 const _ = require('lodash');
@@ -213,22 +213,22 @@ if (notHead) {
       .keys()
       .shuffle()
       .splice(0, 4 * _.size(changedComponents)).value();
-  
+
   info.components = Object.assign({}, changedComponents,
       _.pick(info.components, cleanComponentNames)
   );
 }
 \end{lstlisting}
 
-It also relies heavily on caching. Since in most cases the commits analyze common files, we can cache some information and improve performance. 
-Due to the ability to merge two different commits, \emph{Git} can have a non-linear history. 
-As a result iterating recursively through all parent commits for each analyzed commit is necessary in order to safely determine which parent commits changed which files. 
-Although, for any given file and commit, this list will most of the times have common elements with lists from changes of the same component for other commits. 
+It also relies heavily on caching. Since in most cases the commits analyze common files, we can cache some information and improve performance.
+Due to the ability to merge two different commits, \emph{Git} can have a non-linear history.
+As a result iterating recursively through all parent commits for each analyzed commit is necessary in order to safely determine which parent commits changed which files.
+Although, for any given file and commit, this list will most of the times have common elements with lists from changes of the same component for other commits.
 Given this, the data that is extracted for each item on the list is cached in \emph{Redis}, using file name and commit as reference.
 
-Figure \ref{fig:cache} illustrates a possible Git history. We will assume that only one file exists, $F$, it was changed in all commits and will also assume commit $C1$ and commit $C2$ as fix commits. 
+Figure \ref{fig:cache} illustrates a possible Git history. We will assume that only one file exists, $F$, it was changed in all commits and will also assume commit $C1$ and commit $C2$ as fix commits.
 The application would extract data for $HEAD$, $C4$ and $C5$ and for $F$ each time. When extracting $F$ on $HEAD$ the list of changes would be $[C6, C5, C4, C3, C2, C1]$, on $C5$ it would be $[C3, C2, C1]$ and on $C4$ it would be $[C2, C1]$.
-Then for each change data, such as number of lines added and lines removed, have to be extracted. 
+Then for each change data, such as number of lines added and lines removed, have to be extracted.
 As we saw, extraction happens for each analyzed commit, for each file, for each past file change and takes some time.
 Without cache, it would extract $[C6, C5, C4, C3, C2, C1, C3, C2, C1, C2, C1]$, but since the results are cached it just runs for $[C6, C5, C4, C3, C2, C1]$, improving performance significantly.
 %
@@ -278,11 +278,11 @@ Being $t$ the normalized timestamp of the change, where 0 is the timestamp of th
   \frac {1} {1 + e^{(-12 \cdot t) + W}}
 \end{equation}
 
-In order to improve modeling results, we also created the columns "changes-others", "changes-others:date-weighted", "changes-others:size-weighted", "changes-others:date+size-weighted", 
+In order to improve modeling results, we also created the columns "changes-others", "changes-others:date-weighted", "changes-others:size-weighted", "changes-others:date+size-weighted",
 "changes-fixes", "changes-fixes:date-weighted", "changes-fixes:size-weighted" and "changes-fixes:date+size-weighted" that are equal to the already existing columns starting with
 "changes", but refer only to changes that were not fixes and changes that were fixes, respectively.
 
-Plotting the results we noticed that the date influenced significantly the data related to changes, since older commits have less history behind. 
+Plotting the results we noticed that the date influenced significantly the data related to changes, since older commits have less history behind.
 So for each, we added a normalized version by the commit.
 
 \begin{figure}[ht]
@@ -357,7 +357,7 @@ So for each, we added a normalized version by the commit.
 \end{lstlisting}
 
 
-The data from the multiple fix commits is then combined in a file named "history.csv" and the data from the \emph{HEAD} commit is placed at "master.csv". 
+The data from the multiple fix commits is then combined in a file named "history.csv" and the data from the \emph{HEAD} commit is placed at "master.csv".
 These two files will be only files required to execute the next step.
 
 
@@ -367,9 +367,9 @@ For modeling and predicting \emph{Python 3} and \emph{scikit-learn} is used.
 Random Forests, Decision Trees and Naive Bayes were tried, but the former achieved significantly better results as it is presented in the Experimental Results chapter \ref{chap:exp-results}.
 Neural Networks were not used since the training set is normally small.
 
-Before training the model, the training set is randomized and balanced, first to a ratio of 5 \emph{clean} component for each \emph{buggy} component 
-and then SMOTE is used to create more \emph{buggy} component entries. In order to train the model a \emph{Stratified KFold} (4 folds) is used and run 10 times, 
-generating 40 different models. Performance of these 40 models is measured according to the difference of the mean defect probability of buggy test data and clean test data. 
+Before training the model, the training set is randomized and balanced, first to a ratio of 5 \emph{clean} component for each \emph{buggy} component
+and then SMOTE is used to create more \emph{buggy} component entries. In order to train the model a \emph{Stratified KFold} (4 folds) is used and run 10 times,
+generating 40 different models. Performance of these 40 models is measured according to the difference of the mean defect probability of buggy test data and clean test data.
 The 15 models with the highest difference are then used to predict the defect probability of each component in the current project state and a mean is calculated.
 
 As referred before, the results are saved directly at the repository folder.
